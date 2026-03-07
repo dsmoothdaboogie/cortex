@@ -164,7 +164,7 @@ python cortex.py ask "design system button component"
 
 ```mermaid
 flowchart LR
-    subgraph new["First time"]
+    subgraph first["First time"]
         A["cortex/knowledge/standards/guide.md"] -->|"cortex.py add path --tag standards"| DB1[(ChromaDB)]
     end
 
