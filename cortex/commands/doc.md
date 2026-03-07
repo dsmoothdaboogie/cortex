@@ -23,7 +23,7 @@ Create or update a knowledge base entry.
    ```
 2. Check if a similar entry exists. If it does, suggest `--update` instead.
 3. Write the entry using the wiki template below.
-4. Save to the appropriate `knowledge/` subfolder.
+4. Save to the appropriate `cortex/knowledge/` subfolder.
 5. Ingest: `python cortex.py add {path} --tag {tag} --force`
 
 ### ADR (--adr flag)
@@ -34,8 +34,8 @@ Create or update a knowledge base entry.
    ```
 2. Check for existing ADRs that this supersedes or relates to.
 3. Write the ADR using the ADR template below.
-4. Save to: `knowledge/adrs/adr-{NNN}-{slug}.md`
-5. Ingest: `python cortex.py add knowledge/adrs/{filename}.md --tag adr`
+4. Save to: `cortex/knowledge/adrs/adr-{NNN}-{slug}.md`
+5. Ingest: `python cortex.py add cortex/knowledge/adrs/{filename}.md --tag adr`
 
 ### Update existing (--update <file>)
 
@@ -95,5 +95,5 @@ What changes as a result. What becomes easier. What becomes harder.
 
 ## Rules
 - Always ingest after saving — the DB must stay in sync with the files
-- ADR numbers must be sequential — check `knowledge/adrs/` before numbering
+- ADR numbers must be sequential — check `cortex/knowledge/adrs/` before numbering
 - Never duplicate existing content — update instead

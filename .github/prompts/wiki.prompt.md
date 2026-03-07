@@ -3,7 +3,7 @@ mode: agent
 description: Create or update a deep wiki entry in the knowledge base
 ---
 
-Read and follow the instructions in `commands/wiki.md` exactly.
+Read and follow the instructions in `cortex/commands/wiki.md` exactly.
 
 Detect mode from context:
 - `update` keyword or `#file:` pointing to an existing knowledge file → update mode

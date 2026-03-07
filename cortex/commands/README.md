@@ -51,25 +51,25 @@ First, distinguish the two cases:
 
 **1. Generated summary artifacts first** — these are the most useful single files:
 ```
-knowledge/standards/STANDARDS.md   → synthesised standards summary
-knowledge/vision/VISION.md         → synthesised vision summary
-knowledge/adrs/ADR-INDEX.md        → synthesised ADR index
+cortex/cortex/knowledge/standards/STANDARDS.md   → synthesised standards summary
+cortex/cortex/knowledge/vision/VISION.md         → synthesised vision summary
+cortex/cortex/knowledge/adrs/ADR-INDEX.md        → synthesised ADR index
 ```
 If these exist, read the relevant one(s) before diving into individual files.
 
 **2. Individual knowledge files** — for topic-specific depth:
 ```
-knowledge/standards/       → coding standards and rules
-knowledge/design-system/   → design system components and tokens
-knowledge/adrs/            → architecture decisions
-knowledge/patterns/        → implementation patterns
-knowledge/team-conventions/ → team norms and process
-knowledge/vision/          → product vision and personas
+cortex/knowledge/standards/       → coding standards and rules
+cortex/knowledge/design-system/   → design system components and tokens
+cortex/knowledge/adrs/            → architecture decisions
+cortex/knowledge/patterns/        → implementation patterns
+cortex/knowledge/team-conventions/ → team norms and process
+cortex/knowledge/vision/          → product vision and personas
 ```
 
 **3. Recent specs** — for prior decisions and established patterns:
 ```
-specs/                     → previous feature specs (check dates — most recent first)
+cortex/specs/                     → previous feature specs (check dates — most recent first)
 ```
 
 Read the files most relevant to the current task. Do not read everything — prioritise by folder name match to the topic at hand. The DB is a query accelerator — the markdown files are the source of truth and are always available in the workspace.
@@ -79,7 +79,7 @@ Read the files most relevant to the current task. Do not read everything — pri
 ## Workflow Chain
 
 ```
-/vision    →  business intelligence ingested into knowledge/vision/
+/vision    →  business intelligence ingested into cortex/knowledge/vision/
 /plan      →  epic broken into features + spec candidates
 /spec      →  spec created, ingested into DB
 /ops       →  infra review before dev starts (Mode A)

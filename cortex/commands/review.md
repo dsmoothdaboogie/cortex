@@ -14,7 +14,7 @@ Review a spec or code file against team standards.
 
 ## Steps
 
-### Spec Review (file is in specs/)
+### Spec Review (file is in cortex/specs/)
 
 1. Pull relevant standards:
    ```
@@ -25,7 +25,7 @@ Review a spec or code file against team standards.
    ```
 2. Check every AC item — is it testable? Unambiguous?
 3. Check Design System Usage — are component names real and in the knowledge base? No generic HTML elements where DS equivalents exist?
-4. Check Technical Approach — does it align with `knowledge/standards/`?
+4. Check Technical Approach — does it align with `cortex/knowledge/standards/`?
 5. Check for open auth, data handling, or cross-system concerns
 6. Return verdict: **READY** / **NEEDS WORK** / **BLOCKED**
 7. For NEEDS WORK or BLOCKED — list each issue with the section it appears in
@@ -83,4 +83,4 @@ Findings:
 
 ## Rules
 - Only flag issues that are documented in the knowledge base — no generic or opinion-based feedback
-- If `cortex ask` returns "No DB found", fall back to reading `knowledge/` files directly — check `STANDARDS.md` and `ADR-INDEX.md` first, then individual files. Never issue a verdict without standards context. If cortex returns no results (DB exists, query matched nothing), issue the verdict but flag which standards areas lacked KB coverage
+- If `cortex ask` returns "No DB found", fall back to reading `cortex/knowledge/` files directly — check `STANDARDS.md` and `ADR-INDEX.md` first, then individual files. Never issue a verdict without standards context. If cortex returns no results (DB exists, query matched nothing), issue the verdict but flag which standards areas lacked KB coverage

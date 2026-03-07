@@ -28,6 +28,11 @@ Setup commands:
 """
 
 import sys
+from pathlib import Path
+
+# The cortex Python package lives at cortex/cortex/ — add cortex/ to sys.path
+sys.path.insert(0, str(Path(__file__).parent / "cortex"))
+
 import click
 from rich.console import Console
 
@@ -325,15 +330,15 @@ def init():
     from pathlib import Path
 
     folders = [
-        ("knowledge/standards",        "# Standards\n\nDocument your team's coding standards here.\n"),
-        ("knowledge/design-system",    "# Design System\n\nDocument your design system components here.\n"),
-        ("knowledge/adrs",             "# Architecture Decision Records\n\nDocument architectural decisions here.\n"),
-        ("knowledge/vision",           "# Vision\n\nDocument product vision, personas, and capabilities here.\n"),
-        ("knowledge/skills",           "# Skills\n\nDocument team skills and processes here.\n"),
-        ("knowledge/patterns",         "# Patterns\n\nDocument implementation patterns here.\n"),
-        ("knowledge/team-conventions", "# Team Conventions\n\nDocument team norms and conventions here.\n"),
-        ("specs",                      None),
-        (".github/prompts",            None),
+        ("cortex/knowledge/standards",        "# Standards\n\nDocument your team's coding standards here.\n"),
+        ("cortex/knowledge/design-system",    "# Design System\n\nDocument your design system components here.\n"),
+        ("cortex/knowledge/adrs",             "# Architecture Decision Records\n\nDocument architectural decisions here.\n"),
+        ("cortex/knowledge/vision",           "# Vision\n\nDocument product vision, personas, and capabilities here.\n"),
+        ("cortex/knowledge/skills",           "# Skills\n\nDocument team skills and processes here.\n"),
+        ("cortex/knowledge/patterns",         "# Patterns\n\nDocument implementation patterns here.\n"),
+        ("cortex/knowledge/team-conventions", "# Team Conventions\n\nDocument team norms and conventions here.\n"),
+        ("cortex/specs",                      None),
+        (".github/prompts",                   None),
     ]
 
     console.print("\n[cyan]cortex init[/cyan]\n")
@@ -352,9 +357,9 @@ def init():
     console.print()
     if any_created:
         console.print("[bold]Next steps:[/bold]")
-        console.print("  1. Add your knowledge files to knowledge/<subfolder>/")
-        console.print("  2. python cortex.py add ./knowledge/standards --tag standards")
-        console.print("     python cortex.py add ./knowledge/design-system --tag design-system")
+        console.print("  1. Add your knowledge files to cortex/knowledge/<subfolder>/")
+        console.print("  2. python cortex.py add ./cortex/knowledge/standards --tag standards")
+        console.print("     python cortex.py add ./cortex/knowledge/design-system --tag design-system")
         console.print("     (repeat for each subfolder)")
         console.print("  3. python cortex.py install-hook    ← git pre-commit + post-merge hooks")
         console.print("  4. python cortex.py audit           ← verify coverage")
@@ -403,14 +408,14 @@ def bootstrap():
     console.print("[bold]Step 1[/bold]  Ingesting current repo knowledge...\n")
     any_knowledge = False
     for folder, tag in KNOWLEDGE_TAG_MAP.items():
-        path = Path("knowledge") / folder
+        path = Path("cortex/knowledge") / folder
         if path.exists():
             ingest_paths([str(path)], tag=tag, force=False)
             any_knowledge = True
         else:
-            console.print(f"  [dim]skip[/dim]  knowledge/{folder}/ [dim](not found)[/dim]")
+            console.print(f"  [dim]skip[/dim]  cortex/knowledge/{folder}/ [dim](not found)[/dim]")
     if not any_knowledge:
-        console.print("  [yellow]No knowledge/ subfolders found. Run `python cortex.py init` first.[/yellow]")
+        console.print("  [yellow]No cortex/knowledge/ subfolders found. Run `python cortex.py init` first.[/yellow]")
 
     # Step 2 — sync linked repos
     console.print("\n[bold]Step 2[/bold]  Syncing linked repos...\n")
@@ -484,7 +489,7 @@ def audit(threshold):
         count = tag_counts.get(tag, 0)
         if count == 0:
             status = "[red]EMPTY[/red]"
-            issues.append((tag, f"not ingested — run: python cortex.py add ./knowledge/<folder> --tag {tag}"))
+            issues.append((tag, f"not ingested — run: python cortex.py add ./cortex/knowledge/<folder> --tag {tag}"))
         elif count < threshold:
             status = "[yellow]SPARSE[/yellow]"
             issues.append((tag, f"only {count} chunk(s) — consider adding more content"))

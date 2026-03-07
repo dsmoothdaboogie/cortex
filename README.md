@@ -29,8 +29,8 @@ sequenceDiagram
     DB-->>CLI: relevant chunks (standards, patterns, ADRs)
     CLI-->>Agent: team context
     Note over Agent: writes output grounded in<br/>real team knowledge
-    Agent->>FS: saves specs/PROJ-123-feature.md
-    Agent->>CLI: cortex.py add specs/PROJ-123-feature.md
+    Agent->>FS: saves cortex/specs/PROJ-123-feature.md
+    Agent->>CLI: cortex.py add cortex/specs/PROJ-123-feature.md
     CLI->>DB: spec ingested, queryable by future agents
     DB-->>You: done
 ```
@@ -44,20 +44,22 @@ Every agent queries the DB before doing any work. No command assumes how the tea
 ### 1. Copy cortex into your repo
 
 ```bash
-cp -r path/to/cortex-workflow/{cortex.py,cortex,requirements.txt,commands,agents,AGENTS.md,.github,.vscode,knowledge} path/to/your-repo/
+cp -r path/to/cortex-workflow/{cortex.py,cortex,requirements.txt,AGENTS.md,.github,.vscode} path/to/your-repo/
 ```
 
-This copies the full cortex toolkit — CLI, agents, commands, and the pre-built knowledge files (e.g. `knowledge/standards/frontend-angular.md`) — into your repo root. Your repo will look like:
+This copies the full cortex toolkit — CLI, Python package, agents, commands, and the pre-built knowledge files — into your repo root. Your repo will look like:
 
 ```
 your-repo/
 ├── cortex.py
 ├── cortex/
+│   ├── agents/
+│   ├── commands/
+│   ├── cortex/          ← Python package
+│   ├── knowledge/
+│   └── specs/
 ├── requirements.txt
-├── commands/
-├── agents/
 ├── AGENTS.md
-├── knowledge/
 ├── .github/
 └── .vscode/
 ```
@@ -123,31 +125,31 @@ Create the folder structure in one command:
 python cortex.py init
 ```
 
-This creates `knowledge/`, `specs/`, and `.github/prompts/` with stub README files, then prints the next steps. Or create manually:
+This creates `cortex/knowledge/`, `cortex/specs/`, and `.github/prompts/` with stub README files, then prints the next steps. Or create manually:
 
 ```bash
-mkdir -p knowledge/{standards,design-system,adrs,vision,skills,patterns,team-conventions}
-mkdir -p specs
+mkdir -p cortex/knowledge/{standards,design-system,adrs,vision,skills,patterns,team-conventions}
+mkdir -p cortex/specs
 ```
 
 | Your existing docs | Folder | Tag |
 |-------------------|--------|-----|
-| Coding standards, style guides | `knowledge/standards/` | `standards` |
-| Design system docs | `knowledge/design-system/` | `design-system` |
-| Architecture decisions, RFCs | `knowledge/adrs/` | `adr` |
-| Platform vision, principles | `knowledge/vision/` | `vision` |
-| How-to guides, runbooks | `knowledge/skills/` | `skills` |
-| Implementation patterns | `knowledge/patterns/` | `patterns` |
-| Team norms, PR process | `knowledge/team-conventions/` | `team-conventions` |
+| Coding standards, style guides | `cortex/knowledge/standards/` | `standards` |
+| Design system docs | `cortex/knowledge/design-system/` | `design-system` |
+| Architecture decisions, RFCs | `cortex/knowledge/adrs/` | `adr` |
+| Platform vision, principles | `cortex/knowledge/vision/` | `vision` |
+| How-to guides, runbooks | `cortex/knowledge/skills/` | `skills` |
+| Implementation patterns | `cortex/knowledge/patterns/` | `patterns` |
+| Team norms, PR process | `cortex/knowledge/team-conventions/` | `team-conventions` |
 
 ```bash
-python cortex.py add ./knowledge/standards        --tag standards
-python cortex.py add ./knowledge/design-system    --tag design-system
-python cortex.py add ./knowledge/adrs             --tag adr
-python cortex.py add ./knowledge/vision           --tag vision
-python cortex.py add ./knowledge/skills           --tag skills
-python cortex.py add ./knowledge/patterns         --tag patterns
-python cortex.py add ./knowledge/team-conventions --tag team-conventions
+python cortex.py add ./cortex/knowledge/standards        --tag standards
+python cortex.py add ./cortex/knowledge/design-system    --tag design-system
+python cortex.py add ./cortex/knowledge/adrs             --tag adr
+python cortex.py add ./cortex/knowledge/vision           --tag vision
+python cortex.py add ./cortex/knowledge/skills           --tag skills
+python cortex.py add ./cortex/knowledge/patterns         --tag patterns
+python cortex.py add ./cortex/knowledge/team-conventions --tag team-conventions
 ```
 
 Check it worked:
@@ -163,15 +165,15 @@ python cortex.py ask "design system button component"
 ```mermaid
 flowchart LR
     subgraph new["First time"]
-        A["knowledge/standards/guide.md"] -->|"cortex.py add path --tag standards"| DB1[(ChromaDB)]
+        A["cortex/knowledge/standards/guide.md"] -->|"cortex.py add path --tag standards"| DB1[(ChromaDB)]
     end
 
     subgraph update["Doc updated"]
-        B["edit knowledge/standards/guide.md"] -->|"cortex.py add path --tag standards --force"| DB2[(ChromaDB)]
+        B["edit cortex/knowledge/standards/guide.md"] -->|"cortex.py add path --tag standards --force"| DB2[(ChromaDB)]
     end
 
     subgraph spec["Spec lifecycle"]
-        C["specs/PROJ-123.md"] -->|"cortex.py add"| DB3[(ChromaDB)]
+        C["cortex/specs/PROJ-123.md"] -->|"cortex.py add"| DB3[(ChromaDB)]
         D["edit spec"] -->|"cortex.py sync or watch"| DB3
         E["git commit"] -->|"pre-commit hook detects stale specs"| F{"Sync?"}
         F -->|y| DB3
@@ -195,11 +197,11 @@ flowchart LR
 ## Slash Commands (Copilot Chat)
 
 All agent work happens in Copilot Chat using these commands.
-Full instructions for each command are in `commands/`.
+Full instructions for each command are in `cortex/commands/`.
 
 | Command | What you give it | What you get |
 |---------|-----------------|-------------|
-| `/vision` | A business brief (any format) | Mission, personas, capabilities, and product plan in `knowledge/vision/` — ingested immediately |
+| `/vision` | A business brief (any format) | Mission, personas, capabilities, and product plan in `cortex/knowledge/vision/` — ingested immediately |
 | `/plan` | An epic or business goal | Feature breakdown + ready-to-run `/spec` commands |
 | `/spec` | Ticket + requirement (any length) | Completed spec seeded with real team context |
 | `/review` | A spec file or code path | READY/NEEDS WORK/BLOCKED verdict with specific issues |
@@ -228,11 +230,11 @@ and three conflicting state approaches across MFEs. We need to:
 - Support email, push, and in-app notification types
 The design should follow the settings page pattern established in PROJ-1100.
 
-@workspace /review #file:specs/PROJ-1234-2025-01-15-notification-preferences.md
+@workspace /review #file:cortex/specs/PROJ-1234-2025-01-15-notification-preferences.md
 
 @workspace /review src/app/notifications/ --security
 
-@workspace /build #file:specs/PROJ-1234-2025-01-15-notification-preferences.md
+@workspace /build #file:cortex/specs/PROJ-1234-2025-01-15-notification-preferences.md
 
 @workspace /doc "we chose the event bus pattern for cross-MFE notification state" --adr
 
@@ -240,7 +242,7 @@ The design should follow the settings page pattern established in PROJ-1100.
 
 @workspace /refactor #file:src/app/notifications/ "prepare for design system migration"
 
-@workspace /ops #file:specs/PROJ-1234-2025-01-15-notification-preferences.md
+@workspace /ops #file:cortex/specs/PROJ-1234-2025-01-15-notification-preferences.md
 
 @workspace /ops deploy "notification preferences v2 release"
 
@@ -260,7 +262,7 @@ We're building an internal developer portal. Engineers need to discover services
 read runbooks, and raise support requests without leaving the IDE. The platform
 must support SSO and integrate with PagerDuty and Backstage.
 
-# cortex generates knowledge/vision/{mission,personas,capabilities,product-plan}.md
+# cortex generates cortex/knowledge/vision/{mission,personas,capabilities,product-plan}.md
 # and ingests them immediately — all future agents have product context
 
 # 2. Decompose into features
@@ -276,12 +278,12 @@ must support SSO and integrate with PagerDuty and Backstage.
 @workspace /spec PROJ-456 "service catalogue search"
 
 # Review it — agents must pass this gate before build
-@workspace /review #file:specs/PROJ-456-2025-03-07-service-catalogue-search.md
+@workspace /review #file:cortex/specs/PROJ-456-2025-03-07-service-catalogue-search.md
 
 # Returns: READY ✓ — agent lists any standards gaps or missing AC
 
 # Generate implementation tasks
-@workspace /build #file:specs/PROJ-456-2025-03-07-service-catalogue-search.md
+@workspace /build #file:cortex/specs/PROJ-456-2025-03-07-service-catalogue-search.md
 
 # After coding — review the actual implementation
 @workspace /review src/app/catalogue/ --security
@@ -386,9 +388,9 @@ When you run `cortex ask`, it queries the current project's DB plus all linked D
 ```
 cortex ask · "button component"  (current-project + design-system + api-gateway)
 
-0.94  knowledge/design-system/buttons.md  [design-system]
-0.89  knowledge/standards/components.md   [current-project]
-0.81  knowledge/adrs/api-decisions.md     [api-gateway]
+0.94  cortex/knowledge/design-system/buttons.md  [design-system]
+0.89  cortex/knowledge/standards/components.md   [current-project]
+0.81  cortex/knowledge/adrs/api-decisions.md     [api-gateway]
 ```
 
 If a linked repo hasn't been ingested on the current machine, it's skipped with a warning — it never blocks the query.
@@ -411,7 +413,7 @@ Spec files are the source of truth. After editing a spec, sync the DB:
 ```bash
 python cortex.py sync                  # detect and sync changed specs
 python cortex.py watch                 # auto-sync specs on every save
-python cortex.py watch --knowledge     # also watch knowledge/ files (run in a terminal panel)
+python cortex.py watch --knowledge     # also watch cortex/knowledge/ files (run in a terminal panel)
 ```
 
 After editing knowledge docs manually:
@@ -433,18 +435,18 @@ Installs two hooks. Neither ever blocks a commit.
 **pre-commit** — runs two checks before every commit:
 
 - **Stale specs** — if any spec file has changed since it was last ingested, you're asked whether to sync it to the DB before the commit lands.
-- **Staged knowledge files** — if any files under `knowledge/` are staged, you're asked whether to re-ingest them so the DB reflects what's being committed.
+- **Staged knowledge files** — if any files under `cortex/knowledge/` are staged, you're asked whether to re-ingest them so the DB reflects what's being committed.
 
 ```
 cortex: Stale specs detected:
-  → specs/PROJ-123-feature.md
+  → cortex/specs/PROJ-123-feature.md
 
 Sync specs to DB before commit? [y/N]: y
 ✓ 1 spec(s) synced and staged.
 
 cortex: Knowledge files staged — DB may be out of date:
-  → knowledge/standards/
-  → knowledge/vision/
+  → cortex/knowledge/standards/
+  → cortex/knowledge/vision/
 
 Re-ingest knowledge to keep DB in sync? [y/N]: y
 ✓ Knowledge re-ingested and staged.
@@ -473,15 +475,15 @@ Includes: ask (with clipboard options), sync, watch, ls, stats, add path, ingest
 Standards, vision, and ADR artifacts are generated on demand from the DB.
 
 ```bash
-python cortex.py generate standards    # → knowledge/standards/STANDARDS.md
-python cortex.py generate vision       # → knowledge/vision/VISION.md
-python cortex.py generate adr          # → knowledge/adrs/ADR-INDEX.md
+python cortex.py generate standards    # → cortex/knowledge/standards/STANDARDS.md
+python cortex.py generate vision       # → cortex/knowledge/vision/VISION.md
+python cortex.py generate adr          # → cortex/knowledge/adrs/ADR-INDEX.md
 python cortex.py generate all --yes    # all three, no confirmation prompts
 ```
 
 Commit the updated files so teammates and agents always have current content.
 
-Tune what gets included: edit `STANDARDS_TOPICS`, `VISION_TOPICS`, `ADR_TOPICS` in `cortex/generate.py`.
+Tune what gets included: edit `STANDARDS_TOPICS`, `VISION_TOPICS`, `ADR_TOPICS` in `cortex/cortex/generate.py`.
 
 ---
 
@@ -529,9 +531,9 @@ python cortex.py repos sync                      # re-ingest knowledge from all 
 
 # Sync and watch
 python cortex.py sync                            # sync stale specs
-python cortex.py sync --knowledge                # sync stale knowledge/ files
+python cortex.py sync --knowledge                # sync stale cortex/knowledge/ files
 python cortex.py watch                           # auto-sync specs on save
-python cortex.py watch --knowledge               # also watch knowledge/ files
+python cortex.py watch --knowledge               # also watch cortex/knowledge/ files
 
 # DB inspection
 python cortex.py audit                           # tag coverage — flag empty/sparse
@@ -541,9 +543,9 @@ python cortex.py ls --specs                      # spec files + sync status
 python cortex.py rm <source>                     # remove a source from DB
 
 # Artifacts
-python cortex.py generate standards              # → knowledge/standards/STANDARDS.md
-python cortex.py generate vision                 # → knowledge/vision/VISION.md
-python cortex.py generate adr                    # → knowledge/adrs/ADR-INDEX.md
+python cortex.py generate standards              # → cortex/knowledge/standards/STANDARDS.md
+python cortex.py generate vision                 # → cortex/knowledge/vision/VISION.md
+python cortex.py generate adr                    # → cortex/knowledge/adrs/ADR-INDEX.md
 python cortex.py generate all --yes
 ```
 
@@ -557,7 +559,7 @@ Any team can add their own slash commands without touching the core codebase.
 
 Create two files in your repo:
 
-**1. `commands/{name}.md`** — the command definition (what to do, how, output format):
+**1. `cortex/commands/{name}.md`** — the command definition (what to do, how, output format):
 
 ```markdown
 # /deploy-checklist
@@ -577,7 +579,7 @@ mode: agent
 description: Generate a payments service deployment checklist
 ---
 
-Read and follow the instructions in `commands/deploy-checklist.md` exactly.
+Read and follow the instructions in `cortex/commands/deploy-checklist.md` exactly.
 Always pull platform context from the knowledge base before generating output.
 ```
 
@@ -592,20 +594,20 @@ Commit both files. Every teammate inherits the command on clone. It shows up in 
 | Security | `/threat-model` | Run a threat model against a spec or feature area |
 | Mobile | `/release-notes` | Draft release notes from closed specs |
 
-The `commands/` folder is the extension point. The core cortex commands are just files in that folder — yours work exactly the same way.
+The `cortex/commands/` folder is the extension point. The core cortex commands are just files in that folder — yours work exactly the same way.
 
 ---
 
 ## Design Principles
 
 **Knowledge lives in git, not the tool.**
-Everything in `knowledge/` is plain markdown — grep-able, diff-able, PR-reviewable, and readable by humans without cortex running. The ChromaDB is a query accelerator, not the source of truth. If the embedding model or vector DB ever changes, the knowledge survives — swap the backend, re-ingest, done.
+Everything in `cortex/knowledge/` is plain markdown — grep-able, diff-able, PR-reviewable, and readable by humans without cortex running. The ChromaDB is a query accelerator, not the source of truth. If the embedding model or vector DB ever changes, the knowledge survives — swap the backend, re-ingest, done.
 
 **No external dependencies.**
 No API keys, no cloud, no running services. cortex works on a laptop with no internet after the first model download. If budget disappears, the tool keeps running.
 
 **Teams own their workflow.**
-The command files in `commands/` define how agents behave. Teams can add, modify, or override any command by editing these files. Nothing is locked in a platform.
+The command files in `cortex/commands/` define how agents behave. Teams can add, modify, or override any command by editing these files. Nothing is locked in a platform.
 
 ---
 
@@ -619,12 +621,12 @@ cortex\.venv\Scripts\Activate.ps1  # Windows
 
 **`No DB found`** — nothing ingested yet.
 ```bash
-python cortex.py add ./knowledge/standards --tag standards
+python cortex.py add ./cortex/knowledge/standards --tag standards
 ```
 
 **Slow first run** — embedding model downloading (~90MB). Happens once per machine.
 
-**Weak search results (scores below 0.70)** — knowledge base needs more content on that topic. Add docs to the relevant `knowledge/` subfolder and re-ingest.
+**Weak search results (scores below 0.70)** — knowledge base needs more content on that topic. Add docs to the relevant `cortex/knowledge/` subfolder and re-ingest.
 
 **Copilot slash commands not working** — ensure you're in Agent mode (`@workspace` prefix). Prompts live in `.github/prompts/`.
 

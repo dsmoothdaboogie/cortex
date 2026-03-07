@@ -22,8 +22,8 @@ When you have a ticket and need to write a spec — whether from a one-liner tit
    ```
 3. Read the context. Note which real components, patterns and standards apply.
 4. Write the spec using the template below. Every section must be completed.
-5. Save to: `specs/{TICKET}-{YYYY-MM-DD}-{slug}.md`
-6. Ingest: `python cortex.py add specs/{filename}.md --tag spec`
+5. Save to: `cortex/specs/{TICKET}-{YYYY-MM-DD}-{slug}.md`
+6. Ingest: `python cortex.py add cortex/specs/{filename}.md --tag spec`
 7. Confirm the file was saved and ingested.
 
 ## Spec Template
@@ -55,7 +55,7 @@ When you have a ticket and need to write a spec — whether from a one-liner tit
 
 ## Design System Usage
 <!-- List specific component names, variants, and token references.
-     Source: knowledge/design-system/ -->
+     Source: cortex/knowledge/design-system/ -->
 
 ## Open Questions
 <!-- Anything unresolved. Remove section if none. -->
@@ -69,4 +69,4 @@ When you have a ticket and need to write a spec — whether from a one-liner tit
 - Apply the non-negotiables from the standards knowledge base — if a standard isn't in the DB, flag the gap rather than inventing a rule
 - Flag any auth, data handling, or cross-system state concerns in Open Questions
 - If the requirement is vague, make reasonable assumptions and note them
-- If `cortex ask` returns "No DB found", fall back to reading `knowledge/` files directly — check for `STANDARDS.md`, `VISION.md`, and `ADR-INDEX.md` first, then individual files, then recent specs in `specs/`. Do not write without team context. If cortex returns no results (DB exists, query matched nothing), proceed but note the context gap in Open Questions
+- If `cortex ask` returns "No DB found", fall back to reading `cortex/knowledge/` files directly — check for `STANDARDS.md`, `VISION.md`, and `ADR-INDEX.md` first, then individual files, then recent specs in `cortex/specs/`. Do not write without team context. If cortex returns no results (DB exists, query matched nothing), proceed but note the context gap in Open Questions

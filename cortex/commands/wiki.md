@@ -14,7 +14,7 @@ Create or update a deep wiki entry in the knowledge base.
 
 ## Inputs
 - A topic string: `"Module Federation setup"`
-- Optional: `update #file:knowledge/patterns/form-patterns.md` to update an existing entry
+- Optional: `update #file:cortex/knowledge/patterns/form-patterns.md` to update an existing entry
 
 ## Steps
 
@@ -34,17 +34,17 @@ Create or update a deep wiki entry in the knowledge base.
 
    | Topic type | Location |
    |-----------|----------|
-   | Reusable how-to pattern | `knowledge/patterns/{slug}.md` |
-   | Team convention or process | `knowledge/team-conventions/{slug}.md` |
-   | Design system component deep-dive | `knowledge/design-system/{slug}.md` |
-   | Skill / agent-consumable how-to | `knowledge/skills/{slug}.md` |
-   | Standard or rule | `knowledge/standards/{slug}.md` |
+   | Reusable how-to pattern | `cortex/knowledge/patterns/{slug}.md` |
+   | Team convention or process | `cortex/knowledge/team-conventions/{slug}.md` |
+   | Design system component deep-dive | `cortex/knowledge/design-system/{slug}.md` |
+   | Skill / agent-consumable how-to | `cortex/knowledge/skills/{slug}.md` |
+   | Standard or rule | `cortex/knowledge/standards/{slug}.md` |
 
 4. Write the wiki entry (see template below).
 
 5. Ingest:
    ```bash
-   python cortex.py add knowledge/{folder}/{slug}.md --tag {tag} --force
+   python cortex.py add cortex/knowledge/{folder}/{slug}.md --tag {tag} --force
    ```
 
 ### Update mode (`update #file:...`)
@@ -87,7 +87,7 @@ Create or update a deep wiki entry in the knowledge base.
 
 ## Related Standards
 
-{Which standards from knowledge/standards/ apply here}
+{Which standards from cortex/knowledge/standards/ apply here}
 
 ## Related ADRs
 
@@ -101,13 +101,13 @@ Create or update a deep wiki entry in the knowledge base.
 ## Show what ran
 
 ```
-✓ Written: knowledge/{folder}/{slug}.md
+✓ Written: cortex/knowledge/{folder}/{slug}.md
 ✓ Ingested into knowledge base
 
 Commands run:
   python cortex.py ask "{topic}" --context-only --top-k 8
   python cortex.py ask "{topic} standards" --context-only --tag standards
-  python cortex.py add knowledge/{folder}/{slug}.md --tag {tag} --force
+  python cortex.py add cortex/knowledge/{folder}/{slug}.md --tag {tag} --force
 ```
 
 ## Rules
@@ -116,4 +116,4 @@ Commands run:
 - Always include the "Common Mistakes" section — this is often the most valuable part
 - Related Standards and ADRs must cite actual files that exist in the knowledge base
 - Wiki entries should be comprehensive but scannable — use headers, tables, and code blocks liberally
-- If `cortex ask` returns "No DB found", fall back to reading `knowledge/` files directly — check `STANDARDS.md` and `ADR-INDEX.md` first, then individual subfolder files. Do not write an entry without grounding it in documented content. If cortex returns no results (DB exists, query matched nothing), state that the KB has no existing coverage on this topic and write the entry as a first document — flag it clearly
+- If `cortex ask` returns "No DB found", fall back to reading `cortex/knowledge/` files directly — check `STANDARDS.md` and `ADR-INDEX.md` first, then individual subfolder files. Do not write an entry without grounding it in documented content. If cortex returns no results (DB exists, query matched nothing), state that the KB has no existing coverage on this topic and write the entry as a first document — flag it clearly

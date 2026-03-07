@@ -27,8 +27,8 @@ def _staged_knowledge_folders() -> list[str]:
     folders: set[str] = set()
     for f in changed:
         parts = Path(f).parts
-        if len(parts) >= 2 and parts[0] == "knowledge":
-            subfolder = parts[1]
+        if len(parts) >= 3 and parts[0] == "cortex" and parts[1] == "knowledge":
+            subfolder = parts[2]
             if subfolder in KNOWLEDGE_TAG_MAP:
                 folders.add(subfolder)
     return sorted(folders)
@@ -125,7 +125,7 @@ def cmd_run() -> int:
     if folders:
         sys.stderr.write("\n\033[33mcortex:\033[0m Knowledge files staged — DB may be out of date:\n")
         for folder in folders:
-            sys.stderr.write(f"  → knowledge/{folder}/\n")
+            sys.stderr.write(f"  → cortex/knowledge/{folder}/\n")
         sys.stderr.write("\n")
 
         try:
@@ -139,7 +139,7 @@ def cmd_run() -> int:
             python = "cortex/.venv/bin/python" if Path("cortex/.venv/bin/python").exists() else "python3"
             for folder in folders:
                 tag = KNOWLEDGE_TAG_MAP[folder]
-                path = f"knowledge/{folder}"
+                path = f"cortex/knowledge/{folder}"
                 subprocess.run([python, "cortex.py", "add", path, "--tag", tag, "--force"])
                 subprocess.run(["git", "add", path], capture_output=True)
             sys.stderr.write(f"\n\033[32m✓\033[0m Knowledge re-ingested and staged.\n\n")

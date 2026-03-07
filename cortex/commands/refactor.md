@@ -41,7 +41,7 @@ Compare inventory against standards. Categorise every gap:
 
 ```markdown
 ## Refactor Plan — {files reviewed}
-**Reviewed against:** knowledge/standards/ · knowledge/design-system/
+**Reviewed against:** cortex/knowledge/standards/ · cortex/knowledge/design-system/
 **Date:** {date}
 
 ---
@@ -60,7 +60,7 @@ Compare inventory against standards. Categorise every gap:
 #### {Issue title}
 - **File:** `{path}` line {n}
 - **Problem:** {what's wrong}
-- **Standard:** `knowledge/standards/{file}.md`
+- **Standard:** `cortex/knowledge/standards/{file}.md`
 - **Fix:** {specific what to do}
 - **Effort:** S / M / L
 
@@ -92,4 +92,4 @@ Commands run:
 - If the codebase has no violations, say so clearly — a clean bill of health is a valid output
 - If the refactor scope is large (> 5 L-effort items), recommend breaking it into a tracked spec
 - Never recommend rewriting something that works correctly and follows standards just because a newer pattern exists
-- If `cortex ask` returns "No DB found", fall back to reading `knowledge/standards/STANDARDS.md` first, then individual files in `knowledge/standards/` and `knowledge/design-system/`. Every finding must cite a documented standard. If cortex returns no results (DB exists, query matched nothing), output only P3 items marked "unverified — no KB coverage" and recommend running `cortex audit` to identify gaps
+- If `cortex ask` returns "No DB found", fall back to reading `cortex/cortex/knowledge/standards/STANDARDS.md` first, then individual files in `cortex/knowledge/standards/` and `cortex/knowledge/design-system/`. Every finding must cite a documented standard. If cortex returns no results (DB exists, query matched nothing), output only P3 items marked "unverified — no KB coverage" and recommend running `cortex audit` to identify gaps

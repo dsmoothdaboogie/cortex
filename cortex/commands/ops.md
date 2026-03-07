@@ -8,7 +8,7 @@ Infrastructure review, deployment checklists, and runbook generation.
 - To document an operational process or incident response procedure (Mode C)
 
 ## Inputs
-- Mode A (infra review): `#file:specs/PROJ-1234-feature.md`
+- Mode A (infra review): `#file:cortex/specs/PROJ-1234-feature.md`
 - Mode B (deploy checklist): `deploy "release description"`
 - Mode C (runbook): `runbook "incident or process description"`
 
@@ -136,7 +136,7 @@ python cortex.py ask "{process} platform infrastructure" --context-only
 
 > After writing a runbook, ingest it:
 > ```bash
-> python cortex.py add knowledge/skills/{slug}.md --tag skills --force
+> python cortex.py add cortex/knowledge/skills/{slug}.md --tag skills --force
 > ```
 
 ---
@@ -154,4 +154,4 @@ Commands run:
 - Rollback plans must be specific — "revert the deploy" is not a plan
 - Pull platform-specific requirements from the knowledge base — never hardcode assumptions about the stack
 - If a platform concern exists but nothing is documented in the knowledge base, flag it as a knowledge gap and suggest running `@workspace /doc` to capture it
-- If `cortex ask` returns "No DB found", fall back to reading `knowledge/skills/` and `knowledge/standards/` directly — check for `STANDARDS.md` first. If cortex returns no results (DB exists, query matched nothing), proceed but flag each output section as "unverified — no platform knowledge found" and recommend running `@workspace /doc` to capture platform context
+- If `cortex ask` returns "No DB found", fall back to reading `cortex/knowledge/skills/` and `cortex/knowledge/standards/` directly — check for `STANDARDS.md` first. If cortex returns no results (DB exists, query matched nothing), proceed but flag each output section as "unverified — no platform knowledge found" and recommend running `@workspace /doc` to capture platform context

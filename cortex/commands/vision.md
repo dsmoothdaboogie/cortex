@@ -1,6 +1,6 @@
 # /vision
 
-Onboard a project with business intelligence by generating structured vision documents into `knowledge/vision/`.
+Onboard a project with business intelligence by generating structured vision documents into `cortex/knowledge/vision/`.
 
 ## When to use
 - At the start of a new project to capture product context before writing specs
@@ -13,7 +13,7 @@ Onboard a project with business intelligence by generating structured vision doc
 
 ## What gets generated
 
-Four files in `knowledge/vision/`:
+Four files in `cortex/knowledge/vision/`:
 
 | File | Contents |
 |------|----------|
@@ -38,11 +38,11 @@ Four files in `knowledge/vision/`:
 
 3. Generate each file using the templates below.
 
-4. Save all four files to `knowledge/vision/`.
+4. Save all four files to `cortex/knowledge/vision/`.
 
 5. Ingest:
    ```
-   python cortex.py add knowledge/vision --tag vision --force
+   python cortex.py add cortex/knowledge/vision --tag vision --force
    ```
 
 6. Confirm what was created and suggest next steps.

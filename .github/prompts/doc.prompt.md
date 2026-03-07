@@ -3,7 +3,7 @@ mode: agent
 description: Create or update a knowledge base entry or ADR
 ---
 
-Read and follow the instructions in `commands/doc.md` exactly.
+Read and follow the instructions in `cortex/commands/doc.md` exactly.
 
 Detect the mode from context:
 - `--adr` or "decision" language → write an ADR

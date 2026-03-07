@@ -16,8 +16,8 @@ from cortex.ingest import ingest_file
 from cortex.chunks import file_hash
 
 console = Console()
-SPECS_DIR = Path("specs")
-KNOWLEDGE_DIR = Path("knowledge")
+SPECS_DIR = Path("cortex/specs")
+KNOWLEDGE_DIR = Path("cortex/knowledge")
 
 KNOWLEDGE_TAG_MAP: dict[str, str] = {
     "standards":        "standards",

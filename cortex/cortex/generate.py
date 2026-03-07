@@ -81,9 +81,9 @@ HEADERS = {
 }
 
 OUTPUT_PATHS = {
-    "standards": Path("knowledge/standards/STANDARDS.md"),
-    "vision":    Path("knowledge/vision/VISION.md"),
-    "adr":       Path("knowledge/adrs/ADR-INDEX.md"),
+    "standards": Path("cortex/knowledge/standards/STANDARDS.md"),
+    "vision":    Path("cortex/knowledge/vision/VISION.md"),
+    "adr":       Path("cortex/knowledge/adrs/ADR-INDEX.md"),
 }
 
 TOPICS_MAP = {

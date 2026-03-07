@@ -1,6 +1,6 @@
 # AGENTS.md
 
-If you are an AI agent reading this: start here, then read `commands/README.md`.
+If you are an AI agent reading this: start here, then read `cortex/commands/README.md`.
 
 ---
 
@@ -9,7 +9,7 @@ If you are an AI agent reading this: start here, then read `commands/README.md`.
 **cortex** is a local knowledge base CLI. It indexes the team's standards, ADRs, design system docs, vision, and feature specs into a local vector database (ChromaDB) so agents and developers can query for team-specific context.
 
 The DB lives at `~/.cortex/chroma` on the developer's machine. It is not committed.
-The files in `knowledge/` and `specs/` are the source of truth. The DB is a searchable index of them.
+The files in `cortex/knowledge/` and `cortex/specs/` are the source of truth. The DB is a searchable index of them.
 
 **cortex is a data pipeline — not an agent runner.**
 All agent behaviour lives in Copilot Chat, invoked via slash commands.
@@ -20,12 +20,12 @@ cortex answers one question: *what does this team know about this topic?*
 ## Separation of Concerns
 
 ```
-cortex CLI          → manages the knowledge base (ingest, query, sync)
-Copilot Chat        → runs agents (/spec, /review, /build, /plan, /doc, /ask)
-commands/*.md       → agent instructions (what each command does, step by step)
-agents/*.md         → agent role definitions (for Devin and agentic tools)
-knowledge/          → authored docs, the source of truth
-specs/              → feature specs, committed to the repo
+cortex CLI                → manages the knowledge base (ingest, query, sync)
+Copilot Chat              → runs agents (/spec, /review, /build, /plan, /doc, /ask)
+cortex/commands/*.md      → agent instructions (what each command does, step by step)
+cortex/agents/*.md        → agent role definitions (for Devin and agentic tools)
+cortex/knowledge/         → authored docs, the source of truth
+cortex/specs/             → feature specs, committed to the repo
 ```
 
 ---
@@ -38,7 +38,7 @@ python cortex.py sync
 python cortex.py stats
 ```
 
-Then read `commands/README.md` for the full command reference.
+Then read `cortex/commands/README.md` for the full command reference.
 
 ---
 
@@ -68,7 +68,7 @@ Never assume how this team does something. Check first.
 | `/ask` | Search the knowledge base |
 | `/standup` | Summarise current spec activity |
 
-Full instructions for each in `commands/`.
+Full instructions for each in `cortex/commands/`.
 
 ---
 
@@ -120,14 +120,14 @@ python cortex.py install-hook                   # pre-commit hook
 
 | Tag | Content | Folder |
 |-----|---------|--------|
-| `standards` | Coding standards | `knowledge/standards/` |
-| `design-system` | Component usage, tokens | `knowledge/design-system/` |
-| `adr` | Architecture decisions | `knowledge/adrs/` |
-| `vision` | Platform vision | `knowledge/vision/` |
-| `skills` | How-to patterns | `knowledge/skills/` |
-| `patterns` | Implementation patterns | `knowledge/patterns/` |
-| `team-conventions` | Naming, PR process | `knowledge/team-conventions/` |
-| `spec` | Feature specs | `specs/` |
+| `standards` | Coding standards | `cortex/knowledge/standards/` |
+| `design-system` | Component usage, tokens | `cortex/knowledge/design-system/` |
+| `adr` | Architecture decisions | `cortex/knowledge/adrs/` |
+| `vision` | Platform vision | `cortex/knowledge/vision/` |
+| `skills` | How-to patterns | `cortex/knowledge/skills/` |
+| `patterns` | Implementation patterns | `cortex/knowledge/patterns/` |
+| `team-conventions` | Naming, PR process | `cortex/knowledge/team-conventions/` |
+| `spec` | Feature specs | `cortex/specs/` |
 
 ---
 
