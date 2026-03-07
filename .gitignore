@@ -1,0 +1,8 @@
+cortex/.venv/
+__pycache__/
+*.pyc
+*.pyo
+.context.md
+.env
+*.egg-info/
+.DS_Store

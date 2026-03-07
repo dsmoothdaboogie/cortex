@@ -1,0 +1,128 @@
+{
+  "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "query",
+      "type": "promptString",
+      "description": "Search query"
+    },
+    {
+      "id": "tag",
+      "type": "pickString",
+      "description": "Filter by tag (optional)",
+      "options": ["", "standards", "design-system", "adr", "vision", "skills", "patterns", "team-conventions", "spec"]
+    },
+    {
+      "id": "ingestPath",
+      "type": "promptString",
+      "description": "Path to ingest (file or folder)"
+    },
+    {
+      "id": "ingestTag",
+      "type": "pickString",
+      "description": "Tag for ingested content",
+      "options": ["standards", "design-system", "adr", "vision", "skills", "patterns", "team-conventions", "spec"]
+    }
+  ],
+  "tasks": [
+    {
+      "label": "cortex: ask (search)",
+      "type": "shell",
+      "command": "source cortex/.venv/bin/activate && python cortex.py ask \"${input:query}\"",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "cortex: ask → clipboard (macOS)",
+      "type": "shell",
+      "command": "source cortex/.venv/bin/activate && python cortex.py ask \"${input:query}\" --context-only | pbcopy && echo '✓ Copied to clipboard'",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "cortex: ask → clipboard (WSL/Windows)",
+      "type": "shell",
+      "command": "source cortex/.venv/bin/activate && python cortex.py ask \"${input:query}\" --context-only | clip && echo '✓ Copied to clipboard'",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "cortex: ask → .context.md",
+      "type": "shell",
+      "command": "source cortex/.venv/bin/activate && python cortex.py ask \"${input:query}\" --context-only > .context.md && echo '✓ Written to .context.md'",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "cortex: sync specs",
+      "type": "shell",
+      "command": "source cortex/.venv/bin/activate && python cortex.py sync",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "cortex: watch specs",
+      "type": "shell",
+      "command": "source cortex/.venv/bin/activate && python cortex.py watch",
+      "group": "none",
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "cortex: ls specs",
+      "type": "shell",
+      "command": "source cortex/.venv/bin/activate && python cortex.py ls --specs",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "cortex: ls all",
+      "type": "shell",
+      "command": "source cortex/.venv/bin/activate && python cortex.py ls",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "cortex: stats",
+      "type": "shell",
+      "command": "source cortex/.venv/bin/activate && python cortex.py stats",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "cortex: add path",
+      "type": "shell",
+      "command": "source cortex/.venv/bin/activate && python cortex.py add \"${input:ingestPath}\" --tag ${input:ingestTag}",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "cortex: ingest all knowledge",
+      "type": "shell",
+      "command": "source cortex/.venv/bin/activate && python cortex.py add ./knowledge/standards --tag standards && python cortex.py add ./knowledge/design-system --tag design-system && python cortex.py add ./knowledge/adrs --tag adr && python cortex.py add ./knowledge/vision --tag vision && python cortex.py add ./knowledge/skills --tag skills && python cortex.py add ./knowledge/patterns --tag patterns && python cortex.py add ./knowledge/team-conventions --tag team-conventions",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "cortex: generate standards",
+      "type": "shell",
+      "command": "source cortex/.venv/bin/activate && python cortex.py generate standards",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "cortex: generate all artifacts",
+      "type": "shell",
+      "command": "source cortex/.venv/bin/activate && python cortex.py generate all --yes",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "cortex: install hook",
+      "type": "shell",
+      "command": "source cortex/.venv/bin/activate && python cortex.py install-hook",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    }
+  ]
+}
