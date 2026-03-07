@@ -41,7 +41,13 @@ Every agent queries the DB before doing any work. No command assumes how the tea
 
 ## Installation
 
-### 1. Copy files into your repo root
+### 1. Copy cortex into your repo
+
+```bash
+cp -r path/to/cortex-workflow/{cortex.py,cortex,requirements.txt,commands,agents,AGENTS.md,.github,.vscode,knowledge} path/to/your-repo/
+```
+
+This copies the full cortex toolkit — CLI, agents, commands, and the pre-built knowledge files (e.g. `knowledge/standards/frontend-angular.md`) — into your repo root. Your repo will look like:
 
 ```
 your-repo/
@@ -51,6 +57,7 @@ your-repo/
 ├── commands/
 ├── agents/
 ├── AGENTS.md
+├── knowledge/
 ├── .github/
 └── .vscode/
 ```
