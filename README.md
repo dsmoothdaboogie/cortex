@@ -66,6 +66,8 @@ your-repo/
 
 ### 2. Create the virtual environment
 
+Do this **once per project**. The venv lives in `cortex/.venv/` and persists on disk — you don't need to recreate it when you reopen VS Code, just reactivate it.
+
 **macOS:**
 ```bash
 python3 -m venv cortex/.venv
@@ -78,6 +80,8 @@ python3 -m venv cortex/.venv
 source cortex/.venv/bin/activate        # WSL
 cortex\.venv\Scripts\Activate.ps1      # Windows
 ```
+
+> Each repo you copy cortex into gets its own `cortex/.venv/`. To resume work in a later session, just run the activate command again — no reinstall needed. Next time you open VS Code, you only need to reactivate the venv — unless you're using the VS Code tasks, which activate it automatically.
 
 ### 3. Install dependencies
 

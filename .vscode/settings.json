@@ -1,3 +1,6 @@
 {
-  "markdown.mermaid.enabled": true
+  "markdown.mermaid": {
+    "theme": "default",
+    "securityLevel": "loose"
+  }
 }
