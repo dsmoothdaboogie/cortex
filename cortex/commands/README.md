@@ -40,20 +40,20 @@ python cortex.py ls --specs                             # current spec state
 
 Commands never assume how the team does something. They always query first.
 
-### Fallback when DB is unavailable
+### Fallback when cortex is unavailable
 
 First, distinguish the two cases:
 
-- **"No DB found"** → DB has never been built on this machine. Fall back to files (see below).
+- **Script fails for any reason** (import error, missing dependencies, venv not active, "No DB found", non-zero exit) → Fall back to files (see below).
 - **"No results"** → DB exists but the query matched nothing. The DB answered correctly — do not fall back, just proceed with reduced context and note the gap.
 
 **When falling back to files**, read in this priority order:
 
 **1. Generated summary artifacts first** — these are the most useful single files:
 ```
-cortex/cortex/knowledge/standards/STANDARDS.md   → synthesised standards summary
-cortex/cortex/knowledge/vision/VISION.md         → synthesised vision summary
-cortex/cortex/knowledge/adrs/ADR-INDEX.md        → synthesised ADR index
+cortex/knowledge/standards/STANDARDS.md   → synthesised standards summary
+cortex/knowledge/vision/VISION.md         → synthesised vision summary
+cortex/knowledge/adrs/ADR-INDEX.md        → synthesised ADR index
 ```
 If these exist, read the relevant one(s) before diving into individual files.
 

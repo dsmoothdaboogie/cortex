@@ -163,5 +163,6 @@ Decisions that need to be made before planning can progress.
 - Derive everything from the input brief — never invent capabilities or personas not implied by the input
 - If the brief is thin on a section, write what you can and flag it as needing input rather than fabricating
 - Keep each file scannable — these are reference documents, not essays
+- If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), skip the pre-check queries and read `cortex/knowledge/vision/` directly to check for existing content. Skip the ingest step — note that the DB is unavailable and the generated files should be ingested manually once the environment is active
 - After generating, always ingest immediately so agents can query the vision
 - If `--update` is used, preserve any existing content that the new brief doesn't contradict

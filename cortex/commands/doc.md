@@ -95,5 +95,6 @@ What changes as a result. What becomes easier. What becomes harder.
 
 ## Rules
 - Always ingest after saving — the DB must stay in sync with the files
+- If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/` files directly to check for duplicates before writing. Skip the ingest steps — note that the DB is unavailable and the file should be ingested manually once the environment is active
 - ADR numbers must be sequential — check `cortex/knowledge/adrs/` before numbering
 - Never duplicate existing content — update instead

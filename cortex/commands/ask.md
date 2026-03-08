@@ -35,5 +35,6 @@ a spec, or documentation. Ask before assuming.
 
 ## Rules
 - Never answer from assumptions — always run the query first
+- If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/` files directly — check `STANDARDS.md`, `VISION.md`, and `ADR-INDEX.md` first, then individual subfolder files relevant to the query topic
 - If the knowledge base doesn't have relevant content, say so and suggest `/doc` to add it
 - Scores below 0.60 are likely irrelevant — don't use them

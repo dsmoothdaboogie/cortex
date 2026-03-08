@@ -54,5 +54,6 @@ Anything that needs product/design/arch input before spec creation.
 
 ## Rules
 - Ground every feature in what the team's knowledge base already supports
+- If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/` files directly — check `STANDARDS.md`, `VISION.md`, and `ADR-INDEX.md` first, then individual subfolder files. If `cortex ls --specs` also fails, check `cortex/specs/` directly for existing specs
 - Flag features that require new design system components or ADRs
-- Don't create spec candidates for features that are already specced (check: python cortex.py ls --specs)
+- Don't create spec candidates for features that are already specced

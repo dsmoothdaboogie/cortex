@@ -43,5 +43,6 @@ Summarise the current state of spec activity across the team.
 
 ## Rules
 - Only report what the spec files actually say — don't invent status
+- If `cortex ls --specs` or `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading spec files directly from `cortex/specs/` — check the status field in each file header
 - Flag stale specs (DB sync status = stale) as needing a sync
-- If asked about a specific ticket, pull cortex context before answering
+- If asked about a specific ticket, pull cortex context before answering — if cortex is unavailable, read the spec file directly
