@@ -26,6 +26,7 @@ Read the spec and flag any infrastructure or platform implications before develo
 ### Query the knowledge base
 ```bash
 python3 cortex.py ask "deployment configuration platform infrastructure" --context-only
+python3 cortex.py ask "{spec topic} product vision goals" --context-only --tag vision
 python3 cortex.py ask "platform architecture deployment" --context-only --tag standards
 python3 cortex.py ask "infrastructure ADR {topic}" --context-only --tag adr
 ```

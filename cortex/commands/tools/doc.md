@@ -28,10 +28,10 @@ Create or update a knowledge base entry.
 
 ### ADR (--adr flag)
 
-
-1. Pull related decisions:
+1. Pull related decisions and product direction:
    ```
    python3 cortex.py ask "{decision topic}" --tag adr --context-only
+   python3 cortex.py ask "{decision topic} product vision goals" --tag vision --context-only
    ```
 2. Check for existing ADRs that this supersedes or relates to.
 3. Write the ADR using the ADR template below.

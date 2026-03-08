@@ -15,6 +15,7 @@ When you have a ticket and need to write a spec — whether from a one-liner tit
 2. Run cortex to pull relevant context:
    ```
    python3 cortex.py ask "{requirement summary}" --context-only
+   python3 cortex.py ask "{feature domain} product vision goals personas" --tag vision --context-only
    python3 cortex.py ask "{feature domain} standards" --tag standards --context-only
    python3 cortex.py ask "design system {feature type}" --tag design-system --context-only
    python3 cortex.py ask "patterns {feature domain}" --tag patterns --context-only

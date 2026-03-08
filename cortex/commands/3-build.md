@@ -15,6 +15,7 @@ After a spec has passed `/review` with verdict READY. Do not build from an unrev
 2. Pull implementation context:
    ```
    python3 cortex.py ask "{feature domain}" --context-only
+   python3 cortex.py ask "{feature domain} product vision goals" --tag vision --context-only
    python3 cortex.py ask "{feature domain} standards" --tag standards --context-only
    python3 cortex.py ask "design system {component type}" --tag design-system --context-only
    python3 cortex.py ask "implementation patterns {feature domain}" --tag patterns --context-only

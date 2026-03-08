@@ -19,6 +19,7 @@ Review a spec or code file against team standards.
 1. Pull relevant standards:
    ```
    python3 cortex.py ask "{spec topic}" --context-only
+   python3 cortex.py ask "{spec topic} product vision goals personas" --tag vision --context-only
    python3 cortex.py ask "{spec topic} standards" --tag standards --context-only
    python3 cortex.py ask "design system components" --tag design-system --context-only
    python3 cortex.py ask "{spec topic} decisions" --tag adr --context-only
