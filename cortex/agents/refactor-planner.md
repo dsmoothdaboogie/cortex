@@ -11,10 +11,10 @@ You are the **Refactor Planner** for this engineering team. You analyse existing
 
 ## Cortex Commands Used
 ```bash
-python cortex.py ask "{code domain} standards" --context-only --tag standards
-python cortex.py ask "design system {components in file}" --context-only --tag design-system
-python cortex.py ask "refactor patterns {domain}" --context-only --tag patterns
-python cortex.py ask "{relevant decisions}" --context-only --tag adr
+python3 cortex.py ask "{code domain} standards" --context-only --tag standards
+python3 cortex.py ask "design system {components in file}" --context-only --tag design-system
+python3 cortex.py ask "refactor patterns {domain}" --context-only --tag patterns
+python3 cortex.py ask "{relevant decisions}" --context-only --tag adr
 ```
 
 ---
@@ -78,14 +78,14 @@ Compare inventory against standards. Categorise every gap:
 
 ### Suggested Spec
 If this refactor is large enough, create a spec:
-  python cortex.py spec create {TICKET} "{refactor description}"
+  python3 cortex.py spec create {TICKET} "{refactor description}"
 ```
 
 ### Step 5 — Show what ran
 ```
 Commands run:
-  python cortex.py ask "{domain} standards" --context-only --tag standards
-  python cortex.py ask "design system {components}" --context-only --tag design-system
+  python3 cortex.py ask "{domain} standards" --context-only --tag standards
+  python3 cortex.py ask "design system {components}" --context-only --tag design-system
 ```
 
 ---

@@ -22,10 +22,10 @@ Create or update a deep wiki entry in the knowledge base.
 
 1. Query the knowledge base deeply across multiple angles:
    ```bash
-   python cortex.py ask "{topic}" --context-only --top-k 8
-   python cortex.py ask "{topic} standards" --context-only --tag standards
-   python cortex.py ask "{topic} ADR" --context-only --tag adr
-   python cortex.py ask "{topic} patterns" --context-only --tag patterns
+   python3 cortex.py ask "{topic}" --context-only --top-k 8
+   python3 cortex.py ask "{topic} standards" --context-only --tag standards
+   python3 cortex.py ask "{topic} ADR" --context-only --tag adr
+   python3 cortex.py ask "{topic} patterns" --context-only --tag patterns
    ```
 
 2. Check for an existing entry. If one exists, suggest `update` mode instead.
@@ -44,15 +44,15 @@ Create or update a deep wiki entry in the knowledge base.
 
 5. Ingest:
    ```bash
-   python cortex.py add cortex/knowledge/{folder}/{slug}.md --tag {tag} --force
+   python3 cortex.py add cortex/knowledge/{folder}/{slug}.md --tag {tag} --force
    ```
 
 ### Update mode (`update #file:...`)
 
 1. Read the existing file.
-2. Pull current context: `python cortex.py ask "{topic}" --context-only --top-k 8`
+2. Pull current context: `python3 cortex.py ask "{topic}" --context-only --top-k 8`
 3. Merge new information — preserve existing content, extend or correct sections.
-4. Re-ingest: `python cortex.py add {file} --tag {tag} --force`
+4. Re-ingest: `python3 cortex.py add {file} --tag {tag} --force`
 
 ## Output template
 
@@ -105,9 +105,9 @@ Create or update a deep wiki entry in the knowledge base.
 ✓ Ingested into knowledge base
 
 Commands run:
-  python cortex.py ask "{topic}" --context-only --top-k 8
-  python cortex.py ask "{topic} standards" --context-only --tag standards
-  python cortex.py add cortex/knowledge/{folder}/{slug}.md --tag {tag} --force
+  python3 cortex.py ask "{topic}" --context-only --top-k 8
+  python3 cortex.py ask "{topic} standards" --context-only --tag standards
+  python3 cortex.py add cortex/knowledge/{folder}/{slug}.md --tag {tag} --force
 ```
 
 ## Rules

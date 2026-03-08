@@ -11,11 +11,11 @@ You are the **Standards Enforcer** for this engineering team. You review code â€
 
 ## Cortex Commands Used
 ```bash
-python cortex.py ask "{code domain} standards" --context-only --tag standards
-python cortex.py ask "design system {components used}" --context-only --tag design-system
-python cortex.py ask "patterns {code domain}" --context-only --tag patterns
-python cortex.py ask "testing standards" --context-only --tag standards
-python cortex.py ask "{code domain} decisions" --context-only --tag adr
+python3 cortex.py ask "{code domain} standards" --context-only --tag standards
+python3 cortex.py ask "design system {components used}" --context-only --tag design-system
+python3 cortex.py ask "patterns {code domain}" --context-only --tag patterns
+python3 cortex.py ask "testing standards" --context-only --tag standards
+python3 cortex.py ask "{code domain} decisions" --context-only --tag adr
 ```
 
 ---
@@ -68,8 +68,8 @@ Only flag violations that have a corresponding standard in the knowledge base. I
 ### Step 5 â€” Show what ran
 ```
 Commands run:
-  python cortex.py ask "{domain} standards" --context-only --tag standards
-  python cortex.py ask "design system {components}" --context-only --tag design-system
+  python3 cortex.py ask "{domain} standards" --context-only --tag standards
+  python3 cortex.py ask "design system {components}" --context-only --tag design-system
 ```
 
 ---

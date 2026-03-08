@@ -14,16 +14,16 @@ When you have a ticket and need to write a spec — whether from a one-liner tit
 1. Parse the ticket number and extract a slug from the requirement
 2. Run cortex to pull relevant context:
    ```
-   python cortex.py ask "{requirement summary}" --context-only
-   python cortex.py ask "{feature domain} standards" --tag standards --context-only
-   python cortex.py ask "design system {feature type}" --tag design-system --context-only
-   python cortex.py ask "patterns {feature domain}" --tag patterns --context-only
-   python cortex.py ask "{feature domain} decisions" --tag adr --context-only
+   python3 cortex.py ask "{requirement summary}" --context-only
+   python3 cortex.py ask "{feature domain} standards" --tag standards --context-only
+   python3 cortex.py ask "design system {feature type}" --tag design-system --context-only
+   python3 cortex.py ask "patterns {feature domain}" --tag patterns --context-only
+   python3 cortex.py ask "{feature domain} decisions" --tag adr --context-only
    ```
 3. Read the context. Note which real components, patterns and standards apply.
 4. Write the spec using the template below. Every section must be completed.
 5. Save to: `cortex/specs/{TICKET}-{YYYY-MM-DD}-{slug}.md`
-6. Ingest: `python cortex.py add cortex/specs/{filename}.md --tag spec`
+6. Ingest: `python3 cortex.py add cortex/specs/{filename}.md --tag spec`
 7. Confirm the file was saved and ingested.
 
 ## Spec Template

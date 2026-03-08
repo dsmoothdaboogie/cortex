@@ -71,7 +71,7 @@ def retrieve(query: str, top_k: int = 5, tag: str = None,
         local_col = client.get_collection("cortex")
     except Exception:
         if not silent:
-            console.print("[red]No DB found. Run: python cortex.py add <path>[/red]")
+            console.print("[red]No DB found. Run: python3 cortex.py add <path>[/red]")
         return []
 
     vec = embed_query(query)
@@ -141,7 +141,7 @@ def retrieve(query: str, top_k: int = 5, tag: str = None,
             console.print(f"[yellow]⚠ Linked repos not available locally:[/yellow] {', '.join(skipped)}\n")
 
         for c in all_chunks:
-            color = "green" if c["score"] > 0.85 else "yellow" if c["score"] > 0.70 else "red"
+            color = "green" if c["score"] > 0.55 else "yellow" if c["score"] > 0.35 else "red"
             project_label = f"  [dim][{c['project']}][/dim]" if multi_repo else ""
             console.print(Panel(
                 c["text"][:400] + ("..." if len(c["text"]) > 400 else ""),
@@ -153,7 +153,8 @@ def retrieve(query: str, top_k: int = 5, tag: str = None,
 
 
 def format_context_block(chunks: list[dict], query: str = "") -> str:
-    lines = [f'## Relevant Context (cortex){f" · \"{query}\"" if query else ""}\n']
+    query_label = f' · "{query}"' if query else ""
+    lines = [f"## Relevant Context (cortex){query_label}\n"]
     for i, c in enumerate(chunks):
         project_label = f" [{c['project']}]" if "project" in c else ""
         lines.append(f"### [{i+1}] {c['source']}{project_label} (relevance: {c['score']})")

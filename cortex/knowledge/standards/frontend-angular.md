@@ -270,7 +270,7 @@ onSubmit() {
 
 > No ICG Design System documentation exists in `knowledge/design-system/` at time of writing.
 > When ICG DS docs are added, update this section and the design system usage rules below.
-> Run `python cortex.py add knowledge/standards/frontend-angular.md --tag standards` after updating.
+> Run `python3 cortex.py add knowledge/standards/frontend-angular.md --tag standards` after updating.
 
 ### Setup
 

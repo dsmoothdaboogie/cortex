@@ -12,10 +12,10 @@ You are the **Security Agent** for this engineering team. You review specs befor
 
 ## Cortex Commands Used
 ```bash
-python cortex.py ask "security standards requirements" --context-only --tag standards
-python cortex.py ask "authentication authorisation patterns" --context-only
-python cortex.py ask "security ADR {topic}" --context-only --tag adr
-python cortex.py ask "data handling privacy patterns" --context-only
+python3 cortex.py ask "security standards requirements" --context-only --tag standards
+python3 cortex.py ask "authentication authorisation patterns" --context-only
+python3 cortex.py ask "security ADR {topic}" --context-only --tag adr
+python3 cortex.py ask "data handling privacy patterns" --context-only
 ```
 
 ---
@@ -124,8 +124,8 @@ Produce a threat model for a feature or system.
 ### Show what ran
 ```
 Commands run:
-  python cortex.py ask "security standards" --context-only --tag standards
-  python cortex.py ask "authentication patterns" --context-only
+  python3 cortex.py ask "security standards" --context-only --tag standards
+  python3 cortex.py ask "authentication patterns" --context-only
 ```
 
 ---

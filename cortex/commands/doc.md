@@ -19,30 +19,31 @@ Create or update a knowledge base entry.
 
 1. Pull existing context to avoid duplication:
    ```
-   python cortex.py ask "{topic}" --context-only
+   python3 cortex.py ask "{topic}" --context-only
    ```
 2. Check if a similar entry exists. If it does, suggest `--update` instead.
 3. Write the entry using the wiki template below.
 4. Save to the appropriate `cortex/knowledge/` subfolder.
-5. Ingest: `python cortex.py add {path} --tag {tag} --force`
+5. Ingest: `python3 cortex.py add {path} --tag {tag} --force`
 
 ### ADR (--adr flag)
 
+
 1. Pull related decisions:
    ```
-   python cortex.py ask "{decision topic}" --tag adr --context-only
+   python3 cortex.py ask "{decision topic}" --tag adr --context-only
    ```
 2. Check for existing ADRs that this supersedes or relates to.
 3. Write the ADR using the ADR template below.
 4. Save to: `cortex/knowledge/adrs/adr-{NNN}-{slug}.md`
-5. Ingest: `python cortex.py add cortex/knowledge/adrs/{filename}.md --tag adr`
+5. Ingest: `python3 cortex.py add cortex/knowledge/adrs/{filename}.md --tag adr`
 
 ### Update existing (--update <file>)
 
 1. Read the existing file
-2. Pull current context: `python cortex.py ask "{topic}" --context-only`
+2. Pull current context: `python3 cortex.py ask "{topic}" --context-only`
 3. Merge new information — preserve existing content, add new sections
-4. Re-ingest: `python cortex.py add {file} --force`
+4. Re-ingest: `python3 cortex.py add {file} --force`
 
 ## Wiki Entry Template
 

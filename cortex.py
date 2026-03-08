@@ -57,10 +57,10 @@ def add(paths, tag, force):
 
     \b
     Examples:
-      python cortex.py add ./knowledge/standards --tag standards
-      python cortex.py add ./knowledge/design-system --tag design-system
-      python cortex.py add ./knowledge/adrs --tag adr --force
-      python cortex.py add ./specs --tag spec
+      python3 cortex.py add ./knowledge/standards --tag standards
+      python3 cortex.py add ./knowledge/design-system --tag design-system
+      python3 cortex.py add ./knowledge/adrs --tag adr --force
+      python3 cortex.py add ./specs --tag spec
     """
     from cortex.ingest import ingest_paths
     ingest_paths(list(paths), tag=tag, force=force)
@@ -79,10 +79,10 @@ def ask(query, top_k, tag, context_only):
 
     \b
     Examples:
-      python cortex.py ask "design system button component"
-      python cortex.py ask "MFE state pattern" --tag standards
-      python cortex.py ask "auth flow" --context-only | pbcopy
-      python cortex.py ask "form validation" --context-only > .context.md
+      python3 cortex.py ask "design system button component"
+      python3 cortex.py ask "MFE state pattern" --tag standards
+      python3 cortex.py ask "auth flow" --context-only | pbcopy
+      python3 cortex.py ask "form validation" --context-only > .context.md
     """
     from cortex.query import retrieve
     retrieve(query=query, top_k=top_k, tag=tag, context_only=context_only)
@@ -103,9 +103,9 @@ def sync(verbose, knowledge, quiet):
 
     \b
     Examples:
-      python cortex.py sync                    # sync stale specs
-      python cortex.py sync --knowledge        # sync stale knowledge/ files
-      python cortex.py sync --knowledge --quiet
+      python3 cortex.py sync                    # sync stale specs
+      python3 cortex.py sync --knowledge        # sync stale knowledge/ files
+      python3 cortex.py sync --knowledge --quiet
     """
     if knowledge:
         from cortex.spec import cmd_sync_knowledge
@@ -128,8 +128,8 @@ def watch(interval, knowledge):
 
     \b
     Examples:
-      python cortex.py watch                   # watch specs/ only
-      python cortex.py watch --knowledge       # watch specs/ + knowledge/
+      python3 cortex.py watch                   # watch specs/ only
+      python3 cortex.py watch --knowledge       # watch specs/ + knowledge/
     """
     from cortex.spec import cmd_watch
     cmd_watch(interval=interval, knowledge=knowledge)
@@ -144,8 +144,8 @@ def ls(specs):
 
     \b
     Examples:
-      python cortex.py ls              # all indexed documents
-      python cortex.py ls --specs      # spec files with sync status
+      python3 cortex.py ls              # all indexed documents
+      python3 cortex.py ls --specs      # spec files with sync status
     """
     if specs:
         from cortex.spec import cmd_list
@@ -180,7 +180,7 @@ def ls(specs):
         console.print(table)
         console.print()
     except Exception:
-        console.print("[red]No DB found. Run: python cortex.py add <path>[/red]")
+        console.print("[red]No DB found. Run: python3 cortex.py add <path>[/red]")
 
 
 # ─── STATS ────────────────────────────────────────────────────────────────────
@@ -191,7 +191,7 @@ def stats():
 
     \b
     Example:
-      python cortex.py stats
+      python3 cortex.py stats
     """
     from cortex.db import get_client
     client = get_client()
@@ -215,7 +215,7 @@ def stats():
             console.print(f"    [dim]{t}:[/dim] {n} chunks")
         console.print()
     except Exception:
-        console.print("[red]No DB found. Run: python cortex.py add <path>[/red]")
+        console.print("[red]No DB found. Run: python3 cortex.py add <path>[/red]")
 
 
 # ─── RM ───────────────────────────────────────────────────────────────────────
@@ -227,13 +227,17 @@ def rm(source):
 
     \b
     Example:
-      python cortex.py rm specs/PROJ-1234-2025-01-15-old-spec.md
-      python cortex.py rm knowledge/standards/deprecated.md
+      python3 cortex.py rm specs/PROJ-1234-2025-01-15-old-spec.md
+      python3 cortex.py rm knowledge/standards/deprecated.md
     """
     from cortex.db import get_client
     client = get_client()
     try:
         col = client.get_collection("cortex")
+        existing = col.get(where={"source": source}, include=["metadatas"])
+        if not existing["metadatas"]:
+            console.print(f"[yellow]Not found:[/yellow] {source}")
+            return
         col.delete(where={"source": source})
         console.print(f"[green]✓[/green] Removed: [yellow]{source}[/yellow]")
     except Exception as e:
@@ -260,7 +264,7 @@ def gen_standards(yes):
 
     \b
     Example:
-      python cortex.py generate standards
+      python3 cortex.py generate standards
     """
     from cortex.generate import cmd_standards
     cmd_standards(yes=yes)
@@ -273,7 +277,7 @@ def gen_vision(yes):
 
     \b
     Example:
-      python cortex.py generate vision
+      python3 cortex.py generate vision
     """
     from cortex.generate import cmd_vision
     cmd_vision(yes=yes)
@@ -286,7 +290,7 @@ def gen_adr(yes):
 
     \b
     Example:
-      python cortex.py generate adr
+      python3 cortex.py generate adr
     """
     from cortex.generate import cmd_adr
     cmd_adr(yes=yes)
@@ -299,7 +303,7 @@ def gen_all(yes):
 
     \b
     Example:
-      python cortex.py generate all --yes
+      python3 cortex.py generate all --yes
     """
     from cortex.generate import cmd_all
     cmd_all(yes=yes)
@@ -325,7 +329,7 @@ def init():
 
     \b
     Example:
-      python cortex.py init
+      python3 cortex.py init
     """
     from pathlib import Path
 
@@ -358,14 +362,14 @@ def init():
     if any_created:
         console.print("[bold]Next steps:[/bold]")
         console.print("  1. Add your knowledge files to cortex/knowledge/<subfolder>/")
-        console.print("  2. python cortex.py add ./cortex/knowledge/standards --tag standards")
-        console.print("     python cortex.py add ./cortex/knowledge/design-system --tag design-system")
+        console.print("  2. python3 cortex.py add ./cortex/knowledge/standards --tag standards")
+        console.print("     python3 cortex.py add ./cortex/knowledge/design-system --tag design-system")
         console.print("     (repeat for each subfolder)")
-        console.print("  3. python cortex.py install-hook    ← git pre-commit + post-merge hooks")
-        console.print("  4. python cortex.py audit           ← verify coverage")
+        console.print("  3. python3 cortex.py install-hook    ← git pre-commit + post-merge hooks")
+        console.print("  4. python3 cortex.py audit           ← verify coverage")
         console.print()
         console.print("[dim]Optional — link other repos to query their DBs alongside this one:[/dim]")
-        console.print("[dim]  python cortex.py repos add <repo-name>   (run manually, then commit .cortex-repos.json)[/dim]\n")
+        console.print("[dim]  python3 cortex.py repos add <repo-name>   (run manually, then commit .cortex-repos.json)[/dim]\n")
     else:
         console.print("[green]✓ All folders already exist.[/green]\n")
 
@@ -391,7 +395,7 @@ def bootstrap():
 
     \b
     Example:
-      python cortex.py bootstrap
+      python3 cortex.py bootstrap
     """
     import subprocess
     from pathlib import Path
@@ -415,7 +419,7 @@ def bootstrap():
         else:
             console.print(f"  [dim]skip[/dim]  cortex/knowledge/{folder}/ [dim](not found)[/dim]")
     if not any_knowledge:
-        console.print("  [yellow]No cortex/knowledge/ subfolders found. Run `python cortex.py init` first.[/yellow]")
+        console.print("  [yellow]No cortex/knowledge/ subfolders found. Run `python3 cortex.py init` first.[/yellow]")
 
     # Step 2 — sync linked repos
     console.print("\n[bold]Step 2[/bold]  Syncing linked repos...\n")
@@ -441,8 +445,8 @@ def bootstrap():
     console.print("\n[green]✓ Bootstrap complete.[/green]")
     if skipped_repos:
         console.print(f"\n[yellow]Linked repos with no local path registered:[/yellow] {', '.join(skipped_repos)}")
-        console.print("[dim]  Register paths: python cortex.py repos add <local/path/to/repo>[/dim]")
-        console.print("[dim]  Then sync:      python cortex.py repos sync[/dim]")
+        console.print("[dim]  Register paths: python3 cortex.py repos add <local/path/to/repo>[/dim]")
+        console.print("[dim]  Then sync:      python3 cortex.py repos sync[/dim]")
     console.print()
 
 
@@ -455,8 +459,8 @@ def audit(threshold):
 
     \b
     Example:
-      python cortex.py audit
-      python cortex.py audit --threshold 10
+      python3 cortex.py audit
+      python3 cortex.py audit --threshold 10
     """
     from rich.table import Table
 
@@ -471,7 +475,7 @@ def audit(threshold):
         col = client.get_collection("cortex")
         results = col.get(include=["metadatas"])
     except Exception:
-        console.print("[red]No DB found. Run: python cortex.py add <path>[/red]")
+        console.print("[red]No DB found. Run: python3 cortex.py add <path>[/red]")
         return
 
     tag_counts: dict = {}
@@ -489,7 +493,7 @@ def audit(threshold):
         count = tag_counts.get(tag, 0)
         if count == 0:
             status = "[red]EMPTY[/red]"
-            issues.append((tag, f"not ingested — run: python cortex.py add ./cortex/knowledge/<folder> --tag {tag}"))
+            issues.append((tag, f"not ingested — run: python3 cortex.py add ./cortex/knowledge/<folder> --tag {tag}"))
         elif count < threshold:
             status = "[yellow]SPARSE[/yellow]"
             issues.append((tag, f"only {count} chunk(s) — consider adding more content"))
@@ -542,9 +546,9 @@ def repos_add(name_or_path, tags):
 
     \b
     Examples:
-      python cortex.py repos add design-system
-      python cortex.py repos add ../design-system
-      python cortex.py repos add shared-platform --tags standards,adr
+      python3 cortex.py repos add design-system
+      python3 cortex.py repos add ../design-system
+      python3 cortex.py repos add shared-platform --tags standards,adr
     """
     from cortex.config import add_linked
     tag_list = [t.strip() for t in tags.split(",")] if tags else None
@@ -566,7 +570,7 @@ def repos_rm(name):
 
     \b
     Example:
-      python cortex.py repos rm design-system
+      python3 cortex.py repos rm design-system
     """
     from cortex.config import remove_linked
     if remove_linked(name):
@@ -581,7 +585,7 @@ def repos_ls():
 
     \b
     Example:
-      python cortex.py repos ls
+      python3 cortex.py repos ls
     """
     from pathlib import Path
     from rich.table import Table
@@ -594,7 +598,7 @@ def repos_ls():
     console.print(f"\n[cyan]cortex repos[/cyan] · [dim]current project: {current}[/dim]\n")
 
     if not linked:
-        console.print("[dim]No linked repos. Add one: python cortex.py repos add <name>[/dim]\n")
+        console.print("[dim]No linked repos. Add one: python3 cortex.py repos add <name>[/dim]\n")
         return
 
     table = Table()
@@ -638,7 +642,7 @@ def repos_sync():
 
     \b
     Example:
-      python cortex.py repos sync
+      python3 cortex.py repos sync
     """
     import subprocess
     from pathlib import Path
@@ -646,7 +650,7 @@ def repos_sync():
 
     linked = load_linked()
     if not linked:
-        console.print("[dim]No linked repos. Add one: python cortex.py repos add <path>[/dim]")
+        console.print("[dim]No linked repos. Add one: python3 cortex.py repos add <path>[/dim]")
         return
 
     local_paths = load_local_paths()
@@ -670,7 +674,7 @@ def repos_sync():
         console.print(f"[green]✓[/green] Synced: {', '.join(synced)}")
     if skipped:
         console.print(f"[yellow]⚠ Skipped (no local path):[/yellow] {', '.join(skipped)}")
-        console.print(f"[dim]  Register paths by running: python cortex.py repos add <local/path/to/repo>[/dim]")
+        console.print(f"[dim]  Register paths by running: python3 cortex.py repos add <local/path/to/repo>[/dim]")
     console.print()
 
 
@@ -686,7 +690,7 @@ def install_hook():
 
     \b
     Example:
-      python cortex.py install-hook
+      python3 cortex.py install-hook
     """
     from cortex.hook import cmd_install
     cmd_install()
@@ -698,7 +702,7 @@ def uninstall_hook():
 
     \b
     Example:
-      python cortex.py uninstall-hook
+      python3 cortex.py uninstall-hook
     """
     from cortex.hook import cmd_uninstall
     cmd_uninstall()

@@ -11,9 +11,9 @@ You are the **ADR Writer** for this engineering team. You turn architectural dis
 
 ## Cortex Commands Used
 ```bash
-python cortex.py ask "{decision topic} existing decisions" --context-only --tag adr
-python cortex.py ask "{technology or pattern}" --context-only
-python cortex.py add knowledge/adrs/adr-{number}-{slug}.md --tag adr
+python3 cortex.py ask "{decision topic} existing decisions" --context-only --tag adr
+python3 cortex.py ask "{technology or pattern}" --context-only
+python3 cortex.py add knowledge/adrs/adr-{number}-{slug}.md --tag adr
 ```
 
 ---
@@ -86,7 +86,7 @@ Filename: `knowledge/adrs/adr-{NNN}-{slug}.md`
 ### Step 5 — Ingest into knowledge base
 After writing the file:
 ```bash
-python cortex.py add knowledge/adrs/adr-{NNN}-{slug}.md --tag adr
+python3 cortex.py add knowledge/adrs/adr-{NNN}-{slug}.md --tag adr
 ```
 
 ### Step 6 — Show what ran
@@ -95,9 +95,9 @@ python cortex.py add knowledge/adrs/adr-{NNN}-{slug}.md --tag adr
 ✓ Ingested into knowledge base
 
 Commands run:
-  python cortex.py add knowledge/adrs/adr-{NNN}-{slug}.md --tag adr
+  python3 cortex.py add knowledge/adrs/adr-{NNN}-{slug}.md --tag adr
 
-Next: run `python cortex.py generate adr` to refresh docs/ADR.md
+Next: run `python3 cortex.py generate adr` to refresh docs/ADR.md
 ```
 
 ---

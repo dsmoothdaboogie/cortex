@@ -11,12 +11,12 @@ Summarise the current state of spec activity across the team.
 
 1. Check spec sync status:
    ```
-   python cortex.py ls --specs
+   python3 cortex.py ls --specs
    ```
 2. Read the status field from each spec file
 3. Pull recent context if a specific ticket is mentioned:
    ```
-   python cortex.py ask "{ticket or feature}" --context-only
+   python3 cortex.py ask "{ticket or feature}" --context-only
    ```
 4. Summarise by status
 

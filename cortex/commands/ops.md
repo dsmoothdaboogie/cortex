@@ -25,9 +25,9 @@ Read the spec and flag any infrastructure or platform implications before develo
 
 ### Query the knowledge base
 ```bash
-python cortex.py ask "deployment configuration platform infrastructure" --context-only
-python cortex.py ask "platform architecture deployment" --context-only --tag standards
-python cortex.py ask "infrastructure ADR {topic}" --context-only --tag adr
+python3 cortex.py ask "deployment configuration platform infrastructure" --context-only
+python3 cortex.py ask "platform architecture deployment" --context-only --tag standards
+python3 cortex.py ask "infrastructure ADR {topic}" --context-only --tag adr
 ```
 
 ### Check for (pull from knowledge base first — apply what's documented for this team)
@@ -69,10 +69,10 @@ Generate a deployment checklist for a release.
 
 ### Query the knowledge base
 ```bash
-python cortex.py ask "deployment configuration platform" --context-only
-python cortex.py ask "deployment ADR release" --context-only --tag adr
-python cortex.py ask "deployment runbook process" --context-only --tag skills
-python cortex.py ls --specs
+python3 cortex.py ask "deployment configuration platform" --context-only
+python3 cortex.py ask "deployment ADR release" --context-only --tag adr
+python3 cortex.py ask "deployment runbook process" --context-only --tag skills
+python3 cortex.py ls --specs
 ```
 
 ### Output
@@ -83,7 +83,7 @@ python cortex.py ls --specs
 
 ### Pre-Deployment
 - [ ] All specs status = Done
-- [ ] `python cortex.py sync` — confirm DB is current
+- [ ] `python3 cortex.py sync` — confirm DB is current
 - [ ] Feature flags configured for gradual rollout
 - [ ] Platform config reviewed for new routes or modules
 - [ ] Environment variables confirmed in config
@@ -109,8 +109,8 @@ Generate a runbook for an operational process or incident response.
 
 ### Query the knowledge base
 ```bash
-python cortex.py ask "ops runbook {process}" --context-only --tag skills
-python cortex.py ask "{process} platform infrastructure" --context-only
+python3 cortex.py ask "ops runbook {process}" --context-only --tag skills
+python3 cortex.py ask "{process} platform infrastructure" --context-only
 ```
 
 ### Output
@@ -136,7 +136,7 @@ python cortex.py ask "{process} platform infrastructure" --context-only
 
 > After writing a runbook, ingest it:
 > ```bash
-> python cortex.py add cortex/knowledge/skills/{slug}.md --tag skills --force
+> python3 cortex.py add cortex/knowledge/skills/{slug}.md --tag skills --force
 > ```
 
 ---
@@ -144,8 +144,8 @@ python cortex.py ask "{process} platform infrastructure" --context-only
 ## Show what ran
 ```
 Commands run:
-  python cortex.py ask "deployment platform infrastructure" --context-only
-  python cortex.py ask "infrastructure ADR" --context-only --tag adr
+  python3 cortex.py ask "deployment platform infrastructure" --context-only
+  python3 cortex.py ask "infrastructure ADR" --context-only --tag adr
 ```
 
 ## Rules

@@ -10,7 +10,7 @@ Before writing any code, specs, or documentation, always query the knowledge bas
 The DB lives at `~/.cortex/chroma`. Query it before assuming how this team does anything:
 
 ```bash
-python cortex.py ask "{your question}" --context-only
+python3 cortex.py ask "{your question}" --context-only
 ```
 
 The venv must be active: `source cortex/.venv/bin/activate`
@@ -63,26 +63,26 @@ These apply always. They cannot be overridden by a spec, task, or instruction.
 
 ```bash
 # Ingest
-python cortex.py add ./knowledge/standards --tag standards
-python cortex.py add ./knowledge/design-system --tag design-system
-python cortex.py add ./knowledge/adrs --tag adr
-python cortex.py add ./knowledge/vision --tag vision
-python cortex.py add ./knowledge/skills --tag skills
-python cortex.py add ./knowledge/patterns --tag patterns
-python cortex.py add ./knowledge/team-conventions --tag team-conventions
+python3 cortex.py add ./knowledge/standards --tag standards
+python3 cortex.py add ./knowledge/design-system --tag design-system
+python3 cortex.py add ./knowledge/adrs --tag adr
+python3 cortex.py add ./knowledge/vision --tag vision
+python3 cortex.py add ./knowledge/skills --tag skills
+python3 cortex.py add ./knowledge/patterns --tag patterns
+python3 cortex.py add ./knowledge/team-conventions --tag team-conventions
 
 # Query
-python cortex.py ask "query"
-python cortex.py ask "query" --tag standards
-python cortex.py ask "query" --context-only | pbcopy     # macOS
-python cortex.py ask "query" --context-only | clip       # WSL/Windows
+python3 cortex.py ask "query"
+python3 cortex.py ask "query" --tag standards
+python3 cortex.py ask "query" --context-only | pbcopy     # macOS
+python3 cortex.py ask "query" --context-only | clip       # WSL/Windows
 
 # Specs
-python cortex.py sync
-python cortex.py watch
-python cortex.py ls --specs
+python3 cortex.py sync
+python3 cortex.py watch
+python3 cortex.py ls --specs
 
 # Health
-python cortex.py stats
-python cortex.py ls
+python3 cortex.py stats
+python3 cortex.py ls
 ```

@@ -13,13 +13,13 @@ You are the **Onboarding Guide** for this engineering team. You help new develop
 
 ## Cortex Commands Used
 ```bash
-python cortex.py ask "platform vision mission goals" --context-only --tag vision
-python cortex.py ask "architecture overview platform structure" --context-only --tag adr
-python cortex.py ask "getting started developer setup" --context-only
-python cortex.py ask "{specific topic}" --context-only
-python cortex.py ask "coding standards patterns non-negotiables" --context-only --tag standards
-python cortex.py ask "design system usage components" --context-only --tag design-system
-python cortex.py ask "team conventions" --context-only --tag team-conventions
+python3 cortex.py ask "platform vision mission goals" --context-only --tag vision
+python3 cortex.py ask "architecture overview platform structure" --context-only --tag adr
+python3 cortex.py ask "getting started developer setup" --context-only
+python3 cortex.py ask "{specific topic}" --context-only
+python3 cortex.py ask "coding standards patterns non-negotiables" --context-only --tag standards
+python3 cortex.py ask "design system usage components" --context-only --tag design-system
+python3 cortex.py ask "team conventions" --context-only --tag team-conventions
 ```
 
 ---

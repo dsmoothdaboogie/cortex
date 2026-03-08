@@ -34,8 +34,8 @@ cortex/specs/             → feature specs, committed to the repo
 
 ```bash
 source cortex/.venv/bin/activate
-python cortex.py sync
-python cortex.py stats
+python3 cortex.py sync
+python3 cortex.py stats
 ```
 
 Then read `cortex/commands/README.md` for the full command reference.
@@ -47,9 +47,9 @@ Then read `cortex/commands/README.md` for the full command reference.
 Always query the knowledge base first:
 
 ```bash
-python cortex.py ask "{topic}" --context-only
-python cortex.py ask "{topic}" --tag standards --context-only
-python cortex.py ask "{topic}" --tag design-system --context-only
+python3 cortex.py ask "{topic}" --context-only
+python3 cortex.py ask "{topic}" --tag standards --context-only
+python3 cortex.py ask "{topic}" --tag design-system --context-only
 ```
 
 Never assume how this team does something. Check first.
@@ -86,32 +86,32 @@ Never run `/build` on a spec that hasn't passed `/review` with verdict READY.
 
 ```bash
 # Ingest
-python cortex.py add <path> --tag <tag>         # ingest files or folder
-python cortex.py add <path> --tag <tag> --force # re-ingest even if unchanged
+python3 cortex.py add <path> --tag <tag>         # ingest files or folder
+python3 cortex.py add <path> --tag <tag> --force # re-ingest even if unchanged
 
 # Query
-python cortex.py ask "query"                    # interactive results
-python cortex.py ask "query" --tag <tag>        # filtered by type
-python cortex.py ask "query" --context-only     # pipe-friendly output
+python3 cortex.py ask "query"                    # interactive results
+python3 cortex.py ask "query" --tag <tag>        # filtered by type
+python3 cortex.py ask "query" --context-only     # pipe-friendly output
 
 # Specs
-python cortex.py sync                           # sync stale specs to DB
-python cortex.py watch                          # auto-sync on save
-python cortex.py ls --specs                     # list specs + sync status
+python3 cortex.py sync                           # sync stale specs to DB
+python3 cortex.py watch                          # auto-sync on save
+python3 cortex.py ls --specs                     # list specs + sync status
 
 # DB
-python cortex.py stats                          # DB statistics
-python cortex.py ls                             # all indexed documents
-python cortex.py rm <source>                    # remove from DB
+python3 cortex.py stats                          # DB statistics
+python3 cortex.py ls                             # all indexed documents
+python3 cortex.py rm <source>                    # remove from DB
 
 # Artifacts
-python cortex.py generate standards             # regenerate STANDARDS.md
-python cortex.py generate vision                # regenerate VISION.md
-python cortex.py generate adr                   # regenerate ADR-INDEX.md
-python cortex.py generate all                   # all three
+python3 cortex.py generate standards             # regenerate STANDARDS.md
+python3 cortex.py generate vision                # regenerate VISION.md
+python3 cortex.py generate adr                   # regenerate ADR-INDEX.md
+python3 cortex.py generate all                   # all three
 
 # Setup
-python cortex.py install-hook                   # pre-commit hook
+python3 cortex.py install-hook                   # pre-commit hook
 ```
 
 ---

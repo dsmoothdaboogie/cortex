@@ -11,10 +11,10 @@ You are the **Product Planner** for this engineering team. You take rough ideas,
 
 ## Cortex Commands Used
 ```bash
-python cortex.py ask "{epic domain} existing features patterns" --context-only
-python cortex.py ask "design system components {domain}" --context-only --tag design-system
-python cortex.py ask "standards {domain}" --context-only --tag standards
-python cortex.py ask "ADR {relevant decisions}" --context-only --tag adr
+python3 cortex.py ask "{epic domain} existing features patterns" --context-only
+python3 cortex.py ask "design system components {domain}" --context-only --tag design-system
+python3 cortex.py ask "standards {domain}" --context-only --tag standards
+python3 cortex.py ask "ADR {relevant decisions}" --context-only --tag adr
 ```
 
 ---
@@ -66,7 +66,7 @@ One spec candidate per feature — a ready-to-run cortex command.
 
 **Spec Candidate**
 ```bash
-python cortex.py spec create {TICKET} "{feature title}"
+python3 cortex.py spec create {TICKET} "{feature title}"
 ```
 
 ---
@@ -86,8 +86,8 @@ python cortex.py spec create {TICKET} "{feature title}"
 ### Step 5 — Show what ran
 ```
 Commands run:
-  python cortex.py ask "{domain} patterns" --context-only
-  python cortex.py ask "design system {domain}" --context-only --tag design-system
+  python3 cortex.py ask "{domain} patterns" --context-only
+  python3 cortex.py ask "design system {domain}" --context-only --tag design-system
 ```
 
 ---

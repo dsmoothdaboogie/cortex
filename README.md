@@ -94,7 +94,7 @@ First run downloads the embedding model (~90MB) to `~/.cache/huggingface`. Every
 ### 4. Verify
 
 ```bash
-python cortex.py --help
+python3 cortex.py --help
 ```
 
 ### 5. Add to .gitignore
@@ -112,7 +112,7 @@ __pycache__/
 ### 6. Install git hooks
 
 ```bash
-python cortex.py install-hook
+python3 cortex.py install-hook
 ```
 
 Installs a pre-commit hook (prompts to sync stale specs and knowledge before commit) and a post-merge hook (silently re-ingests knowledge after `git pull`). Neither ever blocks a commit.
@@ -126,7 +126,7 @@ Installs a pre-commit hook (prompts to sync stale specs and knowledge before com
 Create the folder structure in one command:
 
 ```bash
-python cortex.py init
+python3 cortex.py init
 ```
 
 This creates `cortex/knowledge/`, `cortex/specs/`, and `.github/prompts/` with stub README files, then prints the next steps. Or create manually:
@@ -147,21 +147,21 @@ mkdir -p cortex/specs
 | Team norms, PR process | `cortex/knowledge/team-conventions/` | `team-conventions` |
 
 ```bash
-python cortex.py add ./cortex/knowledge/standards        --tag standards
-python cortex.py add ./cortex/knowledge/design-system    --tag design-system
-python cortex.py add ./cortex/knowledge/adrs             --tag adr
-python cortex.py add ./cortex/knowledge/vision           --tag vision
-python cortex.py add ./cortex/knowledge/skills           --tag skills
-python cortex.py add ./cortex/knowledge/patterns         --tag patterns
-python cortex.py add ./cortex/knowledge/team-conventions --tag team-conventions
+python3 cortex.py add ./cortex/knowledge/standards        --tag standards
+python3 cortex.py add ./cortex/knowledge/design-system    --tag design-system
+python3 cortex.py add ./cortex/knowledge/adrs             --tag adr
+python3 cortex.py add ./cortex/knowledge/vision           --tag vision
+python3 cortex.py add ./cortex/knowledge/skills           --tag skills
+python3 cortex.py add ./cortex/knowledge/patterns         --tag patterns
+python3 cortex.py add ./cortex/knowledge/team-conventions --tag team-conventions
 ```
 
 Check it worked:
 
 ```bash
-python cortex.py stats                               # chunks by tag
-python cortex.py audit                               # flag empty or sparse tags
-python cortex.py ask "design system button component"
+python3 cortex.py stats                               # chunks by tag
+python3 cortex.py audit                               # flag empty or sparse tags
+python3 cortex.py ask "design system button component"
 ```
 
 ### Ingestion scenarios
@@ -327,9 +327,9 @@ must support SSO and integrate with PagerDuty and Backstage.
 For any Copilot session where you want DB context without a slash command:
 
 ```bash
-python cortex.py ask "your topic" --context-only | pbcopy    # macOS
-python cortex.py ask "your topic" --context-only | clip      # WSL/Windows
-python cortex.py ask "your topic" --context-only > .context.md
+python3 cortex.py ask "your topic" --context-only | pbcopy    # macOS
+python3 cortex.py ask "your topic" --context-only | clip      # WSL/Windows
+python3 cortex.py ask "your topic" --context-only > .context.md
 ```
 
 Then in Copilot Chat: `#file:.context.md  [your question]`
@@ -366,12 +366,12 @@ Link other repos so `cortex ask` searches across multiple project knowledge base
 **These commands are run manually, once per repo, by whoever sets up the project:**
 
 ```bash
-python cortex.py repos add design-system         # link by name
-python cortex.py repos add ../shared-platform    # or by local path (also records path for sync)
-python cortex.py repos add api-gateway --tags standards,adr  # optional tag filter
-python cortex.py repos ls                        # see links + DB status
-python cortex.py repos rm design-system          # unlink
-python cortex.py repos sync                      # re-ingest knowledge from all linked repos
+python3 cortex.py repos add design-system         # link by name
+python3 cortex.py repos add ../shared-platform    # or by local path (also records path for sync)
+python3 cortex.py repos add api-gateway --tags standards,adr  # optional tag filter
+python3 cortex.py repos ls                        # see links + DB status
+python3 cortex.py repos rm design-system          # unlink
+python3 cortex.py repos sync                      # re-ingest knowledge from all linked repos
 ```
 
 Links are stored in `.cortex-repos.json` at the repo root — committed, so the whole team inherits them automatically on clone. Repos are referenced by **name** (git root folder name), not path, so the config works unchanged on every machine.
@@ -415,26 +415,26 @@ If a linked repo hasn't been ingested on the current machine, it's skipped with 
 Spec files are the source of truth. After editing a spec, sync the DB:
 
 ```bash
-python cortex.py sync                  # detect and sync changed specs
-python cortex.py watch                 # auto-sync specs on every save
-python cortex.py watch --knowledge     # also watch cortex/knowledge/ files (run in a terminal panel)
+python3 cortex.py sync                  # detect and sync changed specs
+python3 cortex.py watch                 # auto-sync specs on every save
+python3 cortex.py watch --knowledge     # also watch cortex/knowledge/ files (run in a terminal panel)
 ```
 
 After editing knowledge docs manually:
 
 ```bash
-python cortex.py sync --knowledge      # detect and sync changed knowledge files
+python3 cortex.py sync --knowledge      # detect and sync changed knowledge files
 ```
 
 ### Git hooks
 
 ```bash
-python cortex.py install-hook
+python3 cortex.py install-hook
 ```
 
 Installs two hooks. Neither ever blocks a commit.
 
-> **Note:** Hooks live in `.git/hooks/`, which is not committed to the repo. Every teammate must run `python cortex.py install-hook` themselves after cloning.
+> **Note:** Hooks live in `.git/hooks/`, which is not committed to the repo. Every teammate must run `python3 cortex.py install-hook` themselves after cloning.
 
 **pre-commit** — runs two checks before every commit:
 
@@ -460,7 +460,7 @@ Re-ingest knowledge to keep DB in sync? [y/N]: y
 
 ```
 # After git pull — no action needed, hook runs automatically:
-# python cortex.py sync --knowledge --quiet
+# python3 cortex.py sync --knowledge --quiet
 ```
 
 ---
@@ -479,10 +479,10 @@ Includes: ask (with clipboard options), sync, watch, ls, stats, add path, ingest
 Standards, vision, and ADR artifacts are generated on demand from the DB.
 
 ```bash
-python cortex.py generate standards    # → cortex/knowledge/standards/STANDARDS.md
-python cortex.py generate vision       # → cortex/knowledge/vision/VISION.md
-python cortex.py generate adr          # → cortex/knowledge/adrs/ADR-INDEX.md
-python cortex.py generate all --yes    # all three, no confirmation prompts
+python3 cortex.py generate standards    # → cortex/knowledge/standards/STANDARDS.md
+python3 cortex.py generate vision       # → cortex/knowledge/vision/VISION.md
+python3 cortex.py generate adr          # → cortex/knowledge/adrs/ADR-INDEX.md
+python3 cortex.py generate all --yes    # all three, no confirmation prompts
 ```
 
 Commit the updated files so teammates and agents always have current content.
@@ -497,12 +497,12 @@ Tune what gets included: edit `STANDARDS_TOPICS`, `VISION_TOPICS`, `ADR_TOPICS` 
 2. Follow [Installation](#installation) steps 1–5 (venv, deps, gitignore)
 3. Run bootstrap — ingests knowledge, syncs linked repos, installs hooks in one command:
    ```bash
-   python cortex.py bootstrap
+   python3 cortex.py bootstrap
    ```
 4. If any linked repos were skipped (no local path registered), clone them and register:
    ```bash
-   python cortex.py repos add ../design-system
-   python cortex.py repos sync
+   python3 cortex.py repos add ../design-system
+   python3 cortex.py repos sync
    ```
 5. In Copilot Chat: `@workspace /ask "give me an orientation to this codebase and how the team works"`
 
@@ -512,45 +512,45 @@ Tune what gets included: edit `STANDARDS_TOPICS`, `VISION_TOPICS`, `ADR_TOPICS` 
 
 ```bash
 # Setup
-python cortex.py init                            # create folder structure (new repo)
-python cortex.py bootstrap                       # ingest knowledge + sync linked repos + install hooks (after cloning)
-python cortex.py install-hook                    # install pre-commit + post-merge hooks
-python cortex.py uninstall-hook
+python3 cortex.py init                            # create folder structure (new repo)
+python3 cortex.py bootstrap                       # ingest knowledge + sync linked repos + install hooks (after cloning)
+python3 cortex.py install-hook                    # install pre-commit + post-merge hooks
+python3 cortex.py uninstall-hook
 
 # Ingest
-python cortex.py add <path> --tag <tag>          # ingest a file or folder
-python cortex.py add <path> --tag <tag> --force  # force re-ingest
+python3 cortex.py add <path> --tag <tag>          # ingest a file or folder
+python3 cortex.py add <path> --tag <tag> --force  # force re-ingest
 
 # Query (searches local DB + all linked repos)
-python cortex.py ask "query"                     # interactive results
-python cortex.py ask "query" --tag <tag>         # filtered
-python cortex.py ask "query" --context-only      # pipe-friendly
+python3 cortex.py ask "query"                     # interactive results
+python3 cortex.py ask "query" --tag <tag>         # filtered
+python3 cortex.py ask "query" --context-only      # pipe-friendly
 
 # Cross-repo links
-python cortex.py repos add <name-or-path>        # link a repo by name or local path
-python cortex.py repos add <name> --tags a,b     # link with tag filter
-python cortex.py repos rm <name>                 # unlink
-python cortex.py repos ls                        # list links + DB availability
-python cortex.py repos sync                      # re-ingest knowledge from all linked repos
+python3 cortex.py repos add <name-or-path>        # link a repo by name or local path
+python3 cortex.py repos add <name> --tags a,b     # link with tag filter
+python3 cortex.py repos rm <name>                 # unlink
+python3 cortex.py repos ls                        # list links + DB availability
+python3 cortex.py repos sync                      # re-ingest knowledge from all linked repos
 
 # Sync and watch
-python cortex.py sync                            # sync stale specs
-python cortex.py sync --knowledge                # sync stale cortex/knowledge/ files
-python cortex.py watch                           # auto-sync specs on save
-python cortex.py watch --knowledge               # also watch cortex/knowledge/ files
+python3 cortex.py sync                            # sync stale specs
+python3 cortex.py sync --knowledge                # sync stale cortex/knowledge/ files
+python3 cortex.py watch                           # auto-sync specs on save
+python3 cortex.py watch --knowledge               # also watch cortex/knowledge/ files
 
 # DB inspection
-python cortex.py audit                           # tag coverage — flag empty/sparse
-python cortex.py stats                           # chunks by tag
-python cortex.py ls                              # all indexed documents
-python cortex.py ls --specs                      # spec files + sync status
-python cortex.py rm <source>                     # remove a source from DB
+python3 cortex.py audit                           # tag coverage — flag empty/sparse
+python3 cortex.py stats                           # chunks by tag
+python3 cortex.py ls                              # all indexed documents
+python3 cortex.py ls --specs                      # spec files + sync status
+python3 cortex.py rm <source>                     # remove a source from DB
 
 # Artifacts
-python cortex.py generate standards              # → cortex/knowledge/standards/STANDARDS.md
-python cortex.py generate vision                 # → cortex/knowledge/vision/VISION.md
-python cortex.py generate adr                    # → cortex/knowledge/adrs/ADR-INDEX.md
-python cortex.py generate all --yes
+python3 cortex.py generate standards              # → cortex/knowledge/standards/STANDARDS.md
+python3 cortex.py generate vision                 # → cortex/knowledge/vision/VISION.md
+python3 cortex.py generate adr                    # → cortex/knowledge/adrs/ADR-INDEX.md
+python3 cortex.py generate all --yes
 ```
 
 ---
@@ -571,7 +571,7 @@ Create two files in your repo:
 Our team's pre-deployment checklist for the payments service.
 
 ## Steps
-1. Pull deployment context: `python cortex.py ask "payments deployment" --context-only --tag skills`
+1. Pull deployment context: `python3 cortex.py ask "payments deployment" --context-only --tag skills`
 2. ...
 ```
 
@@ -625,7 +625,7 @@ cortex\.venv\Scripts\Activate.ps1  # Windows
 
 **`No DB found`** — nothing ingested yet.
 ```bash
-python cortex.py add ./cortex/knowledge/standards --tag standards
+python3 cortex.py add ./cortex/knowledge/standards --tag standards
 ```
 
 **Slow first run** — embedding model downloading (~90MB). Happens once per machine.
@@ -636,4 +636,4 @@ python cortex.py add ./cortex/knowledge/standards --tag standards
 
 **WSL: `pbcopy` not found** — use `clip` instead.
 
-**Spec watch not detecting changes** — some editors write atomically. Try `--interval 0.5` or run `python cortex.py sync` manually.
+**Spec watch not detecting changes** — some editors write atomically. Try `--interval 0.5` or run `python3 cortex.py sync` manually.

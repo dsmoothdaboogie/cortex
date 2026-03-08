@@ -2,5 +2,6 @@
   "markdown.mermaid": {
     "theme": "default",
     "securityLevel": "loose"
-  }
+  },
+  "git.ignoreLimitWarning": true
 }

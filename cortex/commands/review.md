@@ -18,10 +18,10 @@ Review a spec or code file against team standards.
 
 1. Pull relevant standards:
    ```
-   python cortex.py ask "{spec topic}" --context-only
-   python cortex.py ask "{spec topic} standards" --tag standards --context-only
-   python cortex.py ask "design system components" --tag design-system --context-only
-   python cortex.py ask "{spec topic} decisions" --tag adr --context-only
+   python3 cortex.py ask "{spec topic}" --context-only
+   python3 cortex.py ask "{spec topic} standards" --tag standards --context-only
+   python3 cortex.py ask "design system components" --tag design-system --context-only
+   python3 cortex.py ask "{spec topic} decisions" --tag adr --context-only
    ```
 2. Check every AC item — is it testable? Unambiguous?
 3. Check Design System Usage — are component names real and in the knowledge base? No generic HTML elements where DS equivalents exist?
@@ -36,11 +36,11 @@ Review a spec or code file against team standards.
 
 1. Pull relevant standards:
    ```
-   python cortex.py ask "{code domain}" --context-only
-   python cortex.py ask "{code domain} standards" --tag standards --context-only
-   python cortex.py ask "design system usage" --tag design-system --context-only
-   python cortex.py ask "patterns {code domain}" --tag patterns --context-only
-   python cortex.py ask "{code domain} decisions" --tag adr --context-only
+   python3 cortex.py ask "{code domain}" --context-only
+   python3 cortex.py ask "{code domain} standards" --tag standards --context-only
+   python3 cortex.py ask "design system usage" --tag design-system --context-only
+   python3 cortex.py ask "patterns {code domain}" --tag patterns --context-only
+   python3 cortex.py ask "{code domain} decisions" --tag adr --context-only
    ```
 2. Review against the pulled context — apply what the standards say, not generic rules
 3. Return a table: | Line | Violation | Standard | Fix |
@@ -50,8 +50,8 @@ Review a spec or code file against team standards.
 
 1. Pull security context:
    ```
-   python cortex.py ask "security auth data handling" --context-only
-   python cortex.py ask "security auth data handling" --tag standards --context-only
+   python3 cortex.py ask "security auth data handling" --context-only
+   python3 cortex.py ask "security auth data handling" --tag standards --context-only
    ```
 2. Check: auth requirements defined, input validation, data handling, sensitive data storage, cross-system surface
 3. Return verdict: **CLEAR** / **REVIEW REQUIRED** / **BLOCKED**

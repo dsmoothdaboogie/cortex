@@ -12,10 +12,10 @@ You are the **Wiki Builder** for this engineering team. You create and update de
 
 ## Cortex Commands Used
 ```bash
-python cortex.py ask "{topic}" --context-only --top-k 8
-python cortex.py ask "{topic} standards" --context-only --tag standards
-python cortex.py ask "{topic} ADR" --context-only --tag adr
-python cortex.py add knowledge/{folder}/{slug}.md --tag {appropriate-tag}
+python3 cortex.py ask "{topic}" --context-only --top-k 8
+python3 cortex.py ask "{topic} standards" --context-only --tag standards
+python3 cortex.py ask "{topic} ADR" --context-only --tag adr
+python3 cortex.py add knowledge/{folder}/{slug}.md --tag {appropriate-tag}
 ```
 
 ---
@@ -90,7 +90,7 @@ Pull more context than usual (top-k 8) across multiple angles:
 
 ### Step 5 — Ingest into knowledge base
 ```bash
-python cortex.py add knowledge/{folder}/{slug}.md --tag {tag} --force
+python3 cortex.py add knowledge/{folder}/{slug}.md --tag {tag} --force
 ```
 
 ### Step 6 — Show what ran
@@ -99,7 +99,7 @@ python cortex.py add knowledge/{folder}/{slug}.md --tag {tag} --force
 ✓ Ingested into knowledge base
 
 Commands run:
-  python cortex.py add knowledge/{folder}/{slug}.md --tag {tag} --force
+  python3 cortex.py add knowledge/{folder}/{slug}.md --tag {tag} --force
 ```
 
 ---

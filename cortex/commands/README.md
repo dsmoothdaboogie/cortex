@@ -31,11 +31,11 @@ prompt files in `.github/prompts/` point here. Devin reads these directly.
 Every command that needs team context calls the cortex CLI:
 
 ```bash
-python cortex.py ask "{query}" --context-only           # general query
-python cortex.py ask "{query}" --tag standards          # standards only
-python cortex.py ask "{query}" --tag design-system      # DS components only
-python cortex.py ask "{query}" --tag adr                # decisions only
-python cortex.py ls --specs                             # current spec state
+python3 cortex.py ask "{query}" --context-only           # general query
+python3 cortex.py ask "{query}" --tag standards          # standards only
+python3 cortex.py ask "{query}" --tag design-system      # DS components only
+python3 cortex.py ask "{query}" --tag adr                # decisions only
+python3 cortex.py ls --specs                             # current spec state
 ```
 
 Commands never assume how the team does something. They always query first.

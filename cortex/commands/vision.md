@@ -26,8 +26,8 @@ Four files in `cortex/knowledge/vision/`:
 
 1. Always check what already exists first:
    ```
-   python cortex.py ask "product mission vision principles" --tag vision --context-only
-   python cortex.py ask "platform decisions architecture" --tag adr --context-only
+   python3 cortex.py ask "product mission vision principles" --tag vision --context-only
+   python3 cortex.py ask "platform decisions architecture" --tag adr --context-only
    ```
 
 2. Analyse the input brief. Extract:
@@ -42,7 +42,7 @@ Four files in `cortex/knowledge/vision/`:
 
 5. Ingest:
    ```
-   python cortex.py add cortex/knowledge/vision --tag vision --force
+   python3 cortex.py add cortex/knowledge/vision --tag vision --force
    ```
 
 6. Confirm what was created and suggest next steps.

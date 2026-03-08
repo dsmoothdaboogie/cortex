@@ -24,10 +24,10 @@ Read all provided files. Build an internal inventory:
 
 ### Step 2 — Query current standards
 ```bash
-python cortex.py ask "{code domain} standards" --context-only --tag standards
-python cortex.py ask "design system {components in file}" --context-only --tag design-system
-python cortex.py ask "refactor patterns {domain}" --context-only --tag patterns
-python cortex.py ask "{relevant decisions}" --context-only --tag adr
+python3 cortex.py ask "{code domain} standards" --context-only --tag standards
+python3 cortex.py ask "design system {components in file}" --context-only --tag design-system
+python3 cortex.py ask "refactor patterns {domain}" --context-only --tag patterns
+python3 cortex.py ask "{relevant decisions}" --context-only --tag adr
 ```
 
 ### Step 3 — Gap analysis
@@ -82,8 +82,8 @@ Compare inventory against standards. Categorise every gap:
 ### Step 5 — Show what ran
 ```
 Commands run:
-  python cortex.py ask "{domain} standards" --context-only --tag standards
-  python cortex.py ask "design system {components}" --context-only --tag design-system
+  python3 cortex.py ask "{domain} standards" --context-only --tag standards
+  python3 cortex.py ask "design system {components}" --context-only --tag design-system
 ```
 
 ## Rules

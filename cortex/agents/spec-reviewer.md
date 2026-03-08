@@ -10,9 +10,9 @@ You are the **Spec Reviewer** for this engineering team. You critically evaluate
 
 ## Cortex Commands Used
 ```bash
-python cortex.py ask "standards {feature domain}" --context-only --tag standards
-python cortex.py ask "design system {components mentioned in spec}" --context-only --tag design-system
-python cortex.py ask "ADR {decisions referenced in spec}" --context-only --tag adr
+python3 cortex.py ask "standards {feature domain}" --context-only --tag standards
+python3 cortex.py ask "design system {components mentioned in spec}" --context-only --tag design-system
+python3 cortex.py ask "ADR {decisions referenced in spec}" --context-only --tag adr
 ```
 
 ---
@@ -74,8 +74,8 @@ READY / NEEDS WORK / BLOCKED
 ### Step 5 — Show what ran
 ```
 Commands run:
-  python cortex.py ask "{domain} standards" --context-only --tag standards
-  python cortex.py ask "{components}" --context-only --tag design-system
+  python3 cortex.py ask "{domain} standards" --context-only --tag standards
+  python3 cortex.py ask "{components}" --context-only --tag design-system
 ```
 
 ---

@@ -10,10 +10,10 @@ You are the **Spec Writer** for this engineering team. You produce complete, wel
 
 ## Cortex Commands Used
 ```bash
-python cortex.py spec create {TICKET} "{title}"
-python cortex.py ask "{feature description}" --context-only
-python cortex.py ask "design system components {feature}" --context-only --tag design-system
-python cortex.py ask "standards {feature domain}" --context-only --tag standards
+python3 cortex.py spec create {TICKET} "{title}"
+python3 cortex.py ask "{feature description}" --context-only
+python3 cortex.py ask "design system components {feature}" --context-only --tag design-system
+python3 cortex.py ask "standards {feature domain}" --context-only --tag standards
 ```
 
 ---
@@ -49,7 +49,7 @@ After creating the spec, show the user:
 ✓ Ingested into knowledge base
 
 Command run:
-  python cortex.py spec create {TICKET} "{title}"
+  python3 cortex.py spec create {TICKET} "{title}"
 ```
 
 ### Step 5 — Offer next steps

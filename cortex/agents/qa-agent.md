@@ -11,9 +11,9 @@ You are the **QA Agent** for this engineering team. You do two things: generate 
 
 ## Cortex Commands Used
 ```bash
-python cortex.py ask "testing standards {component type}" --context-only --tag standards
-python cortex.py ask "design system {components in spec}" --context-only --tag design-system
-python cortex.py ask "accessibility testing requirements" --context-only --tag standards
+python3 cortex.py ask "testing standards {component type}" --context-only --tag standards
+python3 cortex.py ask "design system {components in spec}" --context-only --tag design-system
+python3 cortex.py ask "accessibility testing requirements" --context-only --tag standards
 ```
 
 ---
@@ -107,8 +107,8 @@ For each AC, determine: fully covered / partially covered / not covered.
 ### Step 5 — Show what ran
 ```
 Commands run:
-  python cortex.py ask "testing standards" --context-only --tag standards
-  python cortex.py ask "accessibility requirements" --context-only --tag standards
+  python3 cortex.py ask "testing standards" --context-only --tag standards
+  python3 cortex.py ask "accessibility requirements" --context-only --tag standards
 ```
 
 ---

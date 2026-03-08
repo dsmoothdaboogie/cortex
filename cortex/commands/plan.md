@@ -13,12 +13,12 @@ before writing individual specs. Works with anything from a sentence to a full b
 
 1. Pull context:
    ```
-   python cortex.py ask "{epic summary}" --context-only
-   python cortex.py ask "{epic domain} standards" --tag standards --context-only
-   python cortex.py ask "design system {domain}" --tag design-system --context-only
-   python cortex.py ask "patterns {domain}" --tag patterns --context-only
-   python cortex.py ask "{epic domain} decisions" --tag adr --context-only
-   python cortex.py ask "{epic domain} vision goals" --tag vision --context-only
+   python3 cortex.py ask "{epic summary}" --context-only
+   python3 cortex.py ask "{epic domain} standards" --tag standards --context-only
+   python3 cortex.py ask "design system {domain}" --tag design-system --context-only
+   python3 cortex.py ask "patterns {domain}" --tag patterns --context-only
+   python3 cortex.py ask "{epic domain} decisions" --tag adr --context-only
+   python3 cortex.py ask "{epic domain} vision goals" --tag vision --context-only
    ```
 2. Understand what the team already has — components, patterns, decisions, and product direction
 3. Decompose into features and user stories — grounded in what standards and past decisions require
@@ -42,7 +42,7 @@ For each feature:
 ## Spec Candidates
 Ready-to-run commands for each feature that needs a spec:
 
-  python cortex.py spec {TICKET}-{n} "{feature title}"
+  python3 cortex.py spec {TICKET}-{n} "{feature title}"
   → or in Copilot Chat: /spec {TICKET}-{n} "{feature title}"
 
 ## Dependencies

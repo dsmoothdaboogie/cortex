@@ -11,13 +11,13 @@ a spec, or documentation. Ask before assuming.
 
 ## Steps
 
-1. Run: `python cortex.py ask "{query}" --context-only`
+1. Run: `python3 cortex.py ask "{query}" --context-only`
 2. Read the results. Scores above 0.85 are strong matches.
 3. If results are weak (below 0.70), try a different angle:
    ```
-   python cortex.py ask "{query}" --tag standards --context-only
-   python cortex.py ask "{query}" --tag design-system --context-only
-   python cortex.py ask "{query}" --tag patterns --context-only
+   python3 cortex.py ask "{query}" --tag standards --context-only
+   python3 cortex.py ask "{query}" --tag design-system --context-only
+   python3 cortex.py ask "{query}" --tag patterns --context-only
    ```
 4. Summarise what the knowledge base says and answer the question.
 5. If nothing relevant is found, say so clearly — don't invent patterns.

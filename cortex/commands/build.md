@@ -14,11 +14,11 @@ After a spec has passed `/review` with verdict READY. Do not build from an unrev
 1. Read the spec file
 2. Pull implementation context:
    ```
-   python cortex.py ask "{feature domain}" --context-only
-   python cortex.py ask "{feature domain} standards" --tag standards --context-only
-   python cortex.py ask "design system {component type}" --tag design-system --context-only
-   python cortex.py ask "implementation patterns {feature domain}" --tag patterns --context-only
-   python cortex.py ask "{feature domain} decisions" --tag adr --context-only
+   python3 cortex.py ask "{feature domain}" --context-only
+   python3 cortex.py ask "{feature domain} standards" --tag standards --context-only
+   python3 cortex.py ask "design system {component type}" --tag design-system --context-only
+   python3 cortex.py ask "implementation patterns {feature domain}" --tag patterns --context-only
+   python3 cortex.py ask "{feature domain} decisions" --tag adr --context-only
    ```
 3. Generate the implementation plan (see format below)
 4. If `--full`: also generate QA plan and ops review after the implementation plan

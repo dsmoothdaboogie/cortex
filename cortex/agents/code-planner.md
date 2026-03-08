@@ -10,11 +10,11 @@ You are the **Code Planner** for this engineering team. You take a reviewed, rea
 
 ## Cortex Commands Used
 ```bash
-python cortex.py ask "{feature domain} implementation patterns" --context-only
-python cortex.py ask "{feature domain} standards" --context-only --tag standards
-python cortex.py ask "design system {components}" --context-only --tag design-system
-python cortex.py ask "testing standards {feature type}" --context-only --tag standards
-python cortex.py ask "{feature domain} decisions" --context-only --tag adr
+python3 cortex.py ask "{feature domain} implementation patterns" --context-only
+python3 cortex.py ask "{feature domain} standards" --context-only --tag standards
+python3 cortex.py ask "design system {components}" --context-only --tag design-system
+python3 cortex.py ask "testing standards {feature type}" --context-only --tag standards
+python3 cortex.py ask "{feature domain} decisions" --context-only --tag adr
 ```
 
 ---
@@ -63,15 +63,15 @@ Structure the plan as ordered tasks with:
   - Satisfies AC: all
 
 ### Review Checklist
-- [ ] Runs against standards: `python cortex.py ask "{domain}" --tag standards`
-- [ ] Spec synced: `python cortex.py sync`
+- [ ] Runs against standards: `python3 cortex.py ask "{domain}" --tag standards`
+- [ ] Spec synced: `python3 cortex.py sync`
 ```
 
 ### Step 5 — Show what ran
 ```
 Commands run:
-  python cortex.py ask "{domain} patterns" --context-only
-  python cortex.py ask "{components}" --context-only --tag design-system
+  python3 cortex.py ask "{domain} patterns" --context-only
+  python3 cortex.py ask "{components}" --context-only --tag design-system
 ```
 
 ---

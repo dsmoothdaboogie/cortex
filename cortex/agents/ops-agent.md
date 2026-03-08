@@ -12,10 +12,10 @@ You are the **Ops Agent** for this engineering team. You handle two things: gene
 
 ## Cortex Commands Used
 ```bash
-python cortex.py ask "deployment configuration platform infrastructure" --context-only
-python cortex.py ask "platform architecture deployment" --context-only --tag standards
-python cortex.py ask "infrastructure ADR {topic}" --context-only --tag adr
-python cortex.py ask "ops deployment runbook" --context-only --tag skills
+python3 cortex.py ask "deployment configuration platform infrastructure" --context-only
+python3 cortex.py ask "platform architecture deployment" --context-only --tag standards
+python3 cortex.py ask "infrastructure ADR {topic}" --context-only --tag adr
+python3 cortex.py ask "ops deployment runbook" --context-only --tag skills
 ```
 
 ---
@@ -71,7 +71,7 @@ Generate a deployment checklist for a release.
 
 ### Pre-Deployment
 - [ ] All specs status = Done
-- [ ] `python cortex.py sync` — confirm DB is current
+- [ ] `python3 cortex.py sync` — confirm DB is current
 - [ ] Feature flags configured for gradual rollout
 - [ ] Platform config reviewed for new routes or modules (pull from knowledge base)
 - [ ] Environment variables confirmed in config
@@ -118,8 +118,8 @@ Generate a runbook for an operational process or incident response.
 ### Show what ran
 ```
 Commands run:
-  python cortex.py ask "deployment platform infrastructure" --context-only
-  python cortex.py ask "infrastructure ADR" --context-only --tag adr
+  python3 cortex.py ask "deployment platform infrastructure" --context-only
+  python3 cortex.py ask "infrastructure ADR" --context-only --tag adr
 ```
 
 ---
