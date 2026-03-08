@@ -68,17 +68,20 @@ your-repo/
 
 Do this **once per project**. The venv lives in `cortex/.venv/` and persists on disk — you don't need to recreate it when you reopen VS Code, just reactivate it.
 
-**macOS:**
+**macOS / WSL:**
 ```bash
-python3 -m venv cortex/.venv
-source cortex/.venv/bin/activate
+cd cortex
+python3 -m venv .venv
+source .venv/bin/activate
+cd ..
 ```
 
-**WSL / Windows PowerShell:**
+**Windows PowerShell:**
 ```bash
-python3 -m venv cortex/.venv
-source cortex/.venv/bin/activate        # WSL
-cortex\.venv\Scripts\Activate.ps1      # Windows
+cd cortex
+python3 -m venv .venv
+.venv\Scripts\Activate.ps1
+cd ..
 ```
 
 > Each repo you copy cortex into gets its own `cortex/.venv/`. To resume work in a later session, just run the activate command again — no reinstall needed. Next time you open VS Code, you only need to reactivate the venv — unless you're using the VS Code tasks, which activate it automatically.
@@ -617,10 +620,10 @@ The command files in `cortex/commands/` define how agents behave. Teams can add,
 
 ## Troubleshooting
 
-**`ModuleNotFoundError`** — venv not active.
+**`ModuleNotFoundError`** — venv not active. (Since cortex.py auto-relaunches with the venv, this usually means the venv hasn't been created yet.)
 ```bash
-source cortex/.venv/bin/activate    # macOS / WSL
-cortex\.venv\Scripts\Activate.ps1  # Windows
+cd cortex && python3 -m venv .venv && source .venv/bin/activate && cd ..
+pip install -r requirements.txt
 ```
 
 **`No DB found`** — nothing ingested yet.

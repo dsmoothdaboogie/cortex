@@ -28,10 +28,18 @@ Setup commands:
 """
 
 import sys
+import os
 from pathlib import Path
 
+# ── auto-relaunch with venv python if needed ───────────────────────────────────
+_HERE = Path(__file__).parent
+_VENV_PYTHON = _HERE / "cortex" / ".venv" / "bin" / "python"
+if _VENV_PYTHON.exists() and Path(sys.executable).resolve() != _VENV_PYTHON.resolve():
+    os.execv(str(_VENV_PYTHON), [str(_VENV_PYTHON)] + sys.argv)
+# ──────────────────────────────────────────────────────────────────────────────
+
 # The cortex Python package lives at cortex/cortex/ — add cortex/ to sys.path
-sys.path.insert(0, str(Path(__file__).parent / "cortex"))
+sys.path.insert(0, str(_HERE / "cortex"))
 
 import click
 from rich.console import Console
