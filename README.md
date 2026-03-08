@@ -29,8 +29,8 @@ sequenceDiagram
     DB-->>CLI: relevant chunks (standards, patterns, ADRs)
     CLI-->>Agent: team context
     Note over Agent: writes output grounded in<br/>real team knowledge
-    Agent->>FS: saves cortex/specs/PROJ-123-feature.md
-    Agent->>CLI: cortex.py add cortex/specs/PROJ-123-feature.md
+    Agent->>FS: saves cortex/specs/PROJ-123-2025-01-15/spec.md
+    Agent->>CLI: cortex.py add cortex/specs/PROJ-123-2025-01-15/spec.md
     CLI->>DB: spec ingested, queryable by future agents
     DB-->>You: done
 ```
@@ -121,6 +121,21 @@ python3 cortex.py install-hook
 Installs a pre-commit hook (prompts to sync stale specs and knowledge before commit) and a post-merge hook (silently re-ingests knowledge after `git pull`). Neither ever blocks a commit.
 
 > Hooks live in `.git/hooks/` which is not committed. Every teammate must run this once after cloning.
+
+---
+
+## Starting a Session
+
+`cortex.py` auto-detects and relaunches with the venv Python — you **don't need to activate the venv** to run cortex commands. Just open your terminal and run:
+
+```bash
+python3 cortex.py watch          # auto-sync specs on save (recommended — leave running)
+python3 cortex.py watch --knowledge  # also watch cortex/knowledge/ files
+```
+
+Or use `Cmd+Shift+P` → `Tasks: Run Task` → `cortex: watch specs` to run it in a VS Code terminal panel.
+
+> **Venv activation is only needed** if you're running `pip install` or other Python commands directly (not through `cortex.py`). To activate: `source cortex/.venv/bin/activate` (macOS/WSL) or `cortex\.venv\Scripts\Activate.ps1` (Windows).
 
 ---
 
@@ -230,6 +245,8 @@ Supporting commands — use as needed at any stage.
 | `/wiki` | A topic or existing knowledge file | Deep, structured reference entry — Overview, How It Works, Examples, Common Mistakes |
 | `/ask` | Any question | Answer grounded in the knowledge base |
 | `/standup` | Nothing | Current spec status across all tickets |
+| `/learn` | Topic + section after completing a task | Corrections from this session captured as reusable rules in `cortex/knowledge/team-conventions/` |
+| `/merge` | A learnings file + target knowledge doc | High-confidence corrections baked natively into the authoritative doc, re-ingested |
 
 ### Usage
 
@@ -248,11 +265,11 @@ and three conflicting state approaches across MFEs. We need to:
 - Support email, push, and in-app notification types
 The design should follow the settings page pattern established in PROJ-1100.
 
-@workspace /review #file:cortex/specs/PROJ-1234-2025-01-15-notification-preferences.md
+@workspace /review #file:cortex/specs/PROJ-1234-2025-01-15/spec.md
 
 @workspace /review src/app/notifications/ --security
 
-@workspace /build #file:cortex/specs/PROJ-1234-2025-01-15-notification-preferences.md
+@workspace /build #file:cortex/specs/PROJ-1234-2025-01-15/spec.md
 
 @workspace /doc "we chose the event bus pattern for cross-MFE notification state" --adr
 
@@ -296,12 +313,12 @@ must support SSO and integrate with PagerDuty and Backstage.
 @workspace /spec PROJ-456 "service catalogue search"
 
 # Review it — agents must pass this gate before build
-@workspace /review #file:cortex/specs/PROJ-456-2025-03-07-service-catalogue-search.md
+@workspace /review #file:cortex/specs/PROJ-456-2025-03-07/spec.md
 
 # Returns: READY ✓ — agent lists any standards gaps or missing AC
 
 # Generate implementation tasks
-@workspace /build #file:cortex/specs/PROJ-456-2025-03-07-service-catalogue-search.md
+@workspace /build #file:cortex/specs/PROJ-456-2025-03-07/spec.md
 
 # After coding — review the actual implementation
 @workspace /review src/app/catalogue/ --security
@@ -367,6 +384,8 @@ The full feature lifecycle:
 9. /doc      →  capture new patterns or ADRs quickly
 10. /wiki    →  write deep reference docs for anything worth long-form documentation
 11. /ops     →  deployment checklist before release, runbooks for ops processes
+12. /learn   →  capture any agent corrections from this task as reusable rules
+13. /merge   →  quarterly: promote High-confidence corrections into the authoritative docs
 ```
 
 Never skip `/review` before `/build`. A spec that hasn't been reviewed shouldn't be built.
@@ -644,7 +663,7 @@ python3 cortex.py add ./cortex/knowledge/standards --tag standards
 
 **Slow first run** — embedding model downloading (~90MB). Happens once per machine.
 
-**Weak search results (scores below 0.70)** — knowledge base needs more content on that topic. Add docs to the relevant `cortex/knowledge/` subfolder and re-ingest.
+**Weak search results (scores below 0.35)** — knowledge base needs more content on that topic. Add docs to the relevant `cortex/knowledge/` subfolder and re-ingest. Scores 0.35–0.55 are usable; above 0.55 is a strong match.
 
 **Copilot slash commands not working** — ensure you're in Agent mode (`@workspace` prefix). Prompts live in `.github/prompts/`.
 

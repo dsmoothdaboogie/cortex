@@ -32,6 +32,8 @@ Supporting commands — use as needed at any stage.
 | `tools/ops.md` | `/ops` | Infrastructure review, deployment checklist, or runbook generation |
 | `tools/ask.md` | `/ask` | Search the knowledge base |
 | `tools/standup.md` | `/standup` | Summarise current spec activity |
+| `tools/learn.md` | `/learn` | Capture agent corrections from a task as reusable rules |
+| `tools/merge.md` | `/merge` | Promote High-confidence corrections into the authoritative knowledge doc |
 
 ---
 
@@ -100,4 +102,6 @@ Read the files most relevant to the current task. Do not read everything — pri
 /doc       →  quick knowledge capture (patterns, ADRs)
 /wiki      →  deep reference documentation on a topic
 /ops       →  deployment checklist (Mode B) or runbook (Mode C)
+/learn     →  capture any agent corrections from the task as reusable rules
+/merge     →  promote High-confidence corrections into the authoritative knowledge doc (quarterly)
 ```

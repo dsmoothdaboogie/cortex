@@ -20,6 +20,7 @@ When you have a ticket and need to write a spec — whether from a one-liner tit
    python3 cortex.py ask "design system {feature type}" --tag design-system --context-only
    python3 cortex.py ask "patterns {feature domain}" --tag patterns --context-only
    python3 cortex.py ask "{feature domain} decisions" --tag adr --context-only
+   python3 cortex.py ask "{feature domain} corrections learnings rules" --tag team-conventions --context-only
    ```
 3. Read the context. Note which real components, patterns and standards apply.
 4. Write the spec using the template below. Every section must be completed.
@@ -70,4 +71,5 @@ When you have a ticket and need to write a spec — whether from a one-liner tit
 - Apply the non-negotiables from the standards knowledge base — if a standard isn't in the DB, flag the gap rather than inventing a rule
 - Flag any auth, data handling, or cross-system state concerns in Open Questions
 - If the requirement is vague, make reasonable assumptions and note them
+- Apply any rules from `--tag team-conventions` results — these are validated corrections that override generic inference
 - If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/` files directly — check for `STANDARDS.md`, `VISION.md`, and `ADR-INDEX.md` first, then individual files, then recent specs in `cortex/specs/`. Do not write without team context. If cortex runs but returns no results (DB exists, query matched nothing), proceed but note the context gap in Open Questions

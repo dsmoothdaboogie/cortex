@@ -19,6 +19,7 @@ before writing individual specs. Works with anything from a sentence to a full b
    python3 cortex.py ask "patterns {domain}" --tag patterns --context-only
    python3 cortex.py ask "{epic domain} decisions" --tag adr --context-only
    python3 cortex.py ask "{epic domain} vision goals" --tag vision --context-only
+   python3 cortex.py ask "{epic domain} corrections learnings rules" --tag team-conventions --context-only
    ```
 2. Understand what the team already has — components, patterns, decisions, and product direction
 3. Decompose into features and user stories — grounded in what standards and past decisions require
@@ -53,6 +54,7 @@ Anything that needs product/design/arch input before spec creation.
 ```
 
 ## Rules
+- Apply any rules from `--tag team-conventions` results — these are validated corrections that override generic inference
 - Ground every feature in what the team's knowledge base already supports
 - If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/` files directly — check `STANDARDS.md`, `VISION.md`, and `ADR-INDEX.md` first, then individual subfolder files. If `cortex ls --specs` also fails, check `cortex/specs/` directly for existing specs
 - Flag features that require new design system components or ADRs

@@ -20,6 +20,7 @@ After a spec has passed `/review` with verdict READY. Do not build from an unrev
    python3 cortex.py ask "design system {component type}" --tag design-system --context-only
    python3 cortex.py ask "implementation patterns {feature domain}" --tag patterns --context-only
    python3 cortex.py ask "{feature domain} decisions" --tag adr --context-only
+   python3 cortex.py ask "{feature domain} corrections learnings rules" --tag team-conventions --context-only
    ```
 3. Generate the implementation plan (see format below)
 4. If `--full`: also generate QA plan and ops review after the implementation plan
@@ -88,4 +89,5 @@ Which tasks block which.
 - Never create tasks without an AC reference
 - Reference design system components by name where they exist — pull from `--tag design-system` before naming any component
 - Flag any task that touches auth, shared state, or cross-system boundaries — these need explicit design
+- Apply any rules from `--tag team-conventions` results — these are validated corrections that override generic inference
 - If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/` files directly — check `STANDARDS.md` and design-system files first, then recent specs for prior patterns. If cortex runs but returns no results (DB exists, query matched nothing), proceed but flag ungrounded component references in task notes

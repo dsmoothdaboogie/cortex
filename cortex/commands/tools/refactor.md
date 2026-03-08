@@ -28,6 +28,7 @@ python3 cortex.py ask "{code domain} standards" --context-only --tag standards
 python3 cortex.py ask "design system {components in file}" --context-only --tag design-system
 python3 cortex.py ask "refactor patterns {domain}" --context-only --tag patterns
 python3 cortex.py ask "{relevant decisions}" --context-only --tag adr
+python3 cortex.py ask "{code domain} corrections learnings rules" --context-only --tag team-conventions
 ```
 
 ### Step 3 — Gap analysis
@@ -87,6 +88,7 @@ Commands run:
 ```
 
 ## Rules
+- Apply any rules from `--tag team-conventions` results — these are validated corrections that override generic inference
 - Every recommendation must cite a specific standard or ADR — no opinion-based suggestions
 - Effort estimates: S = < 1hr, M = half day, L = full day+
 - If the codebase has no violations, say so clearly — a clean bill of health is a valid output

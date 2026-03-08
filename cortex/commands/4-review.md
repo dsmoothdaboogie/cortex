@@ -23,6 +23,7 @@ Review a spec or code file against team standards.
    python3 cortex.py ask "{spec topic} standards" --tag standards --context-only
    python3 cortex.py ask "design system components" --tag design-system --context-only
    python3 cortex.py ask "{spec topic} decisions" --tag adr --context-only
+   python3 cortex.py ask "{spec topic} corrections learnings rules" --tag team-conventions --context-only
    ```
 2. Check every AC item — is it testable? Unambiguous?
 3. Check Design System Usage — are component names real and in the knowledge base? No generic HTML elements where DS equivalents exist?
@@ -42,6 +43,7 @@ Review a spec or code file against team standards.
    python3 cortex.py ask "design system usage" --tag design-system --context-only
    python3 cortex.py ask "patterns {code domain}" --tag patterns --context-only
    python3 cortex.py ask "{code domain} decisions" --tag adr --context-only
+   python3 cortex.py ask "{code domain} corrections learnings rules" --tag team-conventions --context-only
    ```
 2. Review against the pulled context — apply what the standards say, not generic rules
 3. Return a table: | Line | Violation | Standard | Fix |
@@ -83,5 +85,6 @@ Findings:
 ```
 
 ## Rules
+- Apply any rules from `--tag team-conventions` results — these are validated corrections that override generic inference
 - Only flag issues that are documented in the knowledge base — no generic or opinion-based feedback
 - If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/` files directly — check `STANDARDS.md` and `ADR-INDEX.md` first, then individual files. Never issue a verdict without standards context. If cortex runs but returns no results (DB exists, query matched nothing), issue the verdict but flag which standards areas lacked KB coverage
