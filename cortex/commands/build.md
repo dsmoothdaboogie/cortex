@@ -80,4 +80,4 @@ Which tasks block which.
 - Never create tasks without an AC reference
 - Reference design system components by name where they exist — pull from `--tag design-system` before naming any component
 - Flag any task that touches auth, shared state, or cross-system boundaries — these need explicit design
-- If `cortex ask` returns "No DB found", fall back to reading `cortex/knowledge/` files directly — check `STANDARDS.md` and design-system files first, then recent specs for prior patterns. If cortex returns no results (DB exists, query matched nothing), proceed but flag ungrounded component references in task notes
+- If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/` files directly — check `STANDARDS.md` and design-system files first, then recent specs for prior patterns. If cortex runs but returns no results (DB exists, query matched nothing), proceed but flag ungrounded component references in task notes

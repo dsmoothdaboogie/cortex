@@ -83,4 +83,4 @@ Findings:
 
 ## Rules
 - Only flag issues that are documented in the knowledge base — no generic or opinion-based feedback
-- If `cortex ask` returns "No DB found", fall back to reading `cortex/knowledge/` files directly — check `STANDARDS.md` and `ADR-INDEX.md` first, then individual files. Never issue a verdict without standards context. If cortex returns no results (DB exists, query matched nothing), issue the verdict but flag which standards areas lacked KB coverage
+- If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/` files directly — check `STANDARDS.md` and `ADR-INDEX.md` first, then individual files. Never issue a verdict without standards context. If cortex runs but returns no results (DB exists, query matched nothing), issue the verdict but flag which standards areas lacked KB coverage
