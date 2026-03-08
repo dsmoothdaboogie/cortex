@@ -1,4 +1,4 @@
-Read and follow the instructions in `cortex/commands/doc.md` exactly.
+Read and follow the instructions in `cortex/commands/tools/doc.md` exactly.
 
 Arguments: $ARGUMENTS
 

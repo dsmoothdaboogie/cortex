@@ -1,4 +1,4 @@
-Read and follow the instructions in `cortex/commands/review.md` exactly.
+Read and follow the instructions in `cortex/commands/4-review.md` exactly.
 
 Arguments: $ARGUMENTS
 
@@ -8,4 +8,4 @@ Detect what's being reviewed from context:
 - `--security` mentioned → add security review
 - `--all` mentioned → chain spec + code + security
 
-Before reviewing, always run the cortex queries defined in `cortex/commands/review.md`.
+Before reviewing, always run the cortex queries defined in `cortex/commands/4-review.md`.

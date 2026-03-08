@@ -1,4 +1,4 @@
-Read and follow the instructions in `cortex/commands/plan.md` exactly.
+Read and follow the instructions in `cortex/commands/tools/plan.md` exactly.
 
 The input may be a single sentence or a multi-paragraph brief. Either is valid.
 

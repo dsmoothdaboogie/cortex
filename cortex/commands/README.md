@@ -8,21 +8,30 @@ prompt files in `.github/prompts/` point here. Devin reads these directly.
 
 ---
 
-## Commands
+## Workflow
+
+The four core steps — run these in order for every feature.
 
 | File | Slash command | Purpose |
 |------|--------------|---------|
-| `plan.md` | `/plan` | Break an epic into features and spec candidates |
-| `spec.md` | `/spec` | Create a feature spec (any length of requirement) |
-| `review.md` | `/review` | Review a spec or code file against team standards |
-| `build.md` | `/build` | Generate implementation plan from a spec |
-| `doc.md` | `/doc` | Create or update a knowledge base entry or ADR |
-| `wiki.md` | `/wiki` | Create or update a deep, structured knowledge base reference entry |
-| `refactor.md` | `/refactor` | Analyse code against team standards, produce a P1/P2/P3 refactor plan |
-| `ops.md` | `/ops` | Infrastructure review, deployment checklist, or runbook generation |
-| `ask.md` | `/ask` | Search the knowledge base |
-| `standup.md` | `/standup` | Summarise current spec activity |
-| `vision.md` | `/vision` | Onboard a project with business intelligence — generate mission, personas, capabilities, and product plan |
+| `1-vision.md` | `/vision` | Onboard a project with business intelligence — generate mission, personas, capabilities, and product plan |
+| `2-spec.md` | `/spec` | Create a feature spec (any length of requirement) |
+| `3-build.md` | `/build` | Generate implementation plan from a spec |
+| `4-review.md` | `/review` | Review a spec or code file against team standards |
+
+## Tools
+
+Supporting commands — use as needed at any stage.
+
+| File | Slash command | Purpose |
+|------|--------------|---------|
+| `tools/plan.md` | `/plan` | Break an epic into features and spec candidates |
+| `tools/doc.md` | `/doc` | Create or update a knowledge base entry or ADR |
+| `tools/wiki.md` | `/wiki` | Create or update a deep, structured knowledge base reference entry |
+| `tools/refactor.md` | `/refactor` | Analyse code against team standards, produce a P1/P2/P3 refactor plan |
+| `tools/ops.md` | `/ops` | Infrastructure review, deployment checklist, or runbook generation |
+| `tools/ask.md` | `/ask` | Search the knowledge base |
+| `tools/standup.md` | `/standup` | Summarise current spec activity |
 
 ---
 

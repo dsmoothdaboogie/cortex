@@ -34,7 +34,7 @@ from pathlib import Path
 # ── auto-relaunch with venv python if needed ───────────────────────────────────
 _HERE = Path(__file__).parent
 _VENV_PYTHON = _HERE / "cortex" / ".venv" / "bin" / "python"
-if _VENV_PYTHON.exists() and Path(sys.executable).resolve() != _VENV_PYTHON.resolve():
+if _VENV_PYTHON.exists() and sys.prefix != str(_VENV_PYTHON.parent.parent):
     os.execv(str(_VENV_PYTHON), [str(_VENV_PYTHON)] + sys.argv)
 # ──────────────────────────────────────────────────────────────────────────────
 

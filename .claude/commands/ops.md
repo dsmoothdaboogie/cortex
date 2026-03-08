@@ -1,4 +1,4 @@
-Read and follow the instructions in `cortex/commands/ops.md` exactly.
+Read and follow the instructions in `cortex/commands/tools/ops.md` exactly.
 
 Arguments: $ARGUMENTS
 

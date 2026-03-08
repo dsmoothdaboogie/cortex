@@ -206,13 +206,24 @@ flowchart LR
 All agent work happens in Copilot Chat using these commands.
 Full instructions for each command are in `cortex/commands/`.
 
+### Workflow
+
+The four core steps — run these in order for every feature.
+
 | Command | What you give it | What you get |
 |---------|-----------------|-------------|
 | `/vision` | A business brief (any format) | Mission, personas, capabilities, and product plan in `cortex/knowledge/vision/` — ingested immediately |
-| `/plan` | An epic or business goal | Feature breakdown + ready-to-run `/spec` commands |
 | `/spec` | Ticket + requirement (any length) | Completed spec seeded with real team context |
-| `/review` | A spec file or code path | READY/NEEDS WORK/BLOCKED verdict with specific issues |
 | `/build` | A spec file | Ordered implementation tasks with effort and AC refs |
+| `/review` | A spec file or code path | READY/NEEDS WORK/BLOCKED verdict with specific issues |
+
+### Tools
+
+Supporting commands — use as needed at any stage.
+
+| Command | What you give it | What you get |
+|---------|-----------------|-------------|
+| `/plan` | An epic or business goal | Feature breakdown + ready-to-run `/spec` commands |
 | `/ops` | A spec file, deploy description, or runbook topic | Infra review (before dev), deployment checklist, or runbook — grounded in platform knowledge |
 | `/refactor` | A file or folder | P1/P2/P3 refactor plan with citations to team standards and ADRs |
 | `/doc` | A topic or decision | New knowledge entry or ADR, ingested immediately |
@@ -347,8 +358,8 @@ The full feature lifecycle:
 0. /vision   →  onboard project with business intelligence (mission, personas, capabilities, product plan)
 1. /plan     →  decompose epic, get spec candidate commands
 2. /spec     →  create spec (title or long requirement — both work)
-3. /ops      →  infra review before dev starts — catch platform implications early
-4. /review   →  check spec is complete and standards-aligned
+3. /review   →  check spec is complete and standards-aligned
+4. /ops      →  infra review before dev starts — catch platform implications early
 5. /build    →  implementation tasks (only after READY verdict)
 6. [code]
 7. /review   →  code review against team standards
@@ -566,7 +577,7 @@ Any team can add their own slash commands without touching the core codebase.
 
 Create two files in your repo:
 
-**1. `cortex/commands/{name}.md`** — the command definition (what to do, how, output format):
+**1. `cortex/commands/tools/{name}.md`** — the command definition (what to do, how, output format):
 
 ```markdown
 # /deploy-checklist
@@ -578,7 +589,7 @@ Our team's pre-deployment checklist for the payments service.
 2. ...
 ```
 
-**2. `.github/prompts/{name}.prompt.md`** — the Copilot Chat entry point:
+**2. `.github/prompts/tools/{name}.prompt.md`** — the Copilot Chat entry point:
 
 ```markdown
 ---
@@ -586,7 +597,7 @@ mode: agent
 description: Generate a payments service deployment checklist
 ---
 
-Read and follow the instructions in `cortex/commands/deploy-checklist.md` exactly.
+Read and follow the instructions in `cortex/commands/tools/deploy-checklist.md` exactly.
 Always pull platform context from the knowledge base before generating output.
 ```
 
@@ -601,7 +612,7 @@ Commit both files. Every teammate inherits the command on clone. It shows up in 
 | Security | `/threat-model` | Run a threat model against a spec or feature area |
 | Mobile | `/release-notes` | Draft release notes from closed specs |
 
-The `cortex/commands/` folder is the extension point. The core cortex commands are just files in that folder — yours work exactly the same way.
+The `cortex/commands/tools/` folder is the extension point for team-specific commands. The core cortex workflow commands live in `cortex/commands/` — yours work exactly the same way.
 
 ---
 

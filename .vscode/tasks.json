@@ -99,7 +99,7 @@
     {
       "label": "cortex: ingest all knowledge",
       "type": "shell",
-      "command": "source cortex/.venv/bin/activate && python3 cortex.py add ./knowledge/standards --tag standards && python3 cortex.py add ./knowledge/design-system --tag design-system && python3 cortex.py add ./knowledge/adrs --tag adr && python3 cortex.py add ./knowledge/vision --tag vision && python3 cortex.py add ./knowledge/skills --tag skills && python3 cortex.py add ./knowledge/patterns --tag patterns && python3 cortex.py add ./knowledge/team-conventions --tag team-conventions",
+      "command": "source cortex/.venv/bin/activate && python3 cortex.py add ./cortex/knowledge/standards --tag standards && python3 cortex.py add ./cortex/knowledge/design-system --tag design-system && python3 cortex.py add ./cortex/knowledge/adrs --tag adr && python3 cortex.py add ./cortex/knowledge/vision --tag vision && python3 cortex.py add ./cortex/knowledge/skills --tag skills && python3 cortex.py add ./cortex/knowledge/patterns --tag patterns && python3 cortex.py add ./cortex/knowledge/team-conventions --tag team-conventions",
       "group": "none",
       "presentation": { "reveal": "always", "panel": "shared" }
     },

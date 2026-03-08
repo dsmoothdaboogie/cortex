@@ -1,4 +1,4 @@
-Read and follow the instructions in `cortex/commands/refactor.md` exactly.
+Read and follow the instructions in `cortex/commands/tools/refactor.md` exactly.
 
 Arguments: $ARGUMENTS
 

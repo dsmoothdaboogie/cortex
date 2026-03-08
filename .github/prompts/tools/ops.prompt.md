@@ -3,7 +3,7 @@ mode: agent
 description: Infrastructure review, deployment checklist, or runbook generation
 ---
 
-Read and follow the instructions in `cortex/commands/ops.md` exactly.
+Read and follow the instructions in `cortex/commands/tools/ops.md` exactly.
 
 Detect mode from the input:
 - Spec file attached → Mode A (infrastructure review)
