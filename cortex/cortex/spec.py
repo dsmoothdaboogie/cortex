@@ -43,7 +43,7 @@ def get_stored_hash(source: str, collection) -> Optional[str]:
 def get_all_specs() -> list[Path]:
     if not SPECS_DIR.exists():
         return []
-    return sorted(SPECS_DIR.glob("*.md"))
+    return sorted(p for p in SPECS_DIR.rglob("*.md") if p.name != ".gitkeep")
 
 
 def get_all_knowledge_files() -> list[tuple[Path, str]]:
@@ -183,25 +183,61 @@ def cmd_watch(interval: float = 1.0, knowledge: bool = False):
 
 
 def cmd_list():
-    specs = get_all_specs()
-    if not specs:
+    if not SPECS_DIR.exists():
+        console.print("[yellow]No specs found in specs/[/yellow]")
+        return
+
+    # Ticket folders (dirs containing spec.md) — name format: PROJ-1234-2025-01-15
+    folder_pattern = re.compile(r"^([A-Z]+-\d+)-(\d{4}-\d{2}-\d{2})$")
+    ticket_dirs = sorted(
+        d for d in SPECS_DIR.iterdir()
+        if d.is_dir() and (d / "spec.md").exists()
+    )
+    # Legacy flat .md files at root
+    flat_pattern = re.compile(r"^([A-Z]+-\d+)-(\d{4}-\d{2}-\d{2})-(.+)\.md$")
+    flat_specs = sorted(
+        f for f in SPECS_DIR.glob("*.md") if f.name != ".gitkeep"
+    )
+
+    if not ticket_dirs and not flat_specs:
         console.print("[yellow]No specs found in specs/[/yellow]")
         return
 
     client = get_client()
     col = get_or_create_collection(client)
-    pattern = re.compile(r"^([A-Z]+-\d+)-(\d{4}-\d{2}-\d{2})-(.+)\.md$")
 
     table = Table(title="[cyan]cortex specs[/cyan]")
-    table.add_column("File", style="dim")
     table.add_column("Ticket", style="yellow")
     table.add_column("Date", style="dim")
     table.add_column("Status", justify="center")
+    table.add_column("Plan", justify="center")
     table.add_column("DB Sync", justify="center")
 
-    for s in specs:
-        m = pattern.match(s.name)
-        ticket = m.group(1) if m else "—"
+    status_colors = {"Draft": "dim", "In Progress": "yellow", "Review": "cyan",
+                     "Review Passed": "green", "Done": "green", "Blocked": "red"}
+
+    for d in ticket_dirs:
+        spec_file = d / "spec.md"
+        plan_file = d / "plan.md"
+        fm = folder_pattern.match(d.name)
+        ticket = fm.group(1) if fm else d.name
+        date = fm.group(2) if fm else "—"
+        status = "Draft"
+        try:
+            sm = re.search(r"\*\*Status:\*\*\s*(.+)", spec_file.read_text())
+            if sm:
+                status = sm.group(1).strip()
+        except Exception:
+            pass
+        stale = is_stale(spec_file, col)
+        sync = "[yellow]stale[/yellow]" if stale else "[green]✓[/green]"
+        has_plan = "[green]✓[/green]" if plan_file.exists() else "[dim]—[/dim]"
+        color = status_colors.get(status, "dim")
+        table.add_row(ticket, date, f"[{color}]{status}[/{color}]", has_plan, sync)
+
+    for s in flat_specs:
+        m = flat_pattern.match(s.name)
+        ticket = m.group(1) if m else s.stem
         date = m.group(2) if m else "—"
         status = "Draft"
         try:
@@ -212,9 +248,8 @@ def cmd_list():
             pass
         stale = is_stale(s, col)
         sync = "[yellow]stale[/yellow]" if stale else "[green]✓[/green]"
-        color = {"Draft": "dim", "In Progress": "yellow",
-                 "Review": "cyan", "Done": "green"}.get(status, "dim")
-        table.add_row(s.name, ticket, date, f"[{color}]{status}[/{color}]", sync)
+        color = status_colors.get(status, "dim")
+        table.add_row(ticket, date, f"[{color}]{status}[/{color}]", "[dim]—[/dim]", sync)
 
     console.print()
     console.print(table)

@@ -6,7 +6,7 @@ Generate an implementation plan from a spec file.
 After a spec has passed `/review` with verdict READY. Do not build from an unreviewed spec.
 
 ## Inputs
-- A spec file path (e.g. `cortex/specs/PROJ-1234-2025-01-15-auth-flow.md`)
+- A spec file path (e.g. `cortex/specs/PROJ-1234-2025-01-15/spec.md`)
 - Optional flag: `--full` to also generate QA test plan and ops review
 
 ## Steps
@@ -23,11 +23,18 @@ After a spec has passed `/review` with verdict READY. Do not build from an unrev
    ```
 3. Generate the implementation plan (see format below)
 4. If `--full`: also generate QA plan and ops review after the implementation plan
+5. Save to: `cortex/specs/{TICKET}-{YYYY-MM-DD}/plan.md`
+6. Ingest: `python3 cortex.py add cortex/specs/{TICKET}-{YYYY-MM-DD}/plan.md --tag spec`
+7. Confirm the file was saved and ingested — future sessions can query it with `python3 cortex.py ask "{ticket} implementation plan"`
 
 ## Implementation Plan Format
 
 ```
 # Implementation Plan — {TICKET}
+
+**Spec:** `cortex/specs/{TICKET}-{YYYY-MM-DD}/spec.md`
+**Plan:** `cortex/specs/{TICKET}-{YYYY-MM-DD}/plan.md`
+**Status:** In Progress
 
 ## Summary
 One paragraph: what's being built and the approach.

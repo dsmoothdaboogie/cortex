@@ -23,8 +23,8 @@ When you have a ticket and need to write a spec — whether from a one-liner tit
    ```
 3. Read the context. Note which real components, patterns and standards apply.
 4. Write the spec using the template below. Every section must be completed.
-5. Save to: `cortex/specs/{TICKET}-{YYYY-MM-DD}-{slug}.md`
-6. Ingest: `python3 cortex.py add cortex/specs/{filename}.md --tag spec`
+5. Save to: `cortex/specs/{TICKET}-{YYYY-MM-DD}/spec.md`
+6. Ingest: `python3 cortex.py add cortex/specs/{TICKET}-{YYYY-MM-DD}/spec.md --tag spec`
 7. Confirm the file was saved and ingested.
 
 ## Spec Template
