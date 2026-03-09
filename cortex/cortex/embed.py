@@ -58,7 +58,7 @@ def embed(texts: list[str]) -> list[list[float]]:
         return _model.encode(texts, show_progress_bar=False).tolist()
 
     sparse = _vectorizer.transform(texts)
-    dense = _projection.transform(sparse).astype(np.float32)
+    dense = np.array(_projection.transform(sparse.toarray()), dtype=np.float32)
     return dense.tolist()
 
 
