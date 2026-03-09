@@ -82,6 +82,6 @@ Findings:
 ```
 
 ## Rules
-- Apply any rules from `--tag team-conventions` results — these are validated corrections that override generic inference
+- Apply any rules from `cortex/knowledge/team-conventions/` — these are validated corrections that override generic inference
 - Only flag issues that are documented in the knowledge base — no generic or opinion-based feedback
 - Never issue a verdict without standards context — if knowledge files are missing, state which areas lacked coverage in the verdict output

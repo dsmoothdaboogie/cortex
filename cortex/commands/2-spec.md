@@ -60,14 +60,14 @@ When you have a ticket and need to write a spec — whether from a one-liner tit
 ## Open Questions
 <!-- Anything unresolved. Remove section if none. -->
 
-## Context (from cortex)
-<!-- Paste the relevant cortex context that informed this spec. -->
+## Knowledge References
+<!-- Files read and standards applied from cortex/knowledge/. -->
 ```
 
 ## Rules
-- Never reference native UI elements where the knowledge base documents design system equivalents — pull from `--tag design-system` before naming any component
-- Apply the non-negotiables from the standards knowledge base — if a standard isn't in the DB, flag the gap rather than inventing a rule
+- Never reference native UI elements where the knowledge base documents design system equivalents — read from `cortex/knowledge/design-system/` before naming any component
+- Apply the non-negotiables from the standards knowledge files — if a standard isn't in the knowledge files, flag the gap rather than inventing a rule
 - Flag any auth, data handling, or cross-system state concerns in Open Questions
 - If the requirement is vague, make reasonable assumptions and note them
-- Apply any rules from `--tag team-conventions` results — these are validated corrections that override generic inference
+- Apply any rules from `cortex/knowledge/team-conventions/` — these are validated corrections that override generic inference
 - If knowledge files are missing or unreadable, note the gap in Open Questions and proceed with what's available — do not invent standards

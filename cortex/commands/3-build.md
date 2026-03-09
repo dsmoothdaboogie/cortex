@@ -23,7 +23,7 @@ After a spec has passed `/review` with verdict READY. Do not build from an unrev
 4. If `--full`: also generate QA plan and ops review after the implementation plan
 5. Save to: `cortex/specs/{TICKET}-{YYYY-MM-DD}/plan.md`
 6. Ingest: `python3 cortex.py add cortex/specs/{TICKET}-{YYYY-MM-DD}/plan.md --tag spec`
-7. Confirm the file was saved and ingested — future sessions can query it with `python3 cortex.py ask "{ticket} implementation plan"`
+7. Confirm the file was saved and ingested — linked repos can query it via cortex
 
 ## Implementation Plan Format
 
@@ -84,7 +84,7 @@ Which tasks block which.
 
 ## Rules
 - Never create tasks without an AC reference
-- Reference design system components by name where they exist — pull from `--tag design-system` before naming any component
+- Reference design system components by name where they exist — read from `cortex/knowledge/design-system/` before naming any component
 - Flag any task that touches auth, shared state, or cross-system boundaries — these need explicit design
-- Apply any rules from `--tag team-conventions` results — these are validated corrections that override generic inference
+- Apply any rules from `cortex/knowledge/team-conventions/` — these are validated corrections that override generic inference
 - If knowledge files are missing or unreadable, flag ungrounded component references in task notes and proceed with available context

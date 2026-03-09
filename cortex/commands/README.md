@@ -115,39 +115,15 @@ flowchart LR
 
 ---
 
-### Fallback when cortex is unavailable
+### If the venv is unavailable
 
-First, distinguish the two cases:
+Skip the optional cross-repo DB query — direct file reads from `cortex/knowledge/` always work regardless of environment state. The generated summary artifacts are the fastest entry points:
 
-- **Script fails for any reason** (import error, missing dependencies, venv not active, "No DB found", non-zero exit) → Fall back to files (see below).
-- **"No results"** → DB exists but the query matched nothing. The DB answered correctly — do not fall back, just proceed with reduced context and note the gap.
-
-**When falling back to files**, read in this priority order:
-
-**1. Generated summary artifacts first** — these are the most useful single files:
 ```
 cortex/knowledge/standards/STANDARDS.md   → synthesised standards summary
 cortex/knowledge/vision/VISION.md         → synthesised vision summary
 cortex/knowledge/adrs/ADR-INDEX.md        → synthesised ADR index
 ```
-If these exist, read the relevant one(s) before diving into individual files.
-
-**2. Individual knowledge files** — for topic-specific depth:
-```
-cortex/knowledge/standards/       → coding standards and rules
-cortex/knowledge/design-system/   → design system components and tokens
-cortex/knowledge/adrs/            → architecture decisions
-cortex/knowledge/patterns/        → implementation patterns
-cortex/knowledge/team-conventions/ → team norms and process
-cortex/knowledge/vision/          → product vision and personas
-```
-
-**3. Recent specs** — for prior decisions and established patterns:
-```
-cortex/specs/                     → previous feature specs (check dates — most recent first)
-```
-
-Read the files most relevant to the current task. Do not read everything — prioritise by folder name match to the topic at hand. The DB is a query accelerator — the markdown files are the source of truth and are always available in the workspace.
 
 ---
 
