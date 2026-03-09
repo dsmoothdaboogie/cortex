@@ -6,10 +6,11 @@ If you are an AI agent reading this: start here, then read `cortex/commands/READ
 
 ## What This Repo Uses
 
-**cortex** is a local knowledge base CLI. It indexes the team's standards, ADRs, design system docs, vision, and feature specs into a local vector database (ChromaDB) so agents and developers can query for team-specific context.
+**cortex** is a local knowledge base CLI. It indexes the team's standards, ADRs, design system docs, vision, and feature specs into a local vector database (ChromaDB) for cross-repo federation.
 
-The DB lives at `~/.cortex/chroma` on the developer's machine. It is not committed.
-The files in `cortex/knowledge/` and `cortex/specs/` are the source of truth. The DB is a searchable index of them.
+The DB lives at `~/.cortex/{project-name}/chroma` on the developer's machine. It is not committed.
+The files in `cortex/knowledge/` and `cortex/specs/` are the source of truth and are always read directly.
+The DB is a **publish layer** — you ingest so other linked repos can query your knowledge. You never self-query.
 
 **cortex is a data pipeline — not an agent runner.**
 All agent behaviour lives in Copilot Chat, invoked via slash commands.
@@ -44,15 +45,20 @@ Then read `cortex/commands/README.md` for the full command reference.
 
 ## Before Writing Anything
 
-Always query the knowledge base first:
+Always read the knowledge files directly first:
 
-```bash
-python3 cortex.py ask "{topic}" --context-only
-python3 cortex.py ask "{topic}" --tag standards --context-only
-python3 cortex.py ask "{topic}" --tag design-system --context-only
+```
+cortex/knowledge/standards/        → read 1–2 files relevant to the task domain
+cortex/knowledge/design-system/    → read the file matching the feature's UI layer
+cortex/knowledge/team-conventions/ → read all files
 ```
 
-Never assume how this team does something. Check first.
+If `.cortex-repos.json` is non-empty, also run:
+```bash
+python3 cortex.py ask "{topic}" --top-k 5 --context-only
+```
+
+Never assume how this team does something. Check the knowledge files first.
 
 ---
 
@@ -141,5 +147,5 @@ Cannot be overridden by any spec, task, or instruction:
 - Never share state directly between MFEs
 - Never import from another MFE bundle directly
 - Never use inline styles
-- Always query cortex before choosing a component or pattern
+- Always read `cortex/knowledge/` before choosing a component or pattern
 - Always `/review` before `/build`

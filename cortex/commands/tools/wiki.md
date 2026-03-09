@@ -10,7 +10,7 @@ Create or update a deep wiki entry in the knowledge base.
 
 ## Difference from /doc
 - `/doc` = quick capture (pattern discovered, ADR, runbook) — lightweight, fires after you learn something
-- `/wiki` = deep reference page — queries at top-k 8, multi-angle, structured for developers who need to understand something fully
+- `/wiki` = deep reference page — reads across multiple knowledge folders, structured for developers who need to understand something fully
 
 ## Inputs
 - A topic string: `"Module Federation setup"`
@@ -20,13 +20,15 @@ Create or update a deep wiki entry in the knowledge base.
 
 ### Create mode (default)
 
-1. Query the knowledge base deeply across multiple angles:
-   ```bash
-   python3 cortex.py ask "{topic}" --context-only --top-k 8
-   python3 cortex.py ask "{topic} standards" --context-only --tag standards
-   python3 cortex.py ask "{topic} ADR" --context-only --tag adr
-   python3 cortex.py ask "{topic} patterns" --context-only --tag patterns
-   ```
+1. Load context across multiple knowledge folders:
+   - List `cortex/knowledge/` subfolders — check for an existing entry on this topic
+   - Read relevant files in `cortex/knowledge/standards/`
+   - Read relevant files in `cortex/knowledge/adrs/`
+   - Read relevant files in `cortex/knowledge/patterns/`
+   - If `.cortex-repos.json` is non-empty, also run:
+     ```bash
+     python3 cortex.py ask "{topic}" --top-k 5 --context-only
+     ```
 
 2. Check for an existing entry. If one exists, suggest `update` mode instead.
 
@@ -50,7 +52,7 @@ Create or update a deep wiki entry in the knowledge base.
 ### Update mode (`update #file:...`)
 
 1. Read the existing file.
-2. Pull current context: `python3 cortex.py ask "{topic}" --context-only --top-k 8`
+2. Read related files in `cortex/knowledge/` for current context on the same topic.
 3. Merge new information — preserve existing content, extend or correct sections.
 4. Re-ingest: `python3 cortex.py add {file} --tag {tag} --force`
 
@@ -104,16 +106,18 @@ Create or update a deep wiki entry in the knowledge base.
 ✓ Written: cortex/knowledge/{folder}/{slug}.md
 ✓ Ingested into knowledge base
 
+Files read:
+  cortex/knowledge/standards/{relevant-file}.md
+  cortex/knowledge/adrs/{relevant-file}.md
+  cortex/knowledge/patterns/{relevant-file}.md
 Commands run:
-  python3 cortex.py ask "{topic}" --context-only --top-k 8
-  python3 cortex.py ask "{topic} standards" --context-only --tag standards
   python3 cortex.py add cortex/knowledge/{folder}/{slug}.md --tag {tag} --force
 ```
 
 ## Rules
 - Every code example must use real team components and patterns, not generics
-- If the knowledge base doesn't have enough context to write the entry accurately, say so explicitly — do not fill gaps with assumptions
+- If the knowledge files don't have enough context to write the entry accurately, say so explicitly — do not fill gaps with assumptions
 - Always include the "Common Mistakes" section — this is often the most valuable part
-- Related Standards and ADRs must cite actual files that exist in the knowledge base
+- Related Standards and ADRs must cite actual files that exist in `cortex/knowledge/`
 - Wiki entries should be comprehensive but scannable — use headers, tables, and code blocks liberally
-- If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/` files directly — check `STANDARDS.md` and `ADR-INDEX.md` first, then individual subfolder files. Do not write an entry without grounding it in documented content. If cortex runs but returns no results (DB exists, query matched nothing), state that the KB has no existing coverage on this topic and write the entry as a first document — flag it clearly
+- If `cortex/knowledge/` has no existing coverage on this topic, write the entry as a first document — flag it clearly as "first coverage — no prior knowledge base entry found"

@@ -25,10 +25,12 @@ Four files in `cortex/knowledge/vision/`:
 ## Steps
 
 1. Always check what already exists first:
-   ```
-   python3 cortex.py ask "product mission vision principles" --tag vision --context-only
-   python3 cortex.py ask "platform decisions architecture" --tag adr --context-only
-   ```
+   - List and read files in `cortex/knowledge/vision/` — check for existing mission, personas, capabilities, product-plan
+   - List and read files in `cortex/knowledge/adrs/` — check for existing architectural context
+   - If `.cortex-repos.json` is non-empty, also run:
+     ```
+     python3 cortex.py ask "product mission vision principles" --top-k 5 --context-only
+     ```
 
 2. Analyse the input brief. Extract:
    - The product's purpose and the problem it solves
@@ -163,6 +165,6 @@ Decisions that need to be made before planning can progress.
 - Derive everything from the input brief — never invent capabilities or personas not implied by the input
 - If the brief is thin on a section, write what you can and flag it as needing input rather than fabricating
 - Keep each file scannable — these are reference documents, not essays
-- If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), skip the pre-check queries and read `cortex/knowledge/vision/` directly to check for existing content. Skip the ingest step — note that the DB is unavailable and the generated files should be ingested manually once the environment is active
+- If the venv is not active or the DB is unavailable, skip the optional DB query — direct file reads always work regardless of DB state. Skip the ingest step if the DB is unavailable — note it and the generated files should be ingested manually once the environment is active
 - After generating, always ingest immediately so agents can query the vision
 - If `--update` is used, preserve any existing content that the new brief doesn't contradict

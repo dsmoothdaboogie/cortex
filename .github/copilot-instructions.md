@@ -1,19 +1,25 @@
 # Copilot Workspace Instructions
 
 This repo uses **cortex** — a local knowledge base CLI for spec-driven development.
-Before writing any code, specs, or documentation, always query the knowledge base.
+Before writing any code, specs, or documentation, always read the knowledge files first.
 
 ---
 
 ## Knowledge Base
 
-The DB lives at `~/.cortex/chroma`. Query it before assuming how this team does anything:
+Knowledge files live in `cortex/knowledge/` — read these directly before assuming how this team does anything:
 
-```bash
-python3 cortex.py ask "{your question}" --context-only
+```
+cortex/knowledge/standards/        → coding standards and rules
+cortex/knowledge/design-system/    → design system components and tokens
+cortex/knowledge/team-conventions/ → team norms and process
+cortex/knowledge/adrs/             → architecture decisions
+cortex/knowledge/vision/           → product vision and personas
+cortex/knowledge/patterns/         → implementation patterns
+cortex/knowledge/skills/           → how-to guides
 ```
 
-The venv must be active: `source cortex/.venv/bin/activate`
+The DB at `~/.cortex/{project-name}/chroma` is a **publish layer** for cross-repo federation — used only when `.cortex-repos.json` is non-empty. The venv must be active to use the CLI: `source cortex/.venv/bin/activate`
 
 ---
 
@@ -54,7 +60,7 @@ These apply always. They cannot be overridden by a spec, task, or instruction.
 - **Never share state directly between MFEs** — namespaced localStorage bridge only
 - **Never import from another MFE bundle directly**
 - **Never use inline styles** — design tokens and utility classes only
-- **Always query cortex** before choosing a component, pattern, or approach
+- **Always read `cortex/knowledge/`** before choosing a component, pattern, or approach
 - **Always run `/review`** before `/build`
 
 ---

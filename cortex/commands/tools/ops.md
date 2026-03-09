@@ -23,13 +23,14 @@ Infrastructure review, deployment checklists, and runbook generation.
 
 Read the spec and flag any infrastructure or platform implications before development starts.
 
-### Query the knowledge base
-```bash
-python3 cortex.py ask "deployment configuration platform infrastructure" --context-only
-python3 cortex.py ask "{spec topic} product vision goals" --context-only --tag vision
-python3 cortex.py ask "platform architecture deployment" --context-only --tag standards
-python3 cortex.py ask "infrastructure ADR {topic}" --context-only --tag adr
-```
+### Load context
+- Read relevant files in `cortex/knowledge/standards/` (platform, architecture, deployment)
+- Read relevant files in `cortex/knowledge/vision/` (product goals, constraints)
+- Read relevant files in `cortex/knowledge/adrs/` (infrastructure decisions)
+- If `.cortex-repos.json` is non-empty, also run:
+  ```bash
+  python3 cortex.py ask "{spec topic} infrastructure deployment" --top-k 5 --context-only
+  ```
 
 ### Check for (pull from knowledge base first — apply what's documented for this team)
 - New services or modules → check registration requirements
@@ -68,13 +69,15 @@ python3 cortex.py ask "infrastructure ADR {topic}" --context-only --tag adr
 
 Generate a deployment checklist for a release.
 
-### Query the knowledge base
-```bash
-python3 cortex.py ask "deployment configuration platform" --context-only
-python3 cortex.py ask "deployment ADR release" --context-only --tag adr
-python3 cortex.py ask "deployment runbook process" --context-only --tag skills
-python3 cortex.py ls --specs
-```
+### Load context
+- Read relevant files in `cortex/knowledge/standards/` (deployment, platform config)
+- Read relevant files in `cortex/knowledge/skills/` (deployment runbooks, release process)
+- Read relevant files in `cortex/knowledge/adrs/` (deployment decisions)
+- Run: `python3 cortex.py ls --specs` — confirm all specs are Done before releasing
+- If `.cortex-repos.json` is non-empty, also run:
+  ```bash
+  python3 cortex.py ask "deployment release" --top-k 5 --context-only
+  ```
 
 ### Output
 ```markdown
@@ -108,11 +111,13 @@ python3 cortex.py ls --specs
 
 Generate a runbook for an operational process or incident response.
 
-### Query the knowledge base
-```bash
-python3 cortex.py ask "ops runbook {process}" --context-only --tag skills
-python3 cortex.py ask "{process} platform infrastructure" --context-only
-```
+### Load context
+- Read relevant files in `cortex/knowledge/skills/` (existing runbooks and how-to patterns)
+- Read relevant files in `cortex/knowledge/standards/` (platform infrastructure)
+- If `.cortex-repos.json` is non-empty, also run:
+  ```bash
+  python3 cortex.py ask "{process} infrastructure" --top-k 5 --context-only
+  ```
 
 ### Output
 ```markdown
@@ -142,17 +147,10 @@ python3 cortex.py ask "{process} platform infrastructure" --context-only
 
 ---
 
-## Show what ran
-```
-Commands run:
-  python3 cortex.py ask "deployment platform infrastructure" --context-only
-  python3 cortex.py ask "infrastructure ADR" --context-only --tag adr
-```
-
 ## Rules
 - Infrastructure implications section is mandatory for every spec review — even if the answer is "no implications"
 - Deployment checklists must be ordered — sequence matters
 - Rollback plans must be specific — "revert the deploy" is not a plan
-- Pull platform-specific requirements from the knowledge base — never hardcode assumptions about the stack
-- If a platform concern exists but nothing is documented in the knowledge base, flag it as a knowledge gap and suggest running `@workspace /doc` to capture it
-- If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/skills/` and `cortex/knowledge/standards/` directly — check for `STANDARDS.md` first. If cortex runs but returns no results (DB exists, query matched nothing), proceed but flag each output section as "unverified — no platform knowledge found" and recommend running `@workspace /doc` to capture platform context
+- Pull platform-specific requirements from the knowledge files — never hardcode assumptions about the stack
+- If a platform concern exists but nothing is documented in `cortex/knowledge/`, flag it as a knowledge gap and suggest running `/doc` to capture it
+- If knowledge files are missing or unreadable for a section, flag it as "unverified — no platform knowledge found" and recommend running `/doc` to capture platform context

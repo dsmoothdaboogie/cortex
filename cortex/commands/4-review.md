@@ -47,11 +47,12 @@ Review a spec or code file against team standards.
 
 ### Security Review (--security flag)
 
-1. Pull security context:
-   ```
-   python3 cortex.py ask "security auth data handling" --context-only
-   python3 cortex.py ask "security auth data handling" --tag standards --context-only
-   ```
+1. Load security context:
+   - List `cortex/knowledge/standards/` — read the file(s) covering auth, data handling, or security
+   - If `.cortex-repos.json` is non-empty, also run:
+     ```
+     python3 cortex.py ask "security auth data handling" --top-k 5 --context-only
+     ```
 2. Check: auth requirements defined, input validation, data handling, sensitive data storage, cross-system surface
 3. Return verdict: **CLEAR** / **REVIEW REQUIRED** / **BLOCKED**
 4. List every finding with severity: HIGH / MEDIUM / LOW

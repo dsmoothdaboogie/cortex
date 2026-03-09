@@ -17,10 +17,12 @@ Create or update a knowledge base entry.
 
 ### New wiki entry (default)
 
-1. Pull existing context to avoid duplication:
-   ```
-   python3 cortex.py ask "{topic}" --context-only
-   ```
+1. Check for existing content to avoid duplication:
+   - List all files in `cortex/knowledge/` subfolders — look for an existing entry on this topic
+   - If `.cortex-repos.json` is non-empty, also run:
+     ```
+     python3 cortex.py ask "{topic}" --top-k 5 --context-only
+     ```
 2. Check if a similar entry exists. If it does, suggest `--update` instead.
 3. Write the entry using the wiki template below.
 4. Save to the appropriate `cortex/knowledge/` subfolder.
@@ -28,11 +30,13 @@ Create or update a knowledge base entry.
 
 ### ADR (--adr flag)
 
-1. Pull related decisions and product direction:
-   ```
-   python3 cortex.py ask "{decision topic}" --tag adr --context-only
-   python3 cortex.py ask "{decision topic} product vision goals" --tag vision --context-only
-   ```
+1. Load related context:
+   - List and read files in `cortex/knowledge/adrs/` — check for existing ADRs this supersedes or relates to
+   - Read relevant files in `cortex/knowledge/vision/` — check product direction
+   - If `.cortex-repos.json` is non-empty, also run:
+     ```
+     python3 cortex.py ask "{decision topic}" --top-k 5 --context-only
+     ```
 2. Check for existing ADRs that this supersedes or relates to.
 3. Write the ADR using the ADR template below.
 4. Save to: `cortex/knowledge/adrs/adr-{NNN}-{slug}.md`
@@ -41,7 +45,7 @@ Create or update a knowledge base entry.
 ### Update existing (--update <file>)
 
 1. Read the existing file
-2. Pull current context: `python3 cortex.py ask "{topic}" --context-only`
+2. Read related files in `cortex/knowledge/` for context on the same topic
 3. Merge new information — preserve existing content, add new sections
 4. Re-ingest: `python3 cortex.py add {file} --force`
 
@@ -96,6 +100,6 @@ What changes as a result. What becomes easier. What becomes harder.
 
 ## Rules
 - Always ingest after saving — the DB must stay in sync with the files
-- If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/` files directly to check for duplicates before writing. Skip the ingest steps — note that the DB is unavailable and the file should be ingested manually once the environment is active
+- Direct file reads always work regardless of DB state — only the optional cross-repo DB query requires the venv. If the DB is unavailable, skip the ingest step — note it and ingest manually once the environment is active
 - ADR numbers must be sequential — check `cortex/knowledge/adrs/` before numbering
 - Never duplicate existing content — update instead

@@ -3,38 +3,40 @@
 Search the knowledge base for relevant context.
 
 ## When to use
-Any time you need to know how this team does something before writing code,
-a spec, or documentation. Ask before assuming.
+- When you need to search across **linked repos** (`.cortex-repos.json` is non-empty)
+- For ad-hoc queries against the current repo's knowledge files
 
 ## Inputs
 - A natural language query — anything
 
 ## Steps
 
-1. Run: `python3 cortex.py ask "{query}" --context-only`
-2. Read the results. Scores above 0.85 are strong matches.
-3. If results are weak (below 0.70), try a different angle:
-   ```
-   python3 cortex.py ask "{query}" --tag standards --context-only
-   python3 cortex.py ask "{query}" --tag design-system --context-only
-   python3 cortex.py ask "{query}" --tag patterns --context-only
-   ```
-4. Summarise what the knowledge base says and answer the question.
-5. If nothing relevant is found, say so clearly — don't invent patterns.
+1. Check `.cortex-repos.json`:
+   - **Non-empty** → run a DB query to search across linked repos:
+     ```
+     python3 cortex.py ask "{query}" --top-k 5 --context-only
+     ```
+   - **Empty** → read local knowledge files directly (faster, no DB needed):
+     - Check `cortex/knowledge/standards/STANDARDS.md` — synthesised standards summary
+     - Check `cortex/knowledge/vision/VISION.md` — synthesised vision summary
+     - Check `cortex/knowledge/adrs/ADR-INDEX.md` — synthesised ADR index
+     - Then read individual files in the subfolder most relevant to the query topic
 
-## Useful query patterns
+2. Summarise what the knowledge says and answer the question.
+3. If nothing relevant is found, say so clearly — don't invent patterns.
 
-| You want to know | Query |
-|-----------------|-------|
-| Which DS component to use | `"design system {element type}"` |
-| How to structure a feature | `"patterns {feature domain}"` |
-| What was decided about X | `"decision {topic}" --tag adr` |
-| What the standard is | `"standards {domain}" --tag standards` |
-| How the MFE platform works | `"MFE {topic}"` |
-| Team conventions | `"{topic}" --tag team-conventions` |
+## Useful folder map
+
+| You want to know | Read from |
+|-----------------|-----------|
+| Which DS component to use | `cortex/knowledge/design-system/` |
+| How to structure a feature | `cortex/knowledge/patterns/` |
+| What was decided about X | `cortex/knowledge/adrs/` |
+| What the standard is | `cortex/knowledge/standards/` |
+| How the MFE platform works | `cortex/knowledge/standards/` + `adrs/` |
+| Team conventions | `cortex/knowledge/team-conventions/` |
 
 ## Rules
-- Never answer from assumptions — always run the query first
+- Never answer from assumptions — always read knowledge files first
 - If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/` files directly — check `STANDARDS.md`, `VISION.md`, and `ADR-INDEX.md` first, then individual subfolder files relevant to the query topic
 - If the knowledge base doesn't have relevant content, say so and suggest `/doc` to add it
-- Scores below 0.60 are likely irrelevant — don't use them

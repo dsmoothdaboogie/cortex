@@ -39,17 +39,81 @@ Supporting commands — use as needed at any stage.
 
 ## How Commands Use cortex
 
-Every command that needs team context calls the cortex CLI:
+Commands read `cortex/knowledge/` markdown files **directly** — no DB query needed for the current repo. The DB is only queried when `.cortex-repos.json` is non-empty (cross-repo federation).
 
-```bash
-python3 cortex.py ask "{query}" --context-only           # general query
-python3 cortex.py ask "{query}" --tag standards          # standards only
-python3 cortex.py ask "{query}" --tag design-system      # DS components only
-python3 cortex.py ask "{query}" --tag adr                # decisions only
-python3 cortex.py ls --specs                             # current spec state
+```
+cortex/knowledge/standards/        → read 1–2 files relevant to the task domain
+cortex/knowledge/design-system/    → read the file matching the feature's UI layer
+cortex/knowledge/team-conventions/ → read all files (usually small)
+cortex/knowledge/adrs/             → read for architectural context
+cortex/knowledge/vision/           → read for product direction
+cortex/knowledge/skills/           → read for how-to patterns
 ```
 
-Commands never assume how the team does something. They always query first.
+When `.cortex-repos.json` is non-empty, commands also run a single DB query to pull context from linked repos:
+```bash
+python3 cortex.py ask "{topic}" --top-k 5 --context-only
+```
+
+Commands never assume how the team does something. They always read the knowledge files first.
+
+---
+
+## Command Diagrams
+
+### /vision — reads and writes `cortex/knowledge/vision/`
+
+```mermaid
+flowchart LR
+  input([Business Brief]) --> vision[/vision]
+  vision -->|reads existing| KV[knowledge/vision/]
+  vision -->|writes| M[mission.md]
+  vision -->|writes| P[personas.md]
+  vision -->|writes| C[capabilities.md]
+  vision -->|writes| PP[product-plan.md]
+  M & P & C & PP --> ingest[(DB — publish for other repos)]
+  KR[.cortex-repos.json non-empty] -.->|optional cross-repo query| DB2[(Linked repo DB)]
+```
+
+### /spec — reads standards, design-system, team-conventions
+
+```mermaid
+flowchart LR
+  input([Ticket + Requirement]) --> spec[/spec]
+  spec -->|reads 1-2 relevant| KS[knowledge/standards/]
+  spec -->|reads 1 relevant| KD[knowledge/design-system/]
+  spec -->|reads all| KT[knowledge/team-conventions/]
+  spec -->|writes| SF[specs/TICKET/spec.md]
+  SF --> ingest[(DB — publish for other repos)]
+  KR[.cortex-repos.json non-empty] -.->|optional cross-repo query| DB2[(Linked repo DB)]
+```
+
+### /build — reads standards, team-conventions
+
+```mermaid
+flowchart LR
+  input([spec.md READY]) --> build[/build]
+  build -->|reads spec| SF[specs/TICKET/spec.md]
+  build -->|reads 1-2 relevant| KS[knowledge/standards/]
+  build -->|reads all| KT[knowledge/team-conventions/]
+  build -->|writes| PF[specs/TICKET/plan.md]
+  PF --> ingest[(DB — publish for other repos)]
+  KR[.cortex-repos.json non-empty] -.->|optional cross-repo query| DB2[(Linked repo DB)]
+```
+
+### /review — reads standards, design-system, team-conventions
+
+```mermaid
+flowchart LR
+  input([spec or code file]) --> review[/review]
+  review -->|reads 1-2 relevant| KS[knowledge/standards/]
+  review -->|spec: reads 1| KD[knowledge/design-system/]
+  review -->|reads all| KT[knowledge/team-conventions/]
+  review --> V[Verdict: READY / NEEDS WORK / BLOCKED]
+  KR[.cortex-repos.json non-empty] -.->|optional cross-repo query| DB2[(Linked repo DB)]
+```
+
+---
 
 ### Fallback when cortex is unavailable
 
