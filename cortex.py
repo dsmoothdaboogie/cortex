@@ -22,6 +22,7 @@ Cross-repo commands:
 Setup commands:
   init                 Create cortex folder structure in current repo
   bootstrap            Get fully operational after cloning an existing cortex repo
+  reset                Delete the local ChromaDB (all chunks removed)
   install-hook         Install git pre-commit + post-merge hooks
   uninstall-hook       Remove cortex git hooks
   hook-run             Called internally by the pre-commit hook
@@ -721,6 +722,38 @@ def hook_run():
     """Internal: called by the pre-commit hook script."""
     from cortex.hook import cmd_run
     sys.exit(cmd_run())
+
+
+# ─── RESET ────────────────────────────────────────────────────────────────────
+
+@cli.command()
+@click.option("--yes", "-y", is_flag=True, help="Skip confirmation prompt")
+def reset(yes):
+    """Delete the local ChromaDB — all ingested chunks are removed.
+
+    \b
+    The DB is recreated automatically next time you run `add` or `bootstrap`.
+
+    \b
+    Example:
+      python3 cortex.py reset
+      python3 cortex.py reset --yes
+    """
+    import shutil
+    from cortex.db import _cortex_dir, _project_name
+
+    path = _cortex_dir()
+    if not path.exists():
+        console.print("[yellow]No DB found — nothing to reset.[/yellow]")
+        return
+
+    console.print(f"\n[red]This will delete:[/red] {path}")
+    if not yes and not click.confirm("Reset the cortex DB?", default=False):
+        console.print("[dim]Aborted.[/dim]\n")
+        return
+
+    shutil.rmtree(path)
+    console.print(f"[green]✓ DB reset.[/green] Run [cyan]python3 cortex.py bootstrap[/cyan] to re-ingest.\n")
 
 
 # ─── ENTRYPOINT ───────────────────────────────────────────────────────────────
