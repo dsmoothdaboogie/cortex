@@ -11,16 +11,14 @@ before writing individual specs. Works with anything from a sentence to a full b
 
 ## Steps
 
-1. Pull context:
-   ```
-   python3 cortex.py ask "{epic summary}" --context-only
-   python3 cortex.py ask "{epic domain} standards" --tag standards --context-only
-   python3 cortex.py ask "design system {domain}" --tag design-system --context-only
-   python3 cortex.py ask "patterns {domain}" --tag patterns --context-only
-   python3 cortex.py ask "{epic domain} decisions" --tag adr --context-only
-   python3 cortex.py ask "{epic domain} vision goals" --tag vision --context-only
-   python3 cortex.py ask "{epic domain} corrections learnings rules" --tag team-conventions --context-only
-   ```
+1. Load context:
+   - List `cortex/knowledge/standards/` — read the 1–2 files most relevant to this epic's domain
+   - Read `cortex/knowledge/vision/` — read vision files to ground feature decomposition in product direction
+   - Read all files in `cortex/knowledge/team-conventions/` (if any exist)
+   - If `.cortex-repos.json` is non-empty, also run:
+     ```
+     python3 cortex.py ask "{epic summary}" --top-k 5 --context-only
+     ```
 2. Understand what the team already has — components, patterns, decisions, and product direction
 3. Decompose into features and user stories — grounded in what standards and past decisions require
 4. Identify which features need specs and suggest ticket formats
@@ -56,6 +54,6 @@ Anything that needs product/design/arch input before spec creation.
 ## Rules
 - Apply any rules from `--tag team-conventions` results — these are validated corrections that override generic inference
 - Ground every feature in what the team's knowledge base already supports
-- If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/` files directly — check `STANDARDS.md`, `VISION.md`, and `ADR-INDEX.md` first, then individual subfolder files. If `cortex ls --specs` also fails, check `cortex/specs/` directly for existing specs
+- If knowledge files are missing, note which areas lacked coverage and proceed — check `cortex/specs/` directly for existing specs if needed
 - Flag features that require new design system components or ADRs
 - Don't create spec candidates for features that are already specced

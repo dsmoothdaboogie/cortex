@@ -4,4 +4,4 @@ The user will provide a ticket number and requirement — which may be a short t
 
 Arguments: $ARGUMENTS
 
-Before writing anything, run the cortex queries defined in `cortex/commands/2-spec.md` to pull real team context from the knowledge base.
+Before writing anything, load context as defined in `cortex/commands/2-spec.md` — read local knowledge files directly, and query linked repos if `.cortex-repos.json` is non-empty.

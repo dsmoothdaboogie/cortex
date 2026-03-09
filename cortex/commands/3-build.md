@@ -12,16 +12,13 @@ After a spec has passed `/review` with verdict READY. Do not build from an unrev
 ## Steps
 
 1. Read the spec file
-2. Pull implementation context:
-   ```
-   python3 cortex.py ask "{feature domain}" --context-only
-   python3 cortex.py ask "{feature domain} product vision goals" --tag vision --context-only
-   python3 cortex.py ask "{feature domain} standards" --tag standards --context-only
-   python3 cortex.py ask "design system {component type}" --tag design-system --context-only
-   python3 cortex.py ask "implementation patterns {feature domain}" --tag patterns --context-only
-   python3 cortex.py ask "{feature domain} decisions" --tag adr --context-only
-   python3 cortex.py ask "{feature domain} corrections learnings rules" --tag team-conventions --context-only
-   ```
+2. Load context:
+   - List `cortex/knowledge/standards/` — read the 1–2 files most relevant to this feature domain
+   - Read all files in `cortex/knowledge/team-conventions/` (if any exist)
+   - If `.cortex-repos.json` is non-empty, also run:
+     ```
+     python3 cortex.py ask "{feature domain}" --top-k 5 --context-only
+     ```
 3. Generate the implementation plan (see format below)
 4. If `--full`: also generate QA plan and ops review after the implementation plan
 5. Save to: `cortex/specs/{TICKET}-{YYYY-MM-DD}/plan.md`
@@ -90,4 +87,4 @@ Which tasks block which.
 - Reference design system components by name where they exist — pull from `--tag design-system` before naming any component
 - Flag any task that touches auth, shared state, or cross-system boundaries — these need explicit design
 - Apply any rules from `--tag team-conventions` results — these are validated corrections that override generic inference
-- If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/` files directly — check `STANDARDS.md` and design-system files first, then recent specs for prior patterns. If cortex runs but returns no results (DB exists, query matched nothing), proceed but flag ungrounded component references in task notes
+- If knowledge files are missing or unreadable, flag ungrounded component references in task notes and proceed with available context

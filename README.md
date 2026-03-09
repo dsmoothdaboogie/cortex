@@ -2,7 +2,9 @@
 
 A local knowledge base for spec-driven development with AI agents.
 
-cortex indexes your team's standards, architecture decisions, design system docs, and feature specs into a local vector database. Copilot Chat agents query it for team-specific context before writing specs, code plans, or documentation.
+cortex stores your team's standards, architecture decisions, design system docs, and feature specs as plain markdown files — and indexes them into a local vector database for cross-repo federation.
+
+**Agents read your own knowledge files directly. The DB is only queried when linked repos are involved.**
 
 **No API keys. No cloud. Runs entirely on your machine.**
 
@@ -10,32 +12,49 @@ cortex indexes your team's standards, architecture decisions, design system docs
 
 ## How It Works
 
-**cortex is a data pipeline.** It ingests files and answers queries.
+**cortex is a data pipeline and federation layer.**
 **Copilot Chat is the interface.** Agents use cortex for context, then do the work.
 
-When you run a slash command in Copilot Chat, here's what happens behind the scenes:
+### Context retrieval — two modes
+
+**Current repo (no linked repos):** Agents read your `cortex/knowledge/` markdown files directly — no DB query needed. You committed those files; the agent picks the 1–2 most relevant ones for the task.
+
+**With linked repos:** Agents read local files first, then also query the DB to pull in matching knowledge from linked repos (design system, shared platform, etc.).
 
 ```mermaid
 sequenceDiagram
     participant You as You (Copilot Chat)
     participant Agent as Agent
+    participant FS as cortex/knowledge/ (local files)
     participant CLI as cortex CLI
-    participant DB as ChromaDB per project
-    participant FS as File System
+    participant DB as ChromaDB (linked repos)
 
     You->>Agent: @workspace /spec PROJ-123 feature brief
-    Agent->>CLI: cortex.py ask feature --context-only
-    CLI->>DB: semantic vector search
-    DB-->>CLI: relevant chunks (standards, patterns, ADRs)
-    CLI-->>Agent: team context
-    Note over Agent: writes output grounded in<br/>real team knowledge
+
+    Agent->>FS: read standards/frontend-react-mfe.md
+    Agent->>FS: read team-conventions/*.md
+    FS-->>Agent: local team context
+
+    opt .cortex-repos.json is non-empty
+        Agent->>CLI: cortex.py ask feature --top-k 5 --context-only
+        CLI->>DB: search linked repo DBs
+        DB-->>CLI: relevant chunks from linked repos
+        CLI-->>Agent: cross-repo context
+    end
+
+    Note over Agent: writes spec grounded in<br/>real team knowledge
     Agent->>FS: saves cortex/specs/PROJ-123-2025-01-15/spec.md
     Agent->>CLI: cortex.py add cortex/specs/PROJ-123-2025-01-15/spec.md
-    CLI->>DB: spec ingested, queryable by future agents
-    DB-->>You: done
+    CLI->>DB: spec ingested — other repos can now query it
 ```
 
-Every agent queries the DB before doing any work. No command assumes how the team does things.
+### What the DB is for
+
+The DB serves two purposes:
+1. **Publish your knowledge** — ingest your files so linked repos can query them
+2. **Consume linked knowledge** — query other repos' DBs when they have relevant context
+
+You never query your own DB for your own knowledge. You just read the files.
 
 ---
 
@@ -92,7 +111,7 @@ cd ..
 pip install -r requirements.txt
 ```
 
-First run downloads the embedding model (~90MB) to `~/.cache/huggingface`. Every run after is instant.
+Uses scikit-learn for local embeddings — no model download, no external requests.
 
 ### 4. Verify
 
@@ -394,7 +413,7 @@ Never skip `/review` before `/build`. A spec that hasn't been reviewed shouldn't
 
 ## Cross-repo Queries
 
-Link other repos so `cortex ask` searches across multiple project knowledge bases at once.
+This is the primary use case for the DB. Link other repos so `cortex ask` searches across multiple project knowledge bases — for example, pulling design system standards into your app's agent context without duplicating the docs.
 
 **These commands are run manually, once per repo, by whoever sets up the project:**
 
@@ -638,7 +657,7 @@ The `cortex/commands/tools/` folder is the extension point for team-specific com
 ## Design Principles
 
 **Knowledge lives in git, not the tool.**
-Everything in `cortex/knowledge/` is plain markdown — grep-able, diff-able, PR-reviewable, and readable by humans without cortex running. The ChromaDB is a query accelerator, not the source of truth. If the embedding model or vector DB ever changes, the knowledge survives — swap the backend, re-ingest, done.
+Everything in `cortex/knowledge/` is plain markdown — grep-able, diff-able, PR-reviewable, and readable by humans without cortex running. Agents read these files directly for current-repo context. The ChromaDB is a federation layer, not the source of truth: you publish your knowledge by ingesting it so other linked repos can query it. If the embedding approach ever changes, the knowledge survives — re-ingest and done.
 
 **No external dependencies.**
 No API keys, no cloud, no running services. cortex works on a laptop with no internet after the first model download. If budget disappears, the tool keeps running.
@@ -660,8 +679,6 @@ pip install -r requirements.txt
 ```bash
 python3 cortex.py add ./cortex/knowledge/standards --tag standards
 ```
-
-**Slow first run** — embedding model downloading (~90MB). Happens once per machine.
 
 **Weak search results (scores below 0.35)** — knowledge base needs more content on that topic. Add docs to the relevant `cortex/knowledge/` subfolder and re-ingest. Scores 0.35–0.55 are usable; above 0.55 is a strong match.
 

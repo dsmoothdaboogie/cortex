@@ -16,15 +16,14 @@ Review a spec or code file against team standards.
 
 ### Spec Review (file is in cortex/specs/)
 
-1. Pull relevant standards:
-   ```
-   python3 cortex.py ask "{spec topic}" --context-only
-   python3 cortex.py ask "{spec topic} product vision goals personas" --tag vision --context-only
-   python3 cortex.py ask "{spec topic} standards" --tag standards --context-only
-   python3 cortex.py ask "design system components" --tag design-system --context-only
-   python3 cortex.py ask "{spec topic} decisions" --tag adr --context-only
-   python3 cortex.py ask "{spec topic} corrections learnings rules" --tag team-conventions --context-only
-   ```
+1. Load context:
+   - List `cortex/knowledge/standards/` — read the 1–2 files most relevant to the spec topic
+   - List `cortex/knowledge/design-system/` — read the file matching the spec's UI layer (if present)
+   - Read all files in `cortex/knowledge/team-conventions/` (if any exist)
+   - If `.cortex-repos.json` is non-empty, also run:
+     ```
+     python3 cortex.py ask "{spec topic}" --top-k 5 --context-only
+     ```
 2. Check every AC item — is it testable? Unambiguous?
 3. Check Design System Usage — are component names real and in the knowledge base? No generic HTML elements where DS equivalents exist?
 4. Check Technical Approach — does it align with `cortex/knowledge/standards/`?
@@ -36,15 +35,12 @@ Review a spec or code file against team standards.
 
 ### Code Review (file is in src/ or similar)
 
-1. Pull relevant standards:
-   ```
-   python3 cortex.py ask "{code domain}" --context-only
-   python3 cortex.py ask "{code domain} standards" --tag standards --context-only
-   python3 cortex.py ask "design system usage" --tag design-system --context-only
-   python3 cortex.py ask "patterns {code domain}" --tag patterns --context-only
-   python3 cortex.py ask "{code domain} decisions" --tag adr --context-only
-   python3 cortex.py ask "{code domain} corrections learnings rules" --tag team-conventions --context-only
-   ```
+1. Load context:
+   - List `cortex/knowledge/standards/` — read the 1–2 files most relevant to the code domain
+   - If `.cortex-repos.json` is non-empty, also run:
+     ```
+     python3 cortex.py ask "{code domain}" --top-k 5 --context-only
+     ```
 2. Review against the pulled context — apply what the standards say, not generic rules
 3. Return a table: | Line | Violation | Standard | Fix |
 4. Flag violations against the pulled standards. Common categories: non-standard patterns, missing design system usage, unsafe types, styling violations, cross-system state concerns. Only flag what is documented in the knowledge base.
@@ -87,4 +83,4 @@ Findings:
 ## Rules
 - Apply any rules from `--tag team-conventions` results — these are validated corrections that override generic inference
 - Only flag issues that are documented in the knowledge base — no generic or opinion-based feedback
-- If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/` files directly — check `STANDARDS.md` and `ADR-INDEX.md` first, then individual files. Never issue a verdict without standards context. If cortex runs but returns no results (DB exists, query matched nothing), issue the verdict but flag which standards areas lacked KB coverage
+- Never issue a verdict without standards context — if knowledge files are missing, state which areas lacked coverage in the verdict output

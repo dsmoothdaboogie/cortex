@@ -11,4 +11,5 @@ Detect what's being reviewed from context:
 - `--security` mentioned → add security review
 - `--all` mentioned → chain spec + code + security
 
-Before reviewing, always run the cortex queries defined in `cortex/commands/4-review.md`.
+Before reviewing, always load context as defined in `cortex/commands/4-review.md` —
+read local knowledge files directly, and query linked repos if `.cortex-repos.json` is non-empty.

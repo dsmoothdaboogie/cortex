@@ -22,14 +22,13 @@ Read all provided files. Build an internal inventory:
 - State management approach
 - Test coverage presence
 
-### Step 2 — Query current standards
-```bash
-python3 cortex.py ask "{code domain} standards" --context-only --tag standards
-python3 cortex.py ask "design system {components in file}" --context-only --tag design-system
-python3 cortex.py ask "refactor patterns {domain}" --context-only --tag patterns
-python3 cortex.py ask "{relevant decisions}" --context-only --tag adr
-python3 cortex.py ask "{code domain} corrections learnings rules" --context-only --tag team-conventions
-```
+### Step 2 — Load current standards
+- List `cortex/knowledge/standards/` — read the 1–2 files most relevant to the code domain
+- List `cortex/knowledge/design-system/` — read the file matching the code's UI layer (if present)
+- If `.cortex-repos.json` is non-empty, also run:
+  ```bash
+  python3 cortex.py ask "{code domain}" --top-k 5 --context-only
+  ```
 
 ### Step 3 — Gap analysis
 Compare inventory against standards. Categorise every gap:
@@ -82,9 +81,9 @@ Compare inventory against standards. Categorise every gap:
 
 ### Step 5 — Show what ran
 ```
-Commands run:
-  python3 cortex.py ask "{domain} standards" --context-only --tag standards
-  python3 cortex.py ask "design system {components}" --context-only --tag design-system
+Files read: cortex/knowledge/standards/{file}.md
+            cortex/knowledge/design-system/{file}.md (if applicable)
+Linked repo query: {ran / skipped — no linked repos}
 ```
 
 ## Rules
@@ -94,4 +93,4 @@ Commands run:
 - If the codebase has no violations, say so clearly — a clean bill of health is a valid output
 - If the refactor scope is large (> 5 L-effort items), recommend breaking it into a tracked spec
 - Never recommend rewriting something that works correctly and follows standards just because a newer pattern exists
-- If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/standards/STANDARDS.md` first, then individual files in `cortex/knowledge/standards/` and `cortex/knowledge/design-system/`. Every finding must cite a documented standard. If cortex runs but returns no results (DB exists, query matched nothing), output only P3 items marked "unverified — no KB coverage" and recommend running `cortex audit` to identify gaps
+- If knowledge files are missing or unreadable, output only P3 items marked "unverified — no KB coverage" and recommend running `cortex audit` to identify gaps

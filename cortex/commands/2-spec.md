@@ -12,16 +12,14 @@ When you have a ticket and need to write a spec — whether from a one-liner tit
 ## Steps
 
 1. Parse the ticket number and extract a slug from the requirement
-2. Run cortex to pull relevant context:
-   ```
-   python3 cortex.py ask "{requirement summary}" --context-only
-   python3 cortex.py ask "{feature domain} product vision goals personas" --tag vision --context-only
-   python3 cortex.py ask "{feature domain} standards" --tag standards --context-only
-   python3 cortex.py ask "design system {feature type}" --tag design-system --context-only
-   python3 cortex.py ask "patterns {feature domain}" --tag patterns --context-only
-   python3 cortex.py ask "{feature domain} decisions" --tag adr --context-only
-   python3 cortex.py ask "{feature domain} corrections learnings rules" --tag team-conventions --context-only
-   ```
+2. Load context:
+   - List `cortex/knowledge/standards/` — read the 1–2 files most relevant to this feature domain
+   - List `cortex/knowledge/design-system/` — read the file matching the feature's UI layer (if present)
+   - Read all files in `cortex/knowledge/team-conventions/` (if any exist)
+   - If `.cortex-repos.json` is non-empty, also run:
+     ```
+     python3 cortex.py ask "{requirement summary}" --top-k 5 --context-only
+     ```
 3. Read the context. Note which real components, patterns and standards apply.
 4. Write the spec using the template below. Every section must be completed.
 5. Save to: `cortex/specs/{TICKET}-{YYYY-MM-DD}/spec.md`
@@ -72,4 +70,4 @@ When you have a ticket and need to write a spec — whether from a one-liner tit
 - Flag any auth, data handling, or cross-system state concerns in Open Questions
 - If the requirement is vague, make reasonable assumptions and note them
 - Apply any rules from `--tag team-conventions` results — these are validated corrections that override generic inference
-- If `cortex ask` fails for any reason (script error, missing dependencies, "No DB found", or any non-zero exit), fall back to reading `cortex/knowledge/` files directly — check for `STANDARDS.md`, `VISION.md`, and `ADR-INDEX.md` first, then individual files, then recent specs in `cortex/specs/`. Do not write without team context. If cortex runs but returns no results (DB exists, query matched nothing), proceed but note the context gap in Open Questions
+- If knowledge files are missing or unreadable, note the gap in Open Questions and proceed with what's available — do not invent standards
